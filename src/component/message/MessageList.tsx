@@ -8,12 +8,13 @@ import { SubTitle } from '../UI';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { GmailMessageDTO } from '../../types/messageDTO';
+import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 
 export function MessageList() {
   const [messages, setMessages] = useState([] as string[]);
   // const [messageId, setMessageId] = useState('message_id');
 
-  // useCheckAuthentication();
+  useCheckAuthentication();
 
   // const fetchData = useCallback(async () => {
   //   const config: IApiConfig = {
@@ -63,7 +64,10 @@ export function MessageList() {
       <div key={message.id}>
         <h3>{message.from}</h3>
         <p>{message.id}</p>
-        <p>{message.listUnsubscribe}</p>
+        {message.status === 'HAS_MAILTO' && <p>Has mailto</p>}
+        <p>{message.status}</p>
+        <p>{message.listUnsubscribe.trim()}</p>
+        {/* <a href={message.listUnsubscribe.trim()}>{message.domain}</a> */}
       </div>
     ));
   }

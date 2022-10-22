@@ -32,47 +32,48 @@ export class Api implements IApi {
       forceRefresh: forceRefresh,
       retry: retry
     });
-    const headers = {};
-    // let session = getSession();
-    // if (!session) {
-    //   logout();
-    //   // throw new Error('No session');
-    // }
-    // const config = session
-    //   ? {
-    //       headers: {
-    //         Authorization: `Bearer ${session.token}`,
-    //         'Content-Type': 'application/json'
-    //       }
-    //     }
-    //   : {
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       }
-    //     };
-    // const accessToken = session?.accessToken;
-    // const headers = accessToken
-    //   ? { Authorization: `Bearer ${accessToken}` }
-    //   : undefined;
+    // const headers = {};
+
+    let session = getSession();
+    if (!session) {
+      logout();
+      // throw new Error('No session');
+    }
+    const config = session
+      ? {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      : {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+    const accessToken = session?.accessToken;
+    const headers = accessToken
+      ? { Authorization: `Bearer ${accessToken}` }
+      : undefined;
     try {
-      // if (forceRefresh) {
-      //   session = await refreshSession(session);
-      //   config.headers.Authorization = `Bearer ${session.token}`;
-      // }
-      // const response = await axios.request<T>({
-      //   method,
-      //   url: this.config.baseURL + url,
-      //   data,
-      //   ...config,
-      //   ...options
-      // });
-      const response = await axios({
+      if (forceRefresh) {
+        session = await refreshSession(session);
+        config.headers.Authorization = `Bearer ${session?.accessToken}`;
+      }
+      const response = await axios.request<T>({
         method: method,
         url: `${API_URL}${url}`,
         data: data,
         headers: headers,
         params: options
       });
+      // const response = await axios({
+      //   method: method,
+      //   url: `${API_URL}${url}`,
+      //   data: data,
+      //   headers: headers,
+      //   params: options
+      // });
       console.log('Api.callApi response', response);
 
       return response.data as T;
@@ -86,16 +87,16 @@ export class Api implements IApi {
         } else {
           logout();
         }
-        // if (retry) {
-        //   const refreshedSession = await refreshSession();
-        //   if (refreshedSession) {
-        //     return this.callApi<T>(method, url, data, false);
-        //   }
-        // } else {
-        //   logout();
-        // }
-        // await refreshSession();
-        // return this.callApi<T>(method, url, data);
+        if (retry) {
+          const refreshedSession = await refreshSession();
+          if (refreshedSession) {
+            return this.callApi<T>(method, url, data, false);
+          }
+        } else {
+          logout();
+        }
+        await refreshSession();
+        return this.callApi<T>(method, url, data);
       }
       // throw new Error(e.response && e.response.data ? e.response.data.message : e.message);
       throw e;
