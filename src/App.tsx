@@ -44,8 +44,7 @@ function App() {
             <DismissButton onClick={() => onClickDismiss(key)}>
               Dismiss
             </DismissButton>
-          )}
-        >
+          )}>
           <PageRouter />
         </SnackbarProvider>
       </Router>

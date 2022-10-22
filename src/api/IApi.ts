@@ -4,7 +4,7 @@ export interface IApi {
     options?: any | undefined,
     forceRefresh?: boolean | undefined,
     retry?: boolean | undefined
-  ) => Promise<any>;
+  ) => Promise<any> | undefined;
   post: (
     url: string,
     data?: any | undefined,

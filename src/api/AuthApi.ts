@@ -1,4 +1,22 @@
+import { Api } from './Api';
+import { IApiConfig } from './IApi';
 import { storeCredentials } from './SecurityApi';
+
+// export class AuthApi extends Api {
+//   constructor(config: IApiConfig) {
+//     // console.log('AuthApi constructor');
+//     super(config);
+//   }
+//   public async getMessages(): Promise<any> {
+//     return await this.get('/getMessages', { params: { fetchCount: 10 } });
+//   }
+// }
+
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: any;
+}
 
 export async function validateUser(username: string, password: string) {
   const { accessToken, refreshToken } = await login(username, password);
@@ -9,13 +27,18 @@ export async function validateUser(username: string, password: string) {
 }
 
 export async function refreshTokens(refreshToken: any) {
-  const api = new AuthApi();
-  const { accessToken } = await api.post(
-    '/auth/refresh',
-    { refreshToken },
-    { headers: { Authorization: `Bearer ${refreshToken}` } },
-    false
-  );
+  const config: IApiConfig = {
+    baseURL: 'http://localhost:3000',
+    timeout: 10000
+  };
+  const accessToken = { accessToken: 'accessToken' };
+  // const api = new AuthApi(config);
+  // const { accessToken }: AuthResponse = await api.post(
+  //   '/auth/refresh',
+  //   { refreshToken },
+  //   { headers: { Authorization: `Bearer ${refreshToken}` } },
+  //   false
+  // );
   return { accessToken };
 }
 
