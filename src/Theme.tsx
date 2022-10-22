@@ -1,4 +1,18 @@
 import { createTheme } from '@mui/material';
+import { green, deepPurple } from '@mui/material/colors';
+
+export const myPalette = {
+  green: {
+    bright: green['A700'],
+    dark: green['900'],
+    mute: green['A400']
+  },
+  deepPurple: {
+    bright: deepPurple['A700'],
+    dark: deepPurple['900'],
+    mute: deepPurple['A400']
+  }
+};
 
 export const theme = createTheme({
   palette: {
@@ -26,29 +40,5 @@ export const theme = createTheme({
       800: '#424242',
       900: '#212121'
     }
-    // green: {
-    //   50: '#e8f5e9',
-    //   100: '#c8e6c9',
-    //   200: '#a5d6a7',
-    //   300: '#81c784',
-    //   400: '#66bb6a',
-    //   500: '#4caf50',
-    //   600: '#43a047',
-    //   700: '#388e3c',
-    //   800: '#2e7d32',
-    //   900: '#1b5e20'
-    // },
-    // purple: {
-    //   50: '#f3e5f5',
-    //   100: '#e1bee7',
-    //   200: '#ce93d8',
-    //   300: '#ba68c8',
-    //   400: '#ab47bc',
-    //   500: '#9c27b0',
-    //   600: '#8e24aa',
-    //   700: '#7b1fa2',
-    //   800: '#6a1b9a',
-    //   900: '#4a148c'
-    // }
   }
 });

@@ -16,11 +16,11 @@ import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 import { openSidebar } from '../event/Action';
 import { useSession } from '../hook/SessionHook';
 import logo from './logo.svg';
-import { theme } from '../Theme';
+import { theme, myPalette } from '../Theme';
 
 const Bar = styled(AppBar)`
-  background-color: ${theme.palette.primary.main};
-  color: ${theme.palette.primary.main};
+  background-color: ${myPalette.deepPurple.dark} !important;
+  color: ${theme.palette.grey[400]} !important;
   box-shadow: none;
   border-bottom: 1px solid #e4e4e4;
 `;
@@ -39,9 +39,7 @@ export function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Bar
-        position="static"
-        style={{ backgroundColor: theme.palette.primary.main }}>
+      <Bar position="static">
         <Toolbar>
           {session && (
             <IconButton
