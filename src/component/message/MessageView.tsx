@@ -32,9 +32,13 @@ export function MessageView() {
       };
       // const response = await api.getMessages(params);
       // const data = response.messages;
-      const response = await api.getMessagesParsed(params);
-      const data = response.dto;
-      setMessages(data);
+      try {
+        const response = await api.getMessagesParsed(params);
+        const data = response.dto;
+        setMessages(data);
+      } catch (e) {
+        console.error('[error]', e);
+      }
     })();
   }, []);
 

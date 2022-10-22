@@ -8,7 +8,7 @@ export function getSession(): Session | undefined {
   }
   try {
     const session = JSON.parse(sessionJson);
-    if (!session.user || !session.user.organization) {
+    if (!session.user || !session.organization) {
       removeCredentials();
       return undefined;
     }
@@ -24,7 +24,7 @@ export function storeCredentials(session: Session) {
 }
 
 export function removeCredentials() {
-  throw new Error('Function not implemented.');
+  localStorage.removeItem('session');
 }
 
 export async function refreshSession(
