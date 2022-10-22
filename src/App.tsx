@@ -16,6 +16,8 @@ import { useSession } from './hook/SessionHook';
 import { Header } from './component/Header';
 import { LOGOUT } from './event/Event';
 import { removeCredentials } from './api/SecurityApi';
+import { Footer } from './component/Footer';
+import { Sidebar } from './component/Sidebar';
 
 const DismissButton = styled(Button)`
   && {
@@ -55,7 +57,9 @@ function App() {
             </DismissButton>
           )}>
           <Header />
+          <Sidebar />
           <PageRouter />
+          <Footer />
         </SnackbarProvider>
       </Router>
     </ThemeProvider>
