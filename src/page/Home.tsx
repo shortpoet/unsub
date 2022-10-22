@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import Page, { PageToolbar } from '../component/Page';
 import { TopBar } from '../component/UI';
 import { MessageView } from '../component/message/MessageView';
+import { MessageList } from '../component/message/MessageList';
 
 import { Container } from '@mui/material';
 
@@ -33,7 +34,7 @@ export function Home() {
         </Container>
         <Container maxWidth="xl">
           <SubTitle>Message</SubTitle>
-          <MessageView />
+          <MessageList />
         </Container>
       </PageToolbar>
     </Page>

@@ -57,7 +57,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "react-scripts start",
+    "dev": "env-cmd -f .env.development react-scripts start",
+    "serve": "serve -l 8888",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rimraf build",

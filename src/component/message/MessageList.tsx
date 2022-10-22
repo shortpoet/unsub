@@ -7,6 +7,7 @@ import { SubTitle } from '../UI';
 // import { Message } from '../model/Message';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
+import { GmailMessageDTO } from '../../types/messageDTO';
 
 export function MessageList() {
   const [messages, setMessages] = useState([] as string[]);
@@ -14,60 +15,42 @@ export function MessageList() {
 
   // useCheckAuthentication();
 
-  // const fetchData = useCallback(async () => {
-  //   const config: IApiConfig = {
-  //     baseURL: 'http://localhost:3000',
-  //     timeout: 10000
-  //   };
-  //   const api = new MessageApi(config);
+  const fetchData = useCallback(async () => {
+    const config: IApiConfig = {
+      baseURL: 'http://localhost:3000',
+      timeout: 10000
+    };
+    const api = new MessageApi(config);
 
-  //   const response = await api.getMessages();
-  //   const data = response.json();
-  //   setMessages(data);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchData().catch(error => {
-  //     console.log('error', error);
-  //   });
-  // }, [fetchData]);
-
-  useEffect(() => {
-    (async () => {
-      const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
-        timeout: 10000
-      };
-      const api = new MessageApi(config);
-      const response = await api.getMessages();
-      const data = response.messages[0];
-      setMessages(data);
-    })();
+    const response = await api.getMessages();
+    const data = response.messages;
+    console.log('response', response);
+    setMessages(data);
   }, []);
 
-  // let messageList = [];
-  // if (messages) {
-  //   messageList = messages.map((message: any) => (
-  //     <div key={message.id}>
-  //       <h3>{message.title}</h3>
-  //       <p>{message.content}</p>
-  //     </div>
-  //   ));
+  useEffect(() => {
+    fetchData().catch(error => {
+      console.log('error', error);
+    });
+  }, [fetchData]);
 
-  const PrettyPrintJson = React.memo(({ data }: any) => (
-    <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  ));
-
+  let messageList: any = [];
+  if (messages) {
+    messageList = messages.map((message: any) => (
+      <div key={message.id}>
+        <h3>{message.from}</h3>
+        <p>{message.id}</p>
+        <p>{message.listUnsubscribe}</p>
+      </div>
+    ));
+  }
   return (
     <Container maxWidth="lg">
       <SubTitle>Messages</SubTitle>
-      <PrettyPrintJson data={messages} />
+      {messageList}
     </Container>
   );
 }
-
 // You'll need to either insert BR tag appropriately in the resulting string, or use for example a PRE tag so that the formatting of the stringify is retained:
 
 // var data = { a: 1, b: 2 };

@@ -18,24 +18,6 @@ export function MessageView() {
 
   // useCheckAuthentication();
 
-  // const fetchData = useCallback(async () => {
-  //   const config: IApiConfig = {
-  //     baseURL: 'http://localhost:3000',
-  //     timeout: 10000
-  //   };
-  //   const api = new MessageApi(config);
-
-  //   const response = await api.getMessages();
-  //   const data = response.json();
-  //   setMessages(data);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchData().catch(error => {
-  //     console.log('error', error);
-  //   });
-  // }, [fetchData]);
-
   useEffect(() => {
     (async () => {
       const config: IApiConfig = {
