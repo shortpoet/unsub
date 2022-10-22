@@ -25,8 +25,15 @@ export function MessageView() {
         timeout: 10000
       };
       const api = new MessageApi(config);
-      const response = await api.getMessages();
-      const data = response.messages[0];
+      const params = {
+        userId: 'me',
+        q: 'mous',
+        fetchCount: 10
+      };
+      // const response = await api.getMessages(params);
+      // const data = response.messages;
+      const response = await api.getMessagesParsed(params);
+      const data = response.dto;
       setMessages(data);
     })();
   }, []);

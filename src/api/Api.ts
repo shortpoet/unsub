@@ -24,6 +24,14 @@ export class Api implements IApi {
     retry = true
   ): Promise<T> {
     console.log('Api.callApi', method, url, data, options, forceRefresh, retry);
+    console.log({
+      method: method,
+      url: url,
+      data: data,
+      options: options,
+      forceRefresh: forceRefresh,
+      retry: retry
+    });
     const headers = {};
     // let session = getSession();
     // if (!session) {
@@ -59,11 +67,11 @@ export class Api implements IApi {
       //   ...options
       // });
       const response = await axios({
-        method,
+        method: method,
         url: `${API_URL}${url}`,
-        data,
-        headers,
-        ...options
+        data: data,
+        headers: headers,
+        params: options
       });
       console.log('Api.callApi response', response);
 
@@ -101,7 +109,14 @@ export class Api implements IApi {
     retry?: boolean | undefined
   ) {
     try {
-      return this.callApi<T>('GET', url, (options = {}), forceRefresh, retry);
+      return this.callApi<T>(
+        'GET',
+        url,
+        undefined,
+        options,
+        forceRefresh,
+        retry
+      );
     } catch (error) {
       console.log('Api.get error', error);
     }

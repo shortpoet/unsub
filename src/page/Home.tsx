@@ -34,7 +34,7 @@ export function Home() {
         </Container>
         <Container maxWidth="xl">
           <SubTitle>Message</SubTitle>
-          <MessageList />
+          <MessageView />
         </Container>
       </PageToolbar>
     </Page>

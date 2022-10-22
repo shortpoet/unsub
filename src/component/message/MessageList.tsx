@@ -11,31 +11,54 @@ import { GmailMessageDTO } from '../../types/messageDTO';
 
 export function MessageList() {
   const [messages, setMessages] = useState([] as string[]);
-  const [messageId, setMessageId] = useState('message_id');
+  // const [messageId, setMessageId] = useState('message_id');
 
   // useCheckAuthentication();
 
-  const fetchData = useCallback(async () => {
-    const config: IApiConfig = {
-      baseURL: 'http://localhost:3000',
-      timeout: 10000
-    };
-    const api = new MessageApi(config);
+  // const fetchData = useCallback(async () => {
+  //   const config: IApiConfig = {
+  //     baseURL: 'http://localhost:3000',
+  //     timeout: 10000
+  //   };
+  //   const api = new MessageApi(config);
 
-    const response = await api.getMessages();
-    const data = response.messages;
-    console.log('response', response);
-    setMessages(data);
+  //   const response = await api.getMessages();
+  //   const data = response.messages;
+  //   console.log('response', response);
+  //   setMessages(data);
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchData().catch(error => {
+  //     console.log('error', error);
+  //   });
+  // }, [fetchData]);
+  useEffect((): any => {
+    let isSubscribed = true;
+    (async () => {
+      const config: IApiConfig = {
+        baseURL: 'http://localhost:3000',
+        timeout: 10000
+      };
+      const api = new MessageApi(config);
+      const params = {
+        userId: 'me',
+        q: 'google',
+        fetchCount: 50
+      };
+      // const response = await api.getMessages();
+      // const data = response.messages;
+      const response = await api.getMessagesParsed(params);
+      const data = response.dto;
+      if (isSubscribed && data) {
+        setMessages(data);
+      }
+    })();
+    return () => (isSubscribed = false);
   }, []);
 
-  useEffect(() => {
-    fetchData().catch(error => {
-      console.log('error', error);
-    });
-  }, [fetchData]);
-
   let messageList: any = [];
-  if (messages) {
+  if (messages.length > 0) {
     messageList = messages.map((message: any) => (
       <div key={message.id}>
         <h3>{message.from}</h3>
