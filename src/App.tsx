@@ -1,6 +1,5 @@
 <script src="http://localhost:8097"></script>;
 import React, { RefObject } from 'react';
-import logo from './logo.svg';
 
 import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -13,6 +12,10 @@ import styled from 'styled-components';
 
 import { theme } from './Theme';
 import { PageRouter } from './PageRouter';
+import { useSession } from './hook/SessionHook';
+import { Header } from './component/Header';
+import { LOGOUT } from './event/Event';
+import { removeCredentials } from './api/SecurityApi';
 
 const DismissButton = styled(Button)`
   && {
@@ -21,7 +24,7 @@ const DismissButton = styled(Button)`
   }
 `;
 function App() {
-  // const session = useSession();
+  const session = useSession();
   // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   // const [snackbarKey, setSnackbarKey] = React.useState(null);
   // const [snackbarMessage, setSnackbarMessage] = React.useState(null);
@@ -29,11 +32,16 @@ function App() {
   // const [snackbarDismiss, setSnackbarDismiss] = React.useState(null);
   // const [snackbarDismissAll, setSnackbarDismissAll] = React.useState(null);
   // const [snackbarDismissAllByType, setSnackbarDismissAllByType] = React.useState(null);
+
   const snackbarRef: RefObject<SnackbarProvider> = React.createRef();
   const onClickDismiss = (key: any) => () => {
     snackbarRef?.current?.closeSnackbar(key);
   };
   // const onClickDismiss = () => { closeSnackbar(snackbarKey); };
+
+  useHandler(() => {
+    removeCredentials();
+  }, [LOGOUT]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,6 +54,7 @@ function App() {
               Dismiss
             </DismissButton>
           )}>
+          <Header />
           <PageRouter />
         </SnackbarProvider>
       </Router>
