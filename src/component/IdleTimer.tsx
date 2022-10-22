@@ -64,7 +64,7 @@ export function IdleTimer() {
         onPrompt: () => onPrompt(),
         onActive: () => onActive(),
         onIdle: () => onIdle(),
-        timeout: 1000 * 60 * 25,
+        timeout: 1000,
         promptTimeout: 1000 * 60,
         debounce: 500
       });
