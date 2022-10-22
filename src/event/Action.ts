@@ -22,6 +22,6 @@ export function logout() {
   Dispatcher.dispatch(LOGOUT);
 }
 
-export function displayMessage(message: string) {
+export function displayMessage(message: Record<string, any>) {
   Dispatcher.dispatch(MESSAGE, message);
 }

@@ -18,6 +18,7 @@ import { LOGOUT } from './event/Event';
 import { removeCredentials } from './api/SecurityApi';
 import { Footer } from './component/Footer';
 import { Sidebar } from './component/Sidebar';
+import { IdleTimer } from './component/IdleTimer';
 
 const DismissButton = styled(Button)`
   && {
@@ -60,6 +61,7 @@ function App() {
           <Sidebar />
           <PageRouter />
           <Footer />
+          {session && <IdleTimer />}
         </SnackbarProvider>
       </Router>
     </ThemeProvider>

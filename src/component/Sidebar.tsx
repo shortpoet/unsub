@@ -24,9 +24,11 @@ import { logout, closeSidebar } from '../event/Action';
 
 const SidebarDrawer = styled(Drawer)`
   & > div {
-    width: 240px;
+    width: 250px;
     flex-shrink: 0;
     white-space: nowrap;
+    background-color: #292e3e !important;
+    color: #fff !important;
   }
 `;
 
@@ -51,13 +53,14 @@ const SidebarCloseButton = styled(ListItemButton)`
 `;
 
 const SidebarListItemIcon = styled(ListItemIcon)`
-  && {
+  & {
     min-width: 40px;
+    color: #fff !important;
   }
 `;
 
 const SidebarListItemText = styled(ListItemText)`
-  && {
+  & {
     margin-left: 0;
   }
 `;
@@ -68,22 +71,9 @@ const CloseSidebarItem = styled(ListItemButton)`
   height: 55px;
 `;
 
-const CloseSidebarIcon = styled(FontAwesomeIcon)`
-  && {
-    margin-right: 8px;
-  }
-`;
-
-const CloseSidebarText = styled.span`
-  && {
-    font-size: 14px;
-    font-weight: 500;
-  }
-`;
-
 export function Sidebar() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleSignOut = () => {
     logout();
     closeSidebar();
@@ -122,10 +112,12 @@ export function Sidebar() {
             <SidebarListItemText primary="Messages" />
           </ListItemButton>
           <Divider />
-          <CloseSidebarItem onClick={() => handleSignOut()}>
-            <CloseSidebarIcon icon={faSignOut} />
-            <CloseSidebarText>Logout</CloseSidebarText>
-          </CloseSidebarItem>
+          <ListItemButton onClick={() => handleSignOut()}>
+            <SidebarListItemIcon>
+              <FontAwesomeIcon icon={faSignOut} />
+            </SidebarListItemIcon>
+            <SidebarListItemText primary="Logout" />
+          </ListItemButton>
         </List>
       </Box>
     </SidebarDrawer>
