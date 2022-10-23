@@ -63,39 +63,47 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
 
   return (
     <Section>
-      <SectionContent>
-        <InfoBox>
-          <InfoBoxTitle>Count Has Data</InfoBoxTitle>
-          <InfoBoxText>
-            {count.hasData.toLocaleString('en-US', {
-              maximumFractionDigits: 0
-            })}
-          </InfoBoxText>
-        </InfoBox>
-        <InfoBox>
-          <InfoBoxTitle>Count Has Unsub Link</InfoBoxTitle>
-          <InfoBoxText>
-            {count.hasUnsub.toLocaleString('en-US', {
-              maximumFractionDigits: 0
-            })}
-          </InfoBoxText>
-        </InfoBox>
-        <InfoBox>
-          <InfoBoxTitle>Count Has Mailto</InfoBoxTitle>
-          <InfoBoxText>
-            {count.hasMailto.toLocaleString('en-US', {
-              maximumFractionDigits: 0
-            })}
-          </InfoBoxText>
-        </InfoBox>
-        <InfoBox>
-          <InfoBoxTitle>Count Has Many Links</InfoBoxTitle>
-          <InfoBoxText>
-            {count.hasManyLinks.toLocaleString('en-US', {
-              maximumFractionDigits: 0
-            })}
-          </InfoBoxText>
-        </InfoBox>
+      <SectionContent justify="space-around">
+        {count.hasData > 0 ? (
+          <InfoBox>
+            <InfoBoxTitle>Count Has Data</InfoBoxTitle>
+            <InfoBoxText>
+              {count.hasData.toLocaleString('en-US', {
+                maximumFractionDigits: 0
+              })}
+            </InfoBoxText>
+          </InfoBox>
+        ) : null}
+        {count.hasUnsub > 0 ? (
+          <InfoBox>
+            <InfoBoxTitle>Count Has Unsub Link</InfoBoxTitle>
+            <InfoBoxText>
+              {count.hasUnsub.toLocaleString('en-US', {
+                maximumFractionDigits: 0
+              })}
+            </InfoBoxText>
+          </InfoBox>
+        ) : null}
+        {count.hasMailto > 0 ? (
+          <InfoBox>
+            <InfoBoxTitle>Count Has Mailto</InfoBoxTitle>
+            <InfoBoxText>
+              {count.hasMailto.toLocaleString('en-US', {
+                maximumFractionDigits: 0
+              })}
+            </InfoBoxText>
+          </InfoBox>
+        ) : null}
+        {count.hasManyLinks > 0 ? (
+          <InfoBox>
+            <InfoBoxTitle>Count Has Many Links</InfoBoxTitle>
+            <InfoBoxText>
+              {count.hasManyLinks.toLocaleString('en-US', {
+                maximumFractionDigits: 0
+              })}
+            </InfoBoxText>
+          </InfoBox>
+        ) : null}
       </SectionContent>
     </Section>
   );
