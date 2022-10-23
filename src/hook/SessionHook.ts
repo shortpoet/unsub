@@ -9,7 +9,9 @@ export function useSession() {
 
   useEffect(() => {
     const currentSession = getSession();
+    console.log('session before effect', currentSession);
     if (currentSession) {
+      console.log('session from effect', session);
       setSession(currentSession);
     }
   }, []);

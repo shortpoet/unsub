@@ -5,6 +5,7 @@ import { Button, Container, Grid, TextField } from '@mui/material';
 import { login } from '../event/Action';
 // import { useAppDispatch, useAppSelector } from '../hook/StoreHook';
 import { validateUser } from '../api/AuthApi';
+import { useSession } from '../hook/SessionHook';
 
 const Message = styled.div`
   margin: 0.5rem;
@@ -19,9 +20,14 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const session = useSession();
   const navigate = useNavigate();
   // const dispatch = useAppDispatch();
   // const { user } = useAppSelector(state => state.auth);
+
+  const handleChange = (setter: any) => (event: any) => {
+    setter(event.target.value);
+  };
 
   useEffect(() => {
     if (error) {
@@ -31,15 +37,26 @@ export function LoginPage() {
     }
   }, [error]);
 
+  const handleRedirect = (session: any) => {
+    if (session) {
+      navigate('/');
+    }
+  };
+
+  // endless redirect becasue of calling validate user/login
+  // if using handleLogin
+  useEffect(() => {
+    handleRedirect(session);
+  }, []);
+
   const handleLogin = async () => {
     try {
-      const session = await validateUser(username, password);
-      if (session) {
-        navigate('/');
-      }
+      const newSession = await validateUser(username, password);
+      login(newSession);
+      handleRedirect(newSession);
     } catch (e: any) {
       console.error('[error]', e);
-      setMessage(e.message || 'Unknown error');
+      setMessage(e || 'Unknown error');
       setError(true);
     }
   };
@@ -51,7 +68,7 @@ export function LoginPage() {
           <TextField
             fullWidth
             label="Username"
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => handleChange(setUsername)(e)}
             value={username}
           />
         </Grid>
@@ -59,7 +76,7 @@ export function LoginPage() {
           <TextField
             fullWidth
             label="Password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={handleChange(setPassword)}
             type="password"
             value={password}
           />

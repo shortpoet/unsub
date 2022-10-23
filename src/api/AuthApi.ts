@@ -55,6 +55,12 @@ function login(
   username: string,
   password: string
 ): Session | PromiseLike<Session> {
+  console.log('login');
+  if (!username || !password) {
+    return Promise.reject('Username and password are required');
+  }
+  console.log(username);
+  console.log(password);
   const session = SESSION;
   // const api = new AuthApi(config);
   // const { accessToken }: AuthResponse = await api.post(

@@ -48,7 +48,7 @@ export function Header() {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              onClick={() => openSidebar()}>
+              onClick={openSidebar}>
               <FontAwesomeIcon icon={faBars} />
             </IconButton>
           )}

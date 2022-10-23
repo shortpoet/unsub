@@ -7,6 +7,7 @@ import { SubTitle } from '../UI';
 // import { Message } from '../model/Message';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
+import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 
 export interface Message {
   id: string;
@@ -16,7 +17,7 @@ export function MessageView() {
   const [messages, setMessages] = useState([] as string[]);
   const [messageId, setMessageId] = useState('message_id');
 
-  // useCheckAuthentication();
+  useCheckAuthentication();
 
   useEffect(() => {
     (async () => {

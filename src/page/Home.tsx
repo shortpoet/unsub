@@ -7,6 +7,7 @@ import { MessageList } from '../component/message/MessageList';
 import { Container } from '@mui/material';
 
 import { Input, SubTitle } from '../component/UI';
+import { useCheckAuthentication } from '../hook/AuthenticationHook';
 
 export function Home() {
   const [showToolbar, setShowToolbar] = useState(false);
@@ -14,7 +15,7 @@ export function Home() {
   // const [showFooter, setShowFooter] = useState(1);
   // const [interval, setInterval] = useState('ALL');
 
-  // useCheckAuthentication();
+  useCheckAuthentication();
 
   const handleSelectedToolbar = (event: {
     target: { value: boolean | ((prevState: boolean) => boolean) };

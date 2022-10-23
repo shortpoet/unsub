@@ -19,6 +19,7 @@ import { removeCredentials } from './api/SecurityApi';
 import { Footer } from './component/Footer';
 import { Sidebar } from './component/Sidebar';
 import { IdleTimer } from './component/IdleTimer';
+import { SnackbarMessages } from './component/SnackbarMessages';
 
 const DismissButton = styled(Button)`
   && {
@@ -28,14 +29,6 @@ const DismissButton = styled(Button)`
 `;
 function App() {
   const session = useSession();
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  // const [snackbarKey, setSnackbarKey] = React.useState(null);
-  // const [snackbarMessage, setSnackbarMessage] = React.useState(null);
-  // const [snackbarOptions, setSnackbarOptions] = React.useState(null);
-  // const [snackbarDismiss, setSnackbarDismiss] = React.useState(null);
-  // const [snackbarDismissAll, setSnackbarDismissAll] = React.useState(null);
-  // const [snackbarDismissAllByType, setSnackbarDismissAllByType] = React.useState(null);
-
   const snackbarRef: RefObject<SnackbarProvider> = React.createRef();
   const onClickDismiss = (key: any) => () => {
     snackbarRef?.current?.closeSnackbar(key);
@@ -50,16 +43,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <SnackbarProvider
-          maxSnack={3}
           ref={snackbarRef}
+          maxSnack={3}
           action={key => (
-            <DismissButton onClick={() => onClickDismiss(key)}>
-              Dismiss
-            </DismissButton>
+            <DismissButton onClick={onClickDismiss(key)}>Dismiss</DismissButton>
           )}>
           <Header />
           <Sidebar />
           <PageRouter />
+          <SnackbarMessages />
           <Footer />
           {session && <IdleTimer />}
         </SnackbarProvider>

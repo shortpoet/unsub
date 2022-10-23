@@ -24,7 +24,7 @@ export function Footer() {
         Made with <FontAwesomeIcon icon={faHeart} /> by {AUTHOR}
         {'      '}
         <small>
-          <a href="http://localhost">Unsub App</a> is a project by{'    '}
+          <a href={`/`}>Unsub App</a> is a project by{'    '}
         </small>
         © <a href="https://shortpoet.com"> {ORG}, LLC </a>
         {new Date().getFullYear()} All rights reserved.

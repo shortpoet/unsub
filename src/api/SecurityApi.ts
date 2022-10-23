@@ -24,7 +24,11 @@ export function storeCredentials(session: Session) {
 }
 
 export function removeCredentials() {
+  console.log('b4 removeCredentials');
+  console.log(localStorage.getItem('session'));
+  console.log('removeCredentials');
   localStorage.removeItem('session');
+  console.log(localStorage.getItem('session'));
 }
 
 export async function refreshSession(
