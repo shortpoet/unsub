@@ -94,7 +94,7 @@ export function SubTitle(props: { children: React.ReactNode }) {
   return <SubHeading>{props.children}</SubHeading>;
 }
 
-export function Section(props: { title: string; children: React.ReactNode }) {
+export function Section(props: { children: React.ReactNode; title?: string }) {
   return <SectionBox {...props} />;
 }
 
@@ -103,8 +103,8 @@ export function SectionTitle(props: { children: React.ReactNode }) {
 }
 
 export function SectionContent(props: {
-  justify: string | undefined;
   children: React.ReactNode;
+  justify?: string | undefined;
 }) {
   return (
     <SectionContentBox justify={props.justify}>

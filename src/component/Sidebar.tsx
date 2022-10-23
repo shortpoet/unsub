@@ -93,23 +93,23 @@ export function Sidebar() {
             <FontAwesomeIcon icon={faChevronLeft} />
           </CloseSidebarItem>
           <SidebarDivider />
-          <ListItemButton component={Link} to="/search">
+          <ListItemButton component={Link} to="/" onClick={closeSidebar}>
             <SidebarListItemIcon>
               <FontAwesomeIcon icon={faSearch} />
             </SidebarListItemIcon>
             <SidebarListItemText primary="Search" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/map">
+          <ListItemButton component={Link} to="/" onClick={closeSidebar}>
             <SidebarListItemIcon>
               <FontAwesomeIcon icon={faMap} />
             </SidebarListItemIcon>
             <SidebarListItemText primary="Map" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/messages">
+          <ListItemButton component={Link} to="/list" onClick={closeSidebar}>
             <SidebarListItemIcon>
               <FontAwesomeIcon icon={faMailBulk} />
             </SidebarListItemIcon>
-            <SidebarListItemText primary="Messages" />
+            <SidebarListItemText primary="List Messages" />
           </ListItemButton>
           <Divider />
           <ListItemButton onClick={() => handleSignOut()}>

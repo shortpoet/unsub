@@ -8,40 +8,19 @@ import { SubTitle } from '../UI';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
+import { GmailMessageDTO } from '../../types/messageDTO';
 
 export interface Message {
   id: string;
 }
 
-export function MessageView() {
-  const [messages, setMessages] = useState([] as string[]);
+export function MessageView(props: { messages: GmailMessageDTO[] }) {
+  const [messages, setMessages] = useState([] as GmailMessageDTO[]);
   const [messageId, setMessageId] = useState('message_id');
 
-  useCheckAuthentication();
-
   useEffect(() => {
-    (async () => {
-      const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
-        timeout: 10000
-      };
-      const api = new MessageApi(config);
-      const params = {
-        userId: 'me',
-        q: 'mous',
-        fetchCount: 10
-      };
-      // const response = await api.getMessages(params);
-      // const data = response.messages;
-      try {
-        const response = await api.getMessagesParsed(params);
-        const data = response.dto;
-        setMessages(data);
-      } catch (e) {
-        console.error('[error]', e);
-      }
-    })();
-  }, []);
+    setMessages(props.messages);
+  }, [props]);
 
   const PrettyPrintJson = React.memo(({ data }: any) => (
     <div>

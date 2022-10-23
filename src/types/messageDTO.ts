@@ -9,7 +9,12 @@ interface MessageDTO {
   receivedSPF?: string | null;
   subject?: string | null;
   listUnsubscribe?: string | null;
-  status?: string | null;
+  status?:
+    | 'HAS_UNSUB_LINK'
+    | 'HAS_MAILTO'
+    | '--> HAS_MANY_LINKS <--'
+    | 'HAS_DATA'
+    | null;
   link?: string | null;
   links?: Record<string, string>[] | null;
   googleSheetsLink?: string | null;
@@ -43,7 +48,12 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     receivedSPF: string | null;
     subject: string | null;
     listUnsubscribe: string | null;
-    status: string | null;
+    status?:
+      | 'HAS_UNSUB_LINK'
+      | 'HAS_MAILTO'
+      | '--> HAS_MANY_LINKS <--'
+      | 'HAS_DATA'
+      | null;
     link?: string | null;
     links?: Record<string, string>[] | null;
     googleSheetsLink?: string | null;
@@ -59,7 +69,7 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     this.subject = subject || '';
     this.listUnsubscribe = listUnsubscribe || '';
     this.snippet = snippet || '';
-    this.status = status || '';
+    this.status = status || null;
     this.link = `https://mail.google.com/mail/u/0/#inbox/${id}`;
     this.links = links || [];
     this.googleSheetsLink = `=HYPERLINK("https://mail.google.com/mail/u/0/#inbox/${this.id}#", "View")`;
@@ -75,7 +85,12 @@ export class GmailMessageDTO implements Required<MessageDTO> {
   receivedSPF: string;
   subject: string;
   listUnsubscribe: string;
-  status: string;
+  status:
+    | 'HAS_UNSUB_LINK'
+    | 'HAS_MAILTO'
+    | '--> HAS_MANY_LINKS <--'
+    | 'HAS_DATA'
+    | null;
   link: string;
   links: Record<string, string>[];
   googleSheetsLink: string;
