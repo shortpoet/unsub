@@ -19,7 +19,10 @@ export function lazyAsyncCallback<T>(fn: () => Promise<T>): () => Promise<T> {
   };
 }
 
-export function lazyCatch(fn: () => Promise<any>, onCatch: (error: any) => void): () => Promise<any> {
+export function lazyCatch(
+  fn: () => Promise<any>,
+  onCatch: (error: any) => void
+): () => Promise<any> {
   let value: any | undefined;
   onCatch =
     onCatch ||
@@ -38,7 +41,10 @@ export function lazyCatch(fn: () => Promise<any>, onCatch: (error: any) => void)
   };
 }
 
-export function formatNumberViceVersa(value: number, digits = 0): number | string {
+export function formatNumberViceVersa(
+  value: number,
+  digits = 0
+): number | string {
   if (!value) return value;
   if (typeof value === 'string') {
     value = parseFloat(value);
@@ -46,7 +52,10 @@ export function formatNumberViceVersa(value: number, digits = 0): number | strin
   return parseFloat(value.toFixed(digits)).toLocaleString();
 }
 
-export function formatCurrencyViceVersa(value: number, digits = 0): string | number {
+export function formatCurrencyViceVersa(
+  value: number,
+  digits = 0
+): string | number {
   if (!value) return value;
   if (typeof value === 'string') {
     value = parseFloat(value);

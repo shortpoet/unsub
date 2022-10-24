@@ -2,29 +2,29 @@ export interface IApi {
   get: (
     url: string,
     options?: any | undefined,
-    forceRefresh?: boolean | undefined,
-    retry?: boolean | undefined
+    retry?: number | undefined,
+    forceRefresh?: boolean | undefined
   ) => Promise<any> | undefined;
   post: (
     url: string,
     data?: any | undefined,
     options?: any | undefined,
-    forceRefresh?: boolean | undefined,
-    retry?: boolean | undefined
+    retry?: number | undefined,
+    forceRefresh?: boolean | undefined
   ) => Promise<any>;
   put: (
     url: string,
     data?: any | undefined,
     options?: any | undefined,
-    forceRefresh?: boolean | undefined,
-    retry?: boolean | undefined
+    retry?: number | undefined,
+    forceRefresh?: boolean | undefined
   ) => Promise<any>;
   delete: (
     url: string,
     data?: any | undefined,
     options?: any | undefined,
-    forceRefresh?: boolean | undefined,
-    retry?: boolean | undefined
+    retry?: number | undefined,
+    forceRefresh?: boolean | undefined
   ) => Promise<any>;
 }
 
@@ -34,6 +34,6 @@ export interface IApiConfig {
 }
 
 export interface IApiError {
-  message: string;
+  error: { error: string; error_description: string };
   status: number;
 }

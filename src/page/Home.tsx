@@ -12,9 +12,14 @@ import { CountSection } from '../component/section/CountSection';
 import { IApiConfig } from '../api/IApi';
 import { MessageApi } from '../api/MessageApi';
 import { GmailMessageDTO } from '../types/messageDTO';
+import { colorLog } from '../util/colorLog';
+import { inspect } from 'util';
+import { PrettyPrintJson } from '../component/PrettyPrintJson';
 
 export function Home() {
   const [showToolbar, setShowToolbar] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorJson, setErrorJson] = useState('');
   // const [showSidebar, setShowSidebar] = useState(0);
   // const [showFooter, setShowFooter] = useState(1);
   // const [interval, setInterval] = useState('ALL');
@@ -40,8 +45,15 @@ export function Home() {
       // const data = response.messages;
       try {
         const response = await api.getMessagesParsed(params);
-        const data = response.dto;
-        setMessages(data);
+        // console.log(inspect(response, { depth: 5, colors: false }));
+        if (response.data) {
+          setMessages(response.data);
+        }
+        if (response.error) {
+          console.error(response.error);
+          setError(true);
+          setErrorJson(response.error);
+        }
       } catch (e) {
         console.error('[error]', e);
       }
@@ -54,6 +66,25 @@ export function Home() {
     setShowToolbar(event.target.value);
   };
 
+  function Messages(props: { messages: GmailMessageDTO[] }) {
+    const { messages } = props;
+    return (
+      <Container maxWidth="xl">
+        <SubTitle>Loaded Messages</SubTitle>
+        {messages.length > 0 && <CountSection messages={messages} />}
+        {messages.length > 0 && <MessageView messages={messages} />}
+      </Container>
+    );
+  }
+
+  function Loading() {
+    return (
+      <Container maxWidth="xl">
+        <SubTitle>Loading...</SubTitle>
+      </Container>
+    );
+  }
+
   return (
     <Page title="Home" showToolbar={showToolbar}>
       <PageToolbar>
@@ -63,11 +94,10 @@ export function Home() {
           <TopBar>
             <h1>TopBar</h1>
           </TopBar>
-        </Container>
-        <Container maxWidth="xl">
-          <SubTitle>Subtitle</SubTitle>
-          {messages.length > 0 && <CountSection messages={messages} />}
-          {messages.length > 0 && <MessageView messages={messages} />}
+          {(messages.length > 0 && <Messages messages={messages} />) ||
+            (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
+          {/* {(messages && <Messages messages={messages} />) ||
+            (error && <PrettyPrintJson messages={errorJson} />) || <Loading />} */}
         </Container>
       </PageToolbar>
     </Page>

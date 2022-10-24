@@ -9,6 +9,7 @@ import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { GmailMessageDTO } from '../../types/messageDTO';
+import { PrettyPrintJson } from '../PrettyPrintJson';
 
 export interface Message {
   id: string;
@@ -21,12 +22,6 @@ export function MessageView(props: { messages: GmailMessageDTO[] }) {
   useEffect(() => {
     setMessages(props.messages);
   }, [props]);
-
-  const PrettyPrintJson = React.memo(({ data }: any) => (
-    <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  ));
 
   return (
     <Container maxWidth="lg">
