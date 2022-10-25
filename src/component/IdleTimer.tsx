@@ -8,7 +8,6 @@ import { useSession } from '../hook/SessionHook';
 import { refreshSession } from '../api/SecurityApi';
 import { logout, displaySnackbarMessage, closeSidebar } from '../event/Action';
 import { format } from 'date-fns';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
 const SnackbarButton = styled(Button)`
@@ -48,7 +47,9 @@ const AUTHOR = 'Carlos Soriano';
 const ORG = 'Shortpoet';
 
 export function IdleTimer() {
-  const timeout = 3000;
+  const timeout = 1000 * 60 * 60 * 1;
+  const promptTimeout = 1000 * 60 * 60 * 0.5;
+
   const [remaining, setRemaining] = useState(timeout);
   const [elapsed, setElapsed] = useState(0);
   const [lastActive, setLastActive] = useState(+new Date());
@@ -131,8 +132,8 @@ export function IdleTimer() {
     onPrompt: onPrompt,
     onActive: onActive,
     onIdle: onIdle,
-    timeout: 1000 * 60 * 2,
-    promptTimeout: 1000 * 60 * 1
+    timeout: timeout,
+    promptTimeout: promptTimeout
   });
 
   useEffect(() => {

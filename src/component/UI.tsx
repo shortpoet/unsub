@@ -40,15 +40,11 @@ export const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #fff;
-  border-bottom: 1px solid #d9d9d9;
 `;
 
 export const Label = styled.label`
   font-size: 0.875rem;
   font-weight: 400;
-  color: #666;
   margin: 0.5rem 0;
   display: block;
 `;

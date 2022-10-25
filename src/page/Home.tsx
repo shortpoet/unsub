@@ -15,11 +15,14 @@ import { GmailMessageDTO } from '../types/messageDTO';
 import { colorLog } from '../util/colorLog';
 import { inspect } from 'util';
 import { PrettyPrintJson } from '../component/PrettyPrintJson';
+import { AccountSwitch } from '../component/AccountSwitch';
+import { Account } from '../types/Session';
 
 export function Home() {
-  const [showToolbar, setShowToolbar] = useState(false);
+  const [showToolbar, setShowToolbar] = useState(true);
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
+  const [account, setAccount] = useState('' as Account['type']);
   // const [showSidebar, setShowSidebar] = useState(0);
   // const [showFooter, setShowFooter] = useState(1);
   // const [interval, setInterval] = useState('ALL');
@@ -44,7 +47,7 @@ export function Home() {
       // const response = await api.getMessages(params);
       // const data = response.messages;
       try {
-        const response = await api.getMessagesParsed(params);
+        const response = await api.getMessages(params);
         // console.log(inspect(response, { depth: 5, colors: false }));
         if (response.data) {
           setMessages(response.data);
@@ -88,11 +91,11 @@ export function Home() {
   return (
     <Page title="Home" showToolbar={showToolbar}>
       <PageToolbar>
-        <h1>Page toolbar</h1>
+        {/* <h1>Page toolbar</h1> */}
         <Container maxWidth="xl">
-          <h1>Home Container</h1>
+          {/* <h1>Home Container</h1> */}
           <TopBar>
-            <h1>TopBar</h1>
+            <AccountSwitch onChange={setAccount} />
           </TopBar>
           {(messages.length > 0 && <Messages messages={messages} />) ||
             (error && <PrettyPrintJson data={errorJson} />) || <Loading />}

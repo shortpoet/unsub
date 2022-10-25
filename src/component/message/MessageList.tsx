@@ -49,7 +49,7 @@ export function MessageList() {
       };
       // const response = await api.getMessages();
       // const data = response.messages;
-      const response = await api.getMessagesParsed(params);
+      const response = await api.getMessages(params);
       const data = response.dto;
       if (isSubscribed && data) {
         setMessages(data);

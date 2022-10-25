@@ -17,7 +17,6 @@ export interface User {
 
 type AllowdAccountTypes =
   | 'primary'
-  | 'secondary'
   | 'tertiary'
   | 'quaternary'
   | 'quinary'
