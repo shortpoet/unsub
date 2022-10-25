@@ -17,6 +17,7 @@ import { openSidebar } from '../event/Action';
 import { useSession } from '../hook/SessionHook';
 import logo from './logo.svg';
 import { theme, myPalette } from '../Theme';
+import { useNavigate } from 'react-router-dom';
 
 const Bar = styled(AppBar)`
   background-color: ${myPalette.deepPurple.dark} !important;
@@ -35,6 +36,11 @@ const User = styled.div`
 `;
 
 export function Header() {
+  const navigate = useNavigate();
+  const handleHomeClick = () => {
+    navigate('/', { replace: true });
+  };
+
   const session = useSession();
 
   return (
@@ -52,7 +58,12 @@ export function Header() {
               <FontAwesomeIcon icon={faBars} />
             </IconButton>
           )}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            style={{ cursor: 'pointer' }}
+            onClick={handleHomeClick}>
             Unsub App
           </Typography>
           {session && (

@@ -9,7 +9,7 @@ import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { GmailMessageDTO } from '../../types/messageDTO';
-import { PrettyPrintJson } from '../PrettyPrintJson';
+import { PrettyPrintJson } from '../Utils';
 
 export interface Message {
   id: string;

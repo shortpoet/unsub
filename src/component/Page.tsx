@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { myPalette } from '../Theme';
 
 const PageBody = styled.div`
-  background-color: #e9edf1;
+  background-color: ${myPalette.page.lightGrey};
+  padding: 0rem;
 `;
 
 const Toolbar = styled.div`
   padding: 1rem 0;
-  background-color: #d4d8dc;
+  background-color: ${myPalette.page.mediumGrey};
 `;
 
 export default function Page(props: {
