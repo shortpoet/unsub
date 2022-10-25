@@ -8,7 +8,7 @@ export function getSession(): Session | undefined {
   }
   try {
     const session = JSON.parse(sessionJson);
-    if (!session.user || !session.organization) {
+    if (!session.user || !session.account) {
       removeCredentials();
       return undefined;
     }

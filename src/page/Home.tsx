@@ -38,7 +38,7 @@ export function Home() {
       const api = new MessageApi(config);
       const params = {
         userId: 'me',
-        q: 'mous',
+        // q: 'mous',
         fetchCount: 100
       };
       // const response = await api.getMessages(params);

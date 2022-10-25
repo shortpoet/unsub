@@ -2,20 +2,20 @@ export interface Session {
   accessToken: string;
   refreshToken: string;
   user: User;
-  organization: Organization;
+  account: Account;
 }
 
 export interface User {
   id: string;
   username: string;
-  role: string;
-  organizationId: string;
+  roles: string[];
+  accountId: string;
   email?: string;
   firstName?: string;
   lastName?: string;
 }
 
-type AllowdOrganizationTypes =
+type AllowdAccountTypes =
   | 'primary'
   | 'secondary'
   | 'tertiary'
@@ -27,23 +27,23 @@ type AllowdOrganizationTypes =
   | 'nonary'
   | 'denary';
 
-export interface Organization {
+export interface Account {
   id: string;
   name: string;
-  type: AllowdOrganizationTypes;
+  type: AllowdAccountTypes;
 }
 
 export const CARLOS: User = {
   id: '1',
   username: 'carlos',
-  role: 'admin',
-  organizationId: '1',
+  roles: ['admin', 'user'],
+  accountId: '1',
   email: 'carlos@shortpoet.com',
   firstName: 'Carlos',
   lastName: 'Soriano'
 };
 
-export const SHORTPOET: Organization = {
+export const SHORTPOET: Account = {
   id: '1',
   name: 'Shortpoet',
   type: 'primary'
@@ -53,5 +53,5 @@ export const SESSION: Session = {
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
   user: CARLOS,
-  organization: SHORTPOET
+  account: SHORTPOET
 };

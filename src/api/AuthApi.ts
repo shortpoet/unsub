@@ -1,7 +1,7 @@
 import { Api } from './Api';
 import { IApiConfig } from './IApi';
 import { storeCredentials } from './SecurityApi';
-import { Session, User, Organization, SESSION } from '../types/Session';
+import { Session, User, Account, SESSION } from '../types/Session';
 
 // export class AuthApi extends Api {
 //   constructor(config: IApiConfig) {
@@ -17,7 +17,7 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   user: User;
-  organization: Organization;
+  account: Account;
 }
 
 export async function validateUser(username: string, password: string) {
@@ -29,8 +29,8 @@ export async function validateUser(username: string, password: string) {
   // const { user: session } = await login(username, password);
   const session = await login(username, password);
   // const { accessToken, refreshToken } = await login(username, password);
-  // const { user, organization } = await getUser(accessToken);
-  // const session = { accessToken, refreshToken, user, organization };
+  // const { user, account } = await getUser(accessToken);
+  // const session = { accessToken, refreshToken, user, account };
   return session;
 }
 export async function refreshTokens(
