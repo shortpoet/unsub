@@ -13,11 +13,7 @@ import { Link } from 'react-router-dom';
 
 const HomeContainer = styled(Container)`
   background-color: ${myPalette.page.mediumGrey};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  padding: 1rem;
 `;
 
 function HomeButton(props: {
@@ -32,7 +28,7 @@ function HomeButton(props: {
       to={props.to}
       style={{
         display: 'flex',
-        margin: '1rem',
+        margin: '0rem 0rem 0.5rem 0rem',
         backgroundColor: myPalette.green.dark,
         color: 'white',
         fontWeight: 'bold',
@@ -59,15 +55,14 @@ export function Home() {
     <Page title="Home" showToolbar={showToolbar}>
       <PageToolbar>
         {/* <h1>Page toolbar</h1> */}
-        <Container maxWidth="xl">
-          {/* <h1>Home Container</h1> */}
-          <TopBar>
-            <AccountSwitch onChange={setAccount} />
-          </TopBar>
-        </Container>
+        {/* <Container maxWidth="xl"> */}
+        {/* <h1>Home Container</h1> */}
+        <TopBar>
+          <AccountSwitch onChange={setAccount} />
+        </TopBar>
+        {/* </Container> */}
       </PageToolbar>
       <HomeContainer maxWidth="xl">
-        <Title>Home</Title>
         <HomeButton to="/messages" variant="contained" text="Messages" />
       </HomeContainer>
     </Page>

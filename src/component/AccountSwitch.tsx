@@ -14,7 +14,6 @@ import { SelectInputProps } from '@mui/material/Select/SelectInput';
 
 const Switcher = styled.div`
   width: 100%;
-  margin-right: 1rem;
 `;
 
 // const Switcher = styled.div`
@@ -25,10 +24,8 @@ const Switcher = styled.div`
 // `;
 
 const AccountSelect = styled(Select)`
-  && {
-    width: 100%;
-    background-color: #fff;
-  }
+  width: 100%;
+  background-color: #fff;
 `;
 
 export function AccountSwitch(props: {

@@ -4,11 +4,12 @@ import { myPalette } from '../Theme';
 
 const PageBody = styled.div`
   background-color: ${myPalette.page.lightGrey};
-  padding: 0rem;
+  padding: 1rem;
+  margin: 1rem;
 `;
 
 const Toolbar = styled.div`
-  padding: 1rem 0;
+  padding: 0.5rem 1rem;
   background-color: ${myPalette.page.mediumGrey};
 `;
 

@@ -40,6 +40,9 @@ export const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
 `;
 
 export const Label = styled.label`
