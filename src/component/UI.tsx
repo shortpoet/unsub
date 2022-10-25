@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../Theme';
 
 const SectionBox = styled.div`
   position: relative;
-  padding: 1rem;
+  padding: 0rem;
   background-color: #fff;
-  margin: 1rem 0;
+  margin: 0rem;
   overflow: auto;
 `;
 
@@ -21,8 +22,10 @@ const SectionContentBox = styled.div`
   flex-flow: row wrap;
   justify-content: ${(props: { justify?: string }) =>
     props.justify || 'flex-start'};
+  background-color: ${props => props.theme.palette.primary.main};
   align-items: center;
   align-content: center;
+  width: 100%;
 `;
 
 const Heading = styled.h1`
@@ -104,9 +107,10 @@ export function SectionTitle(props: { children: React.ReactNode }) {
 export function SectionContent(props: {
   children: React.ReactNode;
   justify?: string | undefined;
+  theme?: any;
 }) {
   return (
-    <SectionContentBox justify={props.justify}>
+    <SectionContentBox justify={props.justify} theme={props.theme}>
       {props.children}
     </SectionContentBox>
   );

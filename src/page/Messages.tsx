@@ -12,16 +12,28 @@ import { CountSection } from '../component/section/CountSection';
 import { IApiConfig } from '../api/IApi';
 import { MessageApi } from '../api/MessageApi';
 import { GmailMessageDTO } from '../types/messageDTO';
-import { colorLog } from '../util/colorLog';
-import { inspect } from 'util';
-import { PrettyPrintJson } from '../component/Utils';
+import { Loading, PrettyPrintJson } from '../component/Utils';
 import { AccountSwitch } from '../component/AccountSwitch';
 import { Account } from '../types/Session';
 import styled from 'styled-components';
 import { myPalette } from '../Theme';
 
 const MessageContainer = styled(Container)`
-  background-color: ${myPalette.page.mediumGrey};
+  background-color: ${myPalette.page.lightGrey};
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: 0;
+  border: 1rem solid ${myPalette.deepPurple.dark};
+  width: 100vw;
+  height 79vh;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: scroll;
 `;
 
 export function Messages() {
@@ -86,14 +98,6 @@ export function Messages() {
     );
   }
 
-  function Loading() {
-    return (
-      <Container maxWidth="xl">
-        <SubTitle>Loading...</SubTitle>
-      </Container>
-    );
-  }
-
   return (
     <Page title="Messages" showToolbar={showToolbar}>
       <PageToolbar>
@@ -105,11 +109,8 @@ export function Messages() {
           </TopBar>
         </Container>
       </PageToolbar>
-
       {(messages.length > 0 && <Messages messages={messages} />) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
-      {/* {(messages && <Messages messages={messages} />) ||
-            (error && <PrettyPrintJson messages={errorJson} />) || <Loading />} */}
     </Page>
   );
 }

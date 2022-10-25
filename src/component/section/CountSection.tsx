@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Section, SectionContent } from '../UI';
 import { InfoBox, InfoBoxTitle, InfoBoxText } from '../InfoBox';
 import { GmailMessageDTO } from '../../types/messageDTO';
+import { theme } from '../../Theme';
 
 export function CountSection(props: { messages: GmailMessageDTO[] }) {
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
@@ -63,7 +64,7 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
 
   return (
     <Section>
-      <SectionContent justify="space-around">
+      <SectionContent justify="space-around" theme={theme}>
         {count.hasData > 0 ? (
           <InfoBox>
             <InfoBoxTitle>Count Has Data</InfoBoxTitle>

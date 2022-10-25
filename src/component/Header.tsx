@@ -23,7 +23,13 @@ const Bar = styled(AppBar)`
   background-color: ${myPalette.deepPurple.dark} !important;
   color: ${theme.palette.grey[400]} !important;
   box-shadow: none;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 0.125rem solid ${myPalette.text.mute};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: scroll;
 `;
 
 const User = styled.div`

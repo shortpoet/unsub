@@ -1,3 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+html { /* body won't work ¯\_(ツ)_/¯ */
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(100vh);
+  scroll-snap-type: y mandatory;
+  /* overflow: hidden; */
+}
+
+/* Although I'm told that html doesn't work in Safari 
+   and body does, so maybe use both? */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,6 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* background-color: #e9edf1; */
   font-size: 1 rem;
+  scroll-snap-type: y mandatory;
 }
 
 code {

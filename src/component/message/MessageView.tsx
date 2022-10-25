@@ -10,10 +10,30 @@ import { MessageApi } from '../../api/MessageApi';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { GmailMessageDTO } from '../../types/messageDTO';
 import { PrettyPrintJson } from '../Utils';
+import { myPalette } from '../../Theme';
+import styled from 'styled-components';
 
 export interface Message {
   id: string;
 }
+
+const MessageContainer = styled(Container)`
+  background-color: ${myPalette.page.lightGrey};
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: 1rem 0 0 0;
+  border: 0.5rem solid ${myPalette.deepPurple.dark};
+  width: 100vw;
+  height: 50vh;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: scroll;
+`;
 
 export function MessageView(props: { messages: GmailMessageDTO[] }) {
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
@@ -24,9 +44,9 @@ export function MessageView(props: { messages: GmailMessageDTO[] }) {
   }, [props]);
 
   return (
-    <Container maxWidth="lg">
+    <MessageContainer maxWidth="lg">
       <SubTitle>Messages</SubTitle>
       <PrettyPrintJson data={messages} />
-    </Container>
+    </MessageContainer>
   );
 }

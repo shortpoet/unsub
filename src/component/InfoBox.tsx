@@ -8,7 +8,7 @@ const Box = styled.div`
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   padding: 0.75rem 3rem;
-  margin: 0rem 0.25rem;
+  margin: 0.5rem 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;

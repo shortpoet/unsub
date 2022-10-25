@@ -1,36 +1,49 @@
 import { createTheme } from '@mui/material';
-import { green, deepPurple } from '@mui/material/colors';
+import { green, deepPurple, purple, grey } from '@mui/material/colors';
 
 export const myPalette = {
   green: {
     bright: green['A700'],
-    dark: green['900'],
-    mute: green['A400']
+    dark: green[900],
+    mute: green[400],
+    faded: green[50]
   },
   deepPurple: {
     bright: deepPurple['A700'],
-    dark: deepPurple['900'],
-    mute: deepPurple['A400']
+    dark: deepPurple[900],
+    mute: deepPurple[400],
+    faded: deepPurple[50]
+  },
+  purple: {
+    bright: purple['A700'],
+    dark: purple[900],
+    mute: purple[400],
+    faded: purple[50]
   },
   page: {
     lightGrey: '#e9edf1',
     mediumGrey: '#d4d8dc'
+  },
+  text: {
+    bright: grey[400],
+    dark: grey[800],
+    mute: grey['A400']
   }
 };
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6'
+      main: myPalette.deepPurple.mute
     },
     secondary: {
-      main: '#19857b'
+      main: myPalette.deepPurple.dark
     },
     error: {
       main: '#19857b'
     },
     background: {
-      default: '#fff'
+      default: myPalette.page.lightGrey
     },
     grey: {
       50: '#fafafa',
