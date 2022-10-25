@@ -9,7 +9,7 @@ export class MessageApi extends Api {
   public async getMessages(params?: any): Promise<any> {
     params = { params: { fetchCount: 10, ...params } };
     try {
-      return await this.get('/gmail-api/get/messages', params);
+      return await this.get('/api/get/messages', params);
     } catch (error) {
       console.log('MessageApi.getMessages error', error);
       return error;
@@ -18,7 +18,7 @@ export class MessageApi extends Api {
   public async getMessagesParsed(params?: any): Promise<any> {
     params = { params: { fetchCount: 10, ...params } };
     try {
-      return await this.get('/gmail-api/get/messages/parse', params);
+      return await this.get('/api/get/messages', params);
     } catch (error) {
       console.log('MessageApi.getMessagesParsed error', error);
       return error;
