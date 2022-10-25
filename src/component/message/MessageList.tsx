@@ -9,9 +9,29 @@ import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { GmailMessageDTO } from '../../types/messageDTO';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
+import { myPalette } from '../../Theme';
+import styled from 'styled-components';
 
-export function MessageList() {
-  const [messages, setMessages] = useState([] as string[]);
+const MessageContainer = styled(Container)`
+  background-color: ${myPalette.page.lightGrey};
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: 1rem 0 0 0;
+  border: 0.5rem solid ${myPalette.deepPurple.dark};
+  width: 100vw;
+  height: 50vh;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: scroll;
+`;
+
+export function MessageList(props: { messages: GmailMessageDTO[] }) {
+  const [messages, setMessages] = useState([] as GmailMessageDTO[]);
   // const [messageId, setMessageId] = useState('message_id');
 
   useCheckAuthentication();
@@ -34,29 +54,32 @@ export function MessageList() {
   //     console.log('error', error);
   //   });
   // }, [fetchData]);
-  useEffect((): any => {
-    let isSubscribed = true;
-    (async () => {
-      const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
-        timeout: 10000
-      };
-      const api = new MessageApi(config);
-      const params = {
-        userId: 'me',
-        q: 'google',
-        fetchCount: 50
-      };
-      // const response = await api.getMessages();
-      // const data = response.messages;
-      const response = await api.getMessages(params);
-      const data = response.dto;
-      if (isSubscribed && data) {
-        setMessages(data);
-      }
-    })();
-    return () => (isSubscribed = false);
-  }, []);
+  // useEffect((): any => {
+  //   let isSubscribed = true;
+  //   (async () => {
+  //     const config: IApiConfig = {
+  //       baseURL: 'http://localhost:3000',
+  //       timeout: 10000
+  //     };
+  //     const api = new MessageApi(config);
+  //     const params = {
+  //       userId: 'me',
+  //       q: 'google',
+  //       fetchCount: 50
+  //     };
+  //     // const response = await api.getMessages();
+  //     // const data = response.messages;
+  //     const response = await api.getMessages(params);
+  //     const data = response.dto;
+  //     if (isSubscribed && data) {
+  //       setMessages(data);
+  //     }
+  //   })();
+  //   return () => (isSubscribed = false);
+  // }, []);
+  useEffect(() => {
+    setMessages(props.messages);
+  }, [props]);
 
   let messageList: any = [];
   if (messages.length > 0) {

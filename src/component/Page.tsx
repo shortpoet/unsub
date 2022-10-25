@@ -28,10 +28,14 @@ const PageBody = styled.div`
 // `;
 
 const Toolbar = styled.div`
-  padding: 0.5rem 1rem;
   border-bottom: 0.0625rem solid ${myPalette.text.mute};
   background-color: ${myPalette.deepPurple.mute};
   color: ${myPalette.text.bright} !important;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
 `;
 
 export default function Page(props: {

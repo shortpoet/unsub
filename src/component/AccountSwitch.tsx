@@ -13,7 +13,9 @@ import { IApiConfig } from '../api/IApi';
 import { SelectInputProps } from '@mui/material/Select/SelectInput';
 
 const Switcher = styled.div`
-  width: 100%;
+  align-items: center;
+  margin: 0 0 1rem 0;
+  flex-grow: 0.25;
 `;
 
 // const Switcher = styled.div`

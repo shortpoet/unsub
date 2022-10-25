@@ -1,7 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import Page, { PageToolbar } from '../component/Page';
 import { TopBar } from '../component/UI';
-import { MessageView } from '../component/message/MessageView';
+import {
+  MessageView,
+  MessageViewTypes
+} from '../component/message/MessageView';
 import { MessageList } from '../component/message/MessageList';
 
 import { Container } from '@mui/material';
@@ -17,6 +20,7 @@ import { AccountSwitch } from '../component/AccountSwitch';
 import { Account } from '../types/Session';
 import styled from 'styled-components';
 import { myPalette } from '../Theme';
+import { ViewSwitch } from '../component/ViewSwitch';
 
 const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
@@ -28,6 +32,8 @@ const MessageContainer = styled(Container)`
   width: 100vw;
   height 79vh;
 
+  word-wrap: break-word;
+
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -35,6 +41,22 @@ const MessageContainer = styled(Container)`
   scroll-snap-align: start;
   overflow-y: scroll;
 `;
+
+function MessagesFC(props: {
+  messages: GmailMessageDTO[];
+  messageViewType: MessageViewTypes;
+}) {
+  const { messages, messageViewType } = props;
+  return (
+    <MessageContainer>
+      <SubTitle>Loaded Messages</SubTitle>
+      {messages.length > 0 && <CountSection messages={messages} />}
+      {messages.length > 0 && (
+        <MessageView messages={messages} messageViewType={messageViewType} />
+      )}
+    </MessageContainer>
+  );
+}
 
 export function Messages() {
   const [showToolbar, setShowToolbar] = useState(true);
@@ -47,6 +69,9 @@ export function Messages() {
 
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
   const [messageId, setMessageId] = useState('message_id');
+  const [messageViewType, setMessageViewType] = useState(
+    'raw' as MessageViewTypes
+  );
 
   useCheckAuthentication();
 
@@ -87,29 +112,19 @@ export function Messages() {
     setShowToolbar(event.target.value);
   };
 
-  function Messages(props: { messages: GmailMessageDTO[] }) {
-    const { messages } = props;
-    return (
-      <MessageContainer>
-        <SubTitle>Loaded Messages</SubTitle>
-        {messages.length > 0 && <CountSection messages={messages} />}
-        {messages.length > 0 && <MessageView messages={messages} />}
-      </MessageContainer>
-    );
-  }
-
   return (
     <Page title="Messages" showToolbar={showToolbar}>
       <PageToolbar>
-        {/* <h1>Page toolbar</h1> */}
         <Container maxWidth="xl">
-          {/* <h1>Home Container</h1> */}
           <TopBar>
             <AccountSwitch onChange={setAccount} />
+            <ViewSwitch onChange={setMessageViewType} />
           </TopBar>
         </Container>
       </PageToolbar>
-      {(messages.length > 0 && <Messages messages={messages} />) ||
+      {(messages.length > 0 && (
+        <MessagesFC messages={messages} messageViewType={messageViewType} />
+      )) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
     </Page>
   );

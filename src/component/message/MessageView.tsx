@@ -12,6 +12,7 @@ import { GmailMessageDTO } from '../../types/messageDTO';
 import { PrettyPrintJson } from '../Utils';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';
+import { MessageList } from './MessageList';
 
 export interface Message {
   id: string;
@@ -35,18 +36,35 @@ const MessageContainer = styled(Container)`
   overflow-y: scroll;
 `;
 
-export function MessageView(props: { messages: GmailMessageDTO[] }) {
-  const [messages, setMessages] = useState([] as GmailMessageDTO[]);
-  const [messageId, setMessageId] = useState('message_id');
+export type MessageViewTypes = 'raw' | 'list' | undefined;
 
-  useEffect(() => {
-    setMessages(props.messages);
-  }, [props]);
+export function MessageView(props: {
+  messages: GmailMessageDTO[];
+  messageViewType: MessageViewTypes;
+}) {
+  const { messages, messageViewType } = props;
+  const RenderSwitch = useCallback(
+    (props: { messageViewType: MessageViewTypes }) => {
+      switch (props.messageViewType) {
+        case 'raw':
+          return <PrettyPrintJson data={messages} />;
+        case 'list':
+          return <MessageList messages={messages} />;
+        default:
+          return <PrettyPrintJson data={messages} />;
+      }
+    },
+    [messages, messageViewType]
+  );
+
+  // useEffect(() => {
+  //   setMessages(props.messages);
+  // }, [props]);
 
   return (
     <MessageContainer maxWidth="lg">
       <SubTitle>Messages</SubTitle>
-      <PrettyPrintJson data={messages} />
+      <RenderSwitch messageViewType={messageViewType} />
     </MessageContainer>
   );
 }

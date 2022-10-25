@@ -10,7 +10,6 @@ export function PageRouter() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/messages" element={<Messages />} />
-      <Route path="/list" element={<MessageList />} />
       <Route path="/login" element={<LoginPage />} />
     </Routes>
   );

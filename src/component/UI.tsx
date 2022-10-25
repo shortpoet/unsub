@@ -41,11 +41,11 @@ const SubHeading = styled.h3`
 
 export const TopBar = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0.5rem 0;
-  margin: 0.5rem 0;
+  flex-grow: 1;
+  padding: 0rem 0rem;
+  & > * {
+    padding: 0.5rem 0.75rem 0.5rem 0rem;
+  }
 `;
 
 export const Label = styled.label`
