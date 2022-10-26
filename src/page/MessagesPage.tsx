@@ -30,8 +30,6 @@ const MessageContainer = styled(Container)`
   margin: 0;
   padding: 0;
   border: 0.5rem solid ${myPalette.deepPurple.dark};
-  width: 100vw;
-  height 81vh;
 
   word-wrap: break-word;
 

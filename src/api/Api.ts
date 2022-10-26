@@ -4,7 +4,9 @@ import { colorLog } from '../util/colorLog';
 import { IApi, IApiConfig, IApiError } from './IApi';
 import { getSession, refreshSession } from './SecurityApi';
 
-const API_URL = process.env.REACT_APP_API || 'http://localhost:3000';
+const PORT = process.env.PORT || 3000;
+const API_URL =
+  `http://${process.env.REACT_APP_API}:${PORT}` || `http://localhost:${PORT}`;
 // const API_URL = process.env.REACT_APP_API || 'http://localhost:8888';
 
 export class Api implements IApi {

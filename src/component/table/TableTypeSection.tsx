@@ -15,7 +15,7 @@ export function TableTypeSection(props: {
   title: string;
   types: typeof MESSAGE_TYPES;
   selectedType: TableType;
-  onChange: (type: TableType) => void;
+  onChange: (value: TableType) => void;
 }) {
   const { title, selectedType, onChange, types } = props;
   return (
@@ -26,7 +26,9 @@ export function TableTypeSection(props: {
           size="small"
           style={{ width: '10rem' }}
           value={selectedType}
-          onChange={e => onChange(e.target.value as TableType)}
+          onChange={(event, newTableType) => {
+            onChange(newTableType as TableType);
+          }}
           label="Table Type">
           {Object.keys(types).map(type => (
             <MenuItem key={type} value={type}>

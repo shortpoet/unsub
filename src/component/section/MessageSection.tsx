@@ -27,7 +27,7 @@ const MessageContainer = styled(Container)`
   border: 0.5rem solid ${myPalette.deepPurple.dark};
   border-radius: 0.25rem;
   width: 100vw;
-  height: 50vh;
+  height: 15rem;
 
   display: flex;
   flex-grow: 1;

@@ -11,6 +11,26 @@ import { colorLog } from '../../util/colorLog';
 import { Table } from '../Table';
 import { TableType, TableTypeSection } from '../table/TableTypeSection';
 import MESSAGE_TYPES from '../../types/MessageTypes';
+import { Container, styled } from '@mui/material';
+
+const TableContainer = styled(Container)`
+  background-color: ${myPalette.page.lightGrey};
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: 1rem 0 0 0;
+  border: 0.5rem solid ${myPalette.deepPurple.dark};
+  border-radius: 0.25rem;
+  width: 100vw;
+  height: 15rem;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  overflow-y: scroll;
+`;
 
 export function TableSection(props: { messages: GmailMessageDTO[] }) {
   const [messages, setMessages] = useState<GmailMessageDTO[]>([]);
@@ -56,20 +76,23 @@ export function TableSection(props: { messages: GmailMessageDTO[] }) {
   }, []);
 
   const handleTableTypeChange = (event: any) => {
-    setSelectedTableType(event.target.value);
+    const value = event.props.value;
+    setSelectedTableType(value);
   };
 
   return (
-    <Section>
-      <SectionTitle>Table</SectionTitle>
-      <TableTypeSection
-        title={MESSAGE_TYPES[selectedTableType].label}
-        types={MESSAGE_TYPES}
-        selectedType={selectedTableType}
-        onChange={handleTableTypeChange}
-      />
-      {/* <MessageDomains messages={messages} />
+    <TableContainer maxWidth="xl">
+      <Section>
+        <SectionTitle>Table</SectionTitle>
+        <TableTypeSection
+          title={MESSAGE_TYPES[selectedTableType].label}
+          types={MESSAGE_TYPES}
+          selectedType={selectedTableType}
+          onChange={handleTableTypeChange}
+        />
+        {/* <MessageDomains messages={messages} />
       <Table data={messages} columns={TABLES[]}/> */}
-    </Section>
+      </Section>
+    </TableContainer>
   );
 }
