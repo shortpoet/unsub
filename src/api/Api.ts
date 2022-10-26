@@ -21,7 +21,7 @@ export class Api implements IApi {
     url: string,
     data?: any | undefined,
     options?: any | undefined,
-    retry = 5,
+    retry = 1,
     forceRefresh?: boolean | undefined
   ): Promise<{ data: T }> {
     console.log('Api.callApi', method, url, data, options, retry, forceRefresh);
@@ -140,7 +140,8 @@ export class Api implements IApi {
           );
         }
       } else {
-        logout();
+        console.log('Api.callApi error', e);
+        // logout();
       }
       // throw new Error(e.response && e.response.data ? e.response.data.message : e.message);
       return Promise.reject(e.message);

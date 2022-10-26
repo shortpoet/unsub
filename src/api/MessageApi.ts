@@ -7,20 +7,26 @@ export class MessageApi extends Api {
     super(config);
   }
   public async getMessages(params?: any): Promise<any> {
-    params = { params: { fetchCount: 10, ...params } };
+    params = { fetchCount: 10, ...params };
     try {
-      const source = params.source || 'api';
-      return await this.get(`/${source}/message/get`, params);
+      if (params.source) {
+        return await this.get(`/api/${params.source}/message/get`, params);
+      }
+      return await this.get(`/api/message/get`, params);
     } catch (error) {
       console.log('MessageApi.getMessages error', error);
       return error;
     }
   }
   public async getDomains(params?: any): Promise<any> {
-    params = { params: { fetchCount: 10, ...params } };
+    params = { fetchCount: 10, ...params };
     try {
-      const source = params.source || 'api';
-      return await this.get(`/${source}/message/group`, params);
+      console.log('MessageApi.getDomains params', params);
+      console.log('source', params.source);
+      if (params.source) {
+        return await this.get(`/api/${params.source}/message/group`, params);
+      }
+      return await this.get(`/api/message/group`, params);
     } catch (error) {
       console.log('MessageApi.getDomains error', error);
       return error;

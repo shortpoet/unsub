@@ -127,7 +127,7 @@ export function MessagesPage() {
         <MessagesFC messages={messages} messageViewType={messageViewType} />
       )) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
-      <TableSection />
+      <TableSection messages={messages} />
     </Page>
   );
 }
