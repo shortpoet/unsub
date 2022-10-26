@@ -8,7 +8,7 @@ import { GmailMessageDTO } from '../../types/messageDTO';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { colorLog } from '../../util/colorLog';
-import { Table } from '../Table';
+import { Table } from '../table/Table';
 import { TableType, TableTypeSection } from '../table/TableTypeSection';
 import MESSAGE_TYPES from '../../types/MessageTypes';
 import { Container, styled } from '@mui/material';
@@ -22,7 +22,6 @@ const TableContainer = styled(Container)`
   border: 0.5rem solid ${myPalette.deepPurple.dark};
   border-radius: 0.25rem;
   width: 100vw;
-  height: 15rem;
 
   display: flex;
   flex-grow: 1;
@@ -32,7 +31,7 @@ const TableContainer = styled(Container)`
   overflow-y: scroll;
 `;
 
-export function TableSection(props: { messages: GmailMessageDTO[] }) {
+export function TableSection() {
   const [messages, setMessages] = useState<GmailMessageDTO[]>([]);
   const [selectedTableType, setSelectedTableType] =
     useState<TableType>('HAS_DATA');
@@ -50,15 +49,15 @@ export function TableSection(props: { messages: GmailMessageDTO[] }) {
       const params = {
         userId: 'me',
         // q: 'mous',
-        fetchCount: 100,
-        source: 'google'
+        fetchCount: 100
       };
       // const response = await api.getMessages(params);
       // const data = response.messages;
       try {
         colorLog('getting domains');
-        const response = await api.getDomains(params);
+        const response = await api.getMessages(params);
         console.log(response);
+        console.log(messages);
         // console.log(inspect(response, { depth: 5, colors: false }));
         if (response.data) {
           // setMessages(response.data);
@@ -90,8 +89,8 @@ export function TableSection(props: { messages: GmailMessageDTO[] }) {
           selectedType={selectedTableType}
           onChange={handleTableTypeChange}
         />
-        {/* <MessageDomains messages={messages} />
-      <Table data={messages} columns={TABLES[]}/> */}
+        {/* <MessageDomains /> */}
+        {tableData && <Table data={tableData} columns={TABLES['BASE']} />}
       </Section>
     </TableContainer>
   );

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { GmailMessageDTO } from '../../types/messageDTO';
+import { colorLog } from '../../util/colorLog';
+import { MessageApi } from '../../api/MessageApi';
+import { IApiConfig } from '../../api/IApi';
 
 const Bar = styled.div`
   display: flex;
@@ -15,14 +18,51 @@ const Bar = styled.div`
 `;
 
 export function MessageDomains(props: {
-  domains: GmailMessageDTO['domain'][];
+  domains?: GmailMessageDTO['domain'][];
 }) {
-  const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+  const [errorJson, setErrorJson] = useState('');
+  const [messageDomains, setMessageDomains] = useState();
 
   useEffect(() => {
-    setDomains(props.domains);
-  }, [props.domains]);
+    (async () => {
+      const config: IApiConfig = {
+        baseURL: 'http://localhost:3000',
+        timeout: 10000
+      };
+      const api = new MessageApi(config);
+      const params = {
+        userId: 'me',
+        // q: 'mous',
+        fetchCount: 100,
+        source: 'google'
+      };
+      // const response = await api.getMessages(params);
+      // const data = response.messages;
+      try {
+        colorLog('getting domains');
+        const response = await api.getDomains(params);
+        console.log(response);
+        // console.log(inspect(response, { depth: 5, colors: false }));
+        if (response.data) {
+          // setMessages(response.data);
+          setMessageDomains(response.data);
+        }
+        if (response.error) {
+          console.error(response.error);
+          setError(true);
+          setErrorJson(response.error);
+        }
+      } catch (e) {
+        console.error('[error]', e);
+      }
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   setDomains(props.domains);
+  // }, [props.domains]);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -30,6 +70,18 @@ export function MessageDomains(props: {
   ) => {
     setSelectedDomain(newDomain);
   };
+  const domains = messageDomains || props.domains || [];
+  const countedDomains = domains.reduce((acc, domain) => {
+    if (acc[domain]) {
+      acc[domain] += 1;
+    } else {
+      acc[domain] = 1;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+  const domainList = Object.keys(countedDomains).sort((a, b) => {
+    return countedDomains[b] - countedDomains[a];
+  });
 
   return (
     <Bar>
@@ -39,7 +91,7 @@ export function MessageDomains(props: {
         exclusive
         onChange={handleChange}
         aria-label="text alignment">
-        {domains.map(domain => (
+        {domainList.map(domain => (
           <ToggleButton
             size="small"
             key={domain}
