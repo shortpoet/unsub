@@ -23,6 +23,7 @@ const SectionContentBox = styled.div`
   justify-content: ${(props: { justify?: string }) =>
     props.justify || 'flex-start'};
   background-color: ${props => props.theme.palette.primary.main};
+  border-radius: 0.25rem;
   align-items: center;
   align-content: center;
   width: 100%;

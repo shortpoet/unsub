@@ -18,11 +18,16 @@ const FooterBar = styled.footer`
 const AUTHOR = 'Carlos Soriano';
 const ORG = 'Shortpoet';
 
-export function Footer() {
+export function Footer(props: { theme: any }) {
   return (
     <FooterBar>
       <p>
-        Made with <FontAwesomeIcon icon={faHeart} /> by {AUTHOR}
+        Made with{' '}
+        <FontAwesomeIcon
+          icon={faHeart}
+          color={props.theme.palette.primary.main}
+        />{' '}
+        by {AUTHOR}
         {'      '}
         <small>
           <a href={`/`}>Unsub App</a> is a project by{'    '}

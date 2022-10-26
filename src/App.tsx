@@ -52,7 +52,7 @@ function App() {
           <Sidebar />
           <PageRouter />
           <SnackbarMessages />
-          <Footer />
+          <Footer theme={theme} />
           {session && <IdleTimer />}
         </SnackbarProvider>
       </Router>

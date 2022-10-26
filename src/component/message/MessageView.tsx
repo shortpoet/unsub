@@ -25,6 +25,7 @@ const MessageContainer = styled(Container)`
   padding: 1rem;
   margin: 1rem 0 0 0;
   border: 0.5rem solid ${myPalette.deepPurple.dark};
+  border-radius: 0.25rem;
   width: 100vw;
   height: 50vh;
 
@@ -62,7 +63,7 @@ export function MessageView(props: {
   // }, [props]);
 
   return (
-    <MessageContainer maxWidth="lg">
+    <MessageContainer maxWidth="xl">
       <SubTitle>Messages</SubTitle>
       <RenderSwitch messageViewType={messageViewType} />
     </MessageContainer>

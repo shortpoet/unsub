@@ -5,7 +5,7 @@ const bc = '#d9d9d9';
 const Box = styled.div`
   background-color: #f5f5f5;
   border: 1px solid ${bc};
-  border-radius: 4px;
+  border-radius: 0.25rem;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   padding: 0.75rem 3rem;
   margin: 0.5rem 0.5rem;

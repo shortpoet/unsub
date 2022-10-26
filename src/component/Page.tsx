@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { myPalette } from '../Theme';
 
 const PageBody = styled.div`
-  background-color: ${myPalette.page.lightGrey};
+  background-color: ${myPalette.page.purpleStop};
   padding: 0rem;
   margin: 0rem;
   height: 100vh;
@@ -28,7 +28,6 @@ const PageBody = styled.div`
 // `;
 
 const Toolbar = styled.div`
-  border-bottom: 0.0625rem solid ${myPalette.text.mute};
   background-color: ${myPalette.deepPurple.mute};
   color: ${myPalette.text.bright} !important;
   display: flex;

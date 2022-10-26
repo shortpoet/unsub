@@ -47,8 +47,8 @@ const AUTHOR = 'Carlos Soriano';
 const ORG = 'Shortpoet';
 
 export function IdleTimer() {
-  const timeout = 1000 * 60 * 60 * 1;
-  const promptTimeout = 1000 * 60 * 60 * 0.5;
+  const timeout = 1000 * 60 * 60 * 0.5;
+  const promptTimeout = 1000 * 60 * 60 * 0.35;
 
   const [remaining, setRemaining] = useState(timeout);
   const [elapsed, setElapsed] = useState(0);

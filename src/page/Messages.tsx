@@ -26,11 +26,11 @@ const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
   box-sizing: border-box;
-  padding: 1rem;
   margin: 0;
-  border: 1rem solid ${myPalette.deepPurple.dark};
+  padding: 0;
+  border: 0.5rem solid ${myPalette.deepPurple.dark};
   width: 100vw;
-  height 79vh;
+  height 81vh;
 
   word-wrap: break-word;
 
@@ -48,7 +48,7 @@ function MessagesFC(props: {
 }) {
   const { messages, messageViewType } = props;
   return (
-    <MessageContainer>
+    <MessageContainer maxWidth="xl">
       <SubTitle>Loaded Messages</SubTitle>
       {messages.length > 0 && <CountSection messages={messages} />}
       {messages.length > 0 && (

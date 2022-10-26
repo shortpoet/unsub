@@ -22,7 +22,9 @@ export const myPalette = {
   },
   page: {
     lightGrey: '#e9edf1',
-    mediumGrey: '#d4d8dc'
+    mediumGrey: '#d4d8dc',
+    huskyGrey: '#c0c4c8',
+    purpleStop: '#8c0137'
   },
   text: {
     bright: grey[400],
