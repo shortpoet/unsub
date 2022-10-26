@@ -5,10 +5,10 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@mui/material';
-import { Label } from './UI';
-import { myPalette } from '../Theme';
+import { Label } from '../UI';
+import { myPalette } from '../../Theme';
 import styled from 'styled-components';
-import { MessageViewTypes } from './message/MessageView';
+import { MessageSectionTypes } from '../section/MessageSection';
 
 const ViewFormControl = styled.div`
   flex-grow: 1;
@@ -40,22 +40,22 @@ const ViewButton = styled(ToggleButton)`
   }
 `;
 
-export function ViewSwitch(props: {
-  onChange: (viewType: MessageViewTypes) => void;
+export function MessageViewSwitch(props: {
+  onChange: (viewType: MessageSectionTypes) => void;
 }) {
-  const [messageViewType, setMessageViewType] = useState(
-    'raw' as MessageViewTypes
+  const [messageViewType, setMessageSectionType] = useState(
+    'raw' as MessageSectionTypes
   );
 
   const location = useLocation();
 
   useEffect(() => {
-    props.onChange(messageViewType as unknown as MessageViewTypes);
+    props.onChange(messageViewType as unknown as MessageSectionTypes);
   }, [messageViewType]);
 
   // const handleChange = (event: SelectChangeEvent<unknown>) => {
-  //   const value = event.target.value as MessageViewTypes;
-  //   setMessageViewType(value);
+  //   const value = event.target.value as MessageSectionTypes;
+  //   setMessageSectionType(value);
   //   // if (props.onChange) {
   //   //   props.onChange(value === 'primary' ? 'primary' : value);
   //   // }
@@ -71,7 +71,7 @@ export function ViewSwitch(props: {
         exclusive
         onChange={(event, newViewType) => {
           if (newViewType !== null) {
-            setMessageViewType(newViewType);
+            setMessageSectionType(newViewType);
           }
         }}>
         <ViewButton size="small" value="raw">

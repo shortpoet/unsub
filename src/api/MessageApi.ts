@@ -16,4 +16,14 @@ export class MessageApi extends Api {
       return error;
     }
   }
+  public async getDomains(params?: any): Promise<any> {
+    params = { params: { fetchCount: 10, ...params } };
+    try {
+      const source = params.source || 'api';
+      return await this.get(`/${source}/message/group`, params);
+    } catch (error) {
+      console.log('MessageApi.getDomains error', error);
+      return error;
+    }
+  }
 }

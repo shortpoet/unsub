@@ -12,7 +12,7 @@ import { GmailMessageDTO } from '../../types/messageDTO';
 import { PrettyPrintJson } from '../Utils';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';
-import { MessageList } from './MessageList';
+import { MessageList } from '../message/MessageList';
 
 export interface Message {
   id: string;
@@ -37,15 +37,15 @@ const MessageContainer = styled(Container)`
   overflow-y: scroll;
 `;
 
-export type MessageViewTypes = 'raw' | 'list' | undefined;
+export type MessageSectionTypes = 'raw' | 'list' | undefined;
 
-export function MessageView(props: {
+export function MessageSection(props: {
   messages: GmailMessageDTO[];
-  messageViewType: MessageViewTypes;
+  messageViewType: MessageSectionTypes;
 }) {
   const { messages, messageViewType } = props;
   const RenderSwitch = useCallback(
-    (props: { messageViewType: MessageViewTypes }) => {
+    (props: { messageViewType: MessageSectionTypes }) => {
       switch (props.messageViewType) {
         case 'raw':
           return <PrettyPrintJson data={messages} />;

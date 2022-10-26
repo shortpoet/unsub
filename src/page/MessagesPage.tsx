@@ -1,10 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import Page, { PageToolbar } from '../component/Page';
 import { TopBar } from '../component/UI';
-import {
-  MessageView,
-  MessageViewTypes
-} from '../component/message/MessageView';
 import { MessageList } from '../component/message/MessageList';
 
 import { Container } from '@mui/material';
@@ -20,7 +16,12 @@ import { AccountSwitch } from '../component/AccountSwitch';
 import { Account } from '../types/Session';
 import styled from 'styled-components';
 import { myPalette } from '../Theme';
-import { ViewSwitch } from '../component/ViewSwitch';
+import { MessageViewSwitch } from '../component/message/MessageViewSwitch';
+import {
+  MessageSection,
+  MessageSectionTypes
+} from '../component/section/MessageSection';
+import { TableSection } from '../component/section/TableSection';
 
 const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
@@ -44,7 +45,7 @@ const MessageContainer = styled(Container)`
 
 function MessagesFC(props: {
   messages: GmailMessageDTO[];
-  messageViewType: MessageViewTypes;
+  messageViewType: MessageSectionTypes;
 }) {
   const { messages, messageViewType } = props;
   return (
@@ -52,13 +53,13 @@ function MessagesFC(props: {
       <SubTitle>Loaded Messages</SubTitle>
       {messages.length > 0 && <CountSection messages={messages} />}
       {messages.length > 0 && (
-        <MessageView messages={messages} messageViewType={messageViewType} />
+        <MessageSection messages={messages} messageViewType={messageViewType} />
       )}
     </MessageContainer>
   );
 }
 
-export function Messages() {
+export function MessagesPage() {
   const [showToolbar, setShowToolbar] = useState(true);
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
@@ -69,8 +70,8 @@ export function Messages() {
 
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
   const [messageId, setMessageId] = useState('message_id');
-  const [messageViewType, setMessageViewType] = useState(
-    'raw' as MessageViewTypes
+  const [messageViewType, setMessageSectionType] = useState(
+    'raw' as MessageSectionTypes
   );
 
   useCheckAuthentication();
@@ -118,7 +119,7 @@ export function Messages() {
         <Container maxWidth="xl">
           <TopBar>
             <AccountSwitch onChange={setAccount} />
-            <ViewSwitch onChange={setMessageViewType} />
+            <MessageViewSwitch onChange={setMessageSectionType} />
           </TopBar>
         </Container>
       </PageToolbar>
@@ -126,6 +127,7 @@ export function Messages() {
         <MessagesFC messages={messages} messageViewType={messageViewType} />
       )) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
+      <TableSection />
     </Page>
   );
 }
