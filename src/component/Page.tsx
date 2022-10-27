@@ -8,9 +8,6 @@ const PageBody = styled.div`
   margin: 0rem;
   height: 100vh;
   width: 100vw;
-
-  scroll-snap-align: start;
-  position: relative;
 `;
 
 // const PageBody = styled.div`

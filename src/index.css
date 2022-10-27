@@ -3,9 +3,9 @@
 }
 
 html { /* body won't work ¯\_(ツ)_/¯ */
-  scroll-snap-type: mandatory;
+  /* scroll-snap-type: mandatory;
   scroll-snap-points-y: repeat(100vh);
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y mandatory; */
   /* overflow: hidden; */
 }
 

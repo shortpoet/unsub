@@ -33,7 +33,6 @@ const MessageContainer = styled(Container)`
   flex-grow: 1;
   flex-direction: column;
   justify-content: center;
-  scroll-snap-align: start;
   overflow-y: scroll;
 `;
 

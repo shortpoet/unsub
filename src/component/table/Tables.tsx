@@ -2,31 +2,31 @@ import { id } from 'date-fns/locale';
 
 const TABLES = {
   BASE: [
-    { field: 'id', headerName: 'ID', width: 50 },
-    { field: 'labelIds', headerName: 'Label IDs' },
-    { field: 'snippet', headerName: 'Snippet' },
-    { field: 'internalDate', headerName: 'Internal Date', width: 50 },
-    { field: 'dateParsed', headerName: 'Date Parsed', width: 50 },
-    { field: 'from', headerName: 'From' },
-    { field: 'received', headerName: 'Received' },
-    { field: 'receivedSPF', headerName: 'Received SPF' },
-    { field: 'subject', headerName: 'Subject' },
+    // { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'gmailId', headerName: 'Gmail Id', flex: 1 },
+    // { field: 'labelIds', headerName: 'Label IDs', flex: 3 },
+    // { field: 'snippet', headerName: 'Snippet', flex: 3 },
+    // { field: 'internalDate', headerName: 'Internal Date', flex: 1 },
+    // { field: 'dateParsed', headerName: 'Date Parsed', flex: 1 },
+    { field: 'from', headerName: 'From', flex: 3 },
+    { field: 'received', headerName: 'Received', flex: 3 },
+    { field: 'receivedSPF', headerName: 'Received SPF', flex: 3 },
+    { field: 'subject', headerName: 'Subject', flex: 3 },
     {
       field: 'listUnsubscribe',
-      headerName: 'List Unsubscribe',
-      width: 100,
+      headerName: 'Click me maybe...',
       renderCell: (params: any) => (
         <a href={params.row.listUnsubscribe} target="_blank" rel="noreferrer">
-          Click me maybe...
+          {params.row.listUnsubscribe}
         </a>
-      )
+      ),
+      flex: 12
     },
-    { field: 'messageId', headerName: 'Message ID', width: 50 },
-    { field: 'status', headerName: 'Status', width: 50 },
-    { field: 'link', headerName: 'Link', width: 50 },
-    { field: 'links', headerName: 'Links', width: 50 },
-    { field: 'googleSheetsLink', headerName: 'Google Sheets Link', width: 50 },
-    { field: 'domain', headerName: 'Domain', width: 50 }
+    { field: 'status', headerName: 'Status', flex: 3 },
+    // { field: 'link', headerName: 'Link', flex: 3 },
+    // { field: 'links', headerName: 'Links', flex: 9 },
+    // { field: 'googleSheetsLink', headerName: 'Google Sheets Link', flex: 3 },
+    { field: 'domain', headerName: 'Domain', flex: 3 }
   ]
 };
 

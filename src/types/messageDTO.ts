@@ -1,5 +1,5 @@
 interface MessageDTO {
-  id: string;
+  gmailId: string;
   labelIds: string[];
   snippet: string;
   internalDate: string;
@@ -25,7 +25,7 @@ const domain_regex = /@([a-zA-Z0-9-.]+)/;
 
 export class GmailMessageDTO implements Required<MessageDTO> {
   constructor({
-    id,
+    gmailId,
     labelIds,
     snippet,
     internalDate,
@@ -38,7 +38,7 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     links,
     status
   }: {
-    id: string;
+    gmailId: string;
     labelIds: string[];
     snippet: string;
     internalDate: string;
@@ -59,7 +59,7 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     googleSheetsLink?: string | null;
     domain?: string | null;
   }) {
-    this.id = id;
+    this.gmailId = gmailId;
     this.labelIds = labelIds;
     this.dateParsed = dateParsed;
     this.internalDate = internalDate;
@@ -70,12 +70,12 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     this.listUnsubscribe = listUnsubscribe || '';
     this.snippet = snippet || '';
     this.status = status || null;
-    this.link = `https://mail.google.com/mail/u/0/#inbox/${id}`;
+    this.link = `https://mail.google.com/mail/u/0/#inbox/${gmailId}`;
     this.links = links || [];
-    this.googleSheetsLink = `=HYPERLINK("https://mail.google.com/mail/u/0/#inbox/${this.id}#", "View")`;
+    this.googleSheetsLink = `=HYPERLINK("https://mail.google.com/mail/u/0/#inbox/${this.gmailId}#", "View")`;
     this.domain = this.from.match(domain_regex)?.[1] || '';
   }
-  id: string;
+  gmailId: string;
   labelIds: string[];
   snippet: string;
   internalDate: string;
