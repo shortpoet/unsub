@@ -26,15 +26,15 @@ export class Api implements IApi {
     retry = 1,
     forceRefresh?: boolean | undefined
   ): Promise<{ data: T }> {
-    console.log('Api.callApi', method, url, data, options, retry, forceRefresh);
-    console.log({
-      method: method,
-      url: url,
-      data: data,
-      options: options,
-      retry: retry,
-      forceRefresh: forceRefresh
-    });
+    // console.log('Api.callApi', method, url, data, options, retry, forceRefresh);
+    // console.log({
+    //   method: method,
+    //   url: url,
+    //   data: data,
+    //   options: options,
+    //   retry: retry,
+    //   forceRefresh: forceRefresh
+    // });
     // const headers = {};
 
     let session = getSession();
@@ -100,7 +100,7 @@ export class Api implements IApi {
         return { data: response.data as T };
       }
 
-      console.log('Api.callApi response', response);
+      // console.log('Api.callApi response', response);
 
       return { data: response.data as T };
     } catch (e: any) {

@@ -27,7 +27,7 @@ export function Table(props: {
     setData(props.data);
     setColumns(props.columns);
     console.log('data set for table', data);
-  }, []);
+  }, [props.data]);
 
   return (
     <Box>

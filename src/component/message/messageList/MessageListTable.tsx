@@ -25,7 +25,7 @@ export type MessageTableData = {
 export function MessageListTable(props: { message: GmailMessageDTO }) {
   const [selectedTableType, setSelectedTableType] =
     useState<ElementTypes>('input');
-  const [tableData, setTableData] = useState<MessageTableData[]>();
+  // const [tableData, setTableData] = useState<MessageTableData[]>();
   const [selectedData, setSelectedData] = useState<MessageTableData[]>();
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
@@ -59,9 +59,10 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
   );
 
   useEffect(() => {
+    console.log('[useEffect to getTableData]', selectedTableType);
     getTableData(selectedTableType)
       .then(data => {
-        setTableData(data);
+        // setTableData(data);
         setSelectedData(data);
       })
       .catch(error => {
@@ -70,22 +71,27 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
       });
   }, [selectedTableType]);
 
-  const setData = (selection: string, data = tableData) =>
-    setSelectedData(data);
+  // const setData = (selection: string, data = tableData) =>
+  //   setSelectedData(data);
 
-  const handleTableSelection = async (event: any) => {
+  const _handleTableSelection = async (event: any) => {
     console.log('[handleTableSelection]', event);
     const selection = event.target.value;
     console.log('[handleTableSelection] selection', selection);
     await setSelectedTableType(selection);
     try {
       const data = await getTableData(selection);
+      console.log('[handleTableSelection] data', data);
       setSelectedData(data);
     } catch (error) {
       setError(true);
       setErrorJson(JSON.stringify(error));
     }
   };
+
+  const handleTableSelection = useCallback(_handleTableSelection, [
+    selectedTableType
+  ]);
 
   return (
     <TableContainer>
@@ -97,7 +103,7 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
           onChange={handleTableSelection}
         />
         {/* <MessageDomains /> */}
-        {tableData && (
+        {selectedData && (
           <Table
             data={selectedData}
             columns={TABLES['ELEMENT_TYPE']}
