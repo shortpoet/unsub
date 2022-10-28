@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Container, Divider } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 
 // import Page, { PageToolbar } from '../component/Page';
 // import { TopBar } from '../component/UI';
@@ -18,23 +18,17 @@ import {
 } from '@mui/material';
 import { PuppeteerApi } from '../../../api/PuppeteerApi';
 
-const MessageContainer = styled(Container)`
+const MessageListBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
-  box-sizing: border-box;
-  padding: 1rem;
-  margin: 1rem 0 0 0;
-  border: 0.5rem solid ${myPalette.deepPurple.dark};
-  width: 100vw;
-  height: 50vh;
-
+  width: 50%;
   display: flex;
+  flex-direction: row;
   flex-grow: 1;
-  flex-direction: column;
-  justify-content: center;
-  scroll-snap-align: start;
-  overflow-y: scroll;
 `;
+// justify-content: center;
+// scroll-snap-align: start;
+// overflow-y: scroll;
 
 export function MessageListView(props: { message: GmailMessageDTO }) {
   const [message, setMessages] = useState(props.message);
@@ -44,7 +38,7 @@ export function MessageListView(props: { message: GmailMessageDTO }) {
     setMessages(props.message);
   }, [props]);
   return (
-    <MessageContainer maxWidth="lg">
+    <MessageListBox>
       <div key={message.gmailId}>
         <h3>{message.from}</h3>
         <h5>{message.subject}</h5>
@@ -52,8 +46,7 @@ export function MessageListView(props: { message: GmailMessageDTO }) {
         {message.status === 'HAS_MAILTO' && <p>Has mailto</p>}
         <p>{message.status}</p>
         <a href={message.listUnsubscribe}>unsub from {message.domain}</a>
-        <Divider />
       </div>
-    </MessageContainer>
+    </MessageListBox>
   );
 }

@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Container, Divider } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 
 import { GmailMessageDTO } from '../../types/messageDTO';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
@@ -8,21 +8,17 @@ import styled from 'styled-components';
 import { MessageListView } from './messageList/MessageListView';
 import { MessageControlPanel } from './messageList/MessageControlPanel';
 
-const MessageListContainer = styled(Container)`
+const MessageBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
   box-sizing: border-box;
-  padding: 1rem;
-  margin: 1rem 0 0 0;
-  width: 100vw;
-  height: 50vh;
 
   display: flex;
   flex-grow: 1;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  scroll-snap-align: start;
-  overflow-y: scroll;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export function MessageList(props: { messages: GmailMessageDTO[] }) {
@@ -36,13 +32,14 @@ export function MessageList(props: { messages: GmailMessageDTO[] }) {
 
   // regular (non-memoized) version of this function also works)
   return (
-    <MessageListContainer maxWidth="lg">
+    <Box>
       {messages.map(message => (
-        <>
-          <MessageListView message={message} />
+        <MessageBox sx={{ flexDirection: 'row' }}>
           <MessageControlPanel message={message} />
-        </>
+          <MessageListView message={message} />
+          <Divider />
+        </MessageBox>
       ))}
-    </MessageListContainer>
+    </Box>
   );
 }

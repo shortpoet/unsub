@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Container, Divider } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 
 // import Page, { PageToolbar } from '../component/Page';
 // import { TopBar } from '../component/UI';
@@ -18,23 +18,18 @@ import {
 } from '@mui/material';
 import { PuppeteerApi } from '../../../api/PuppeteerApi';
 
-const MessageContainer = styled(Container)`
+const MessageListBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
-  box-sizing: border-box;
-  padding: 1rem;
-  margin: 1rem 0 0 0;
-  border: 0.5rem solid ${myPalette.deepPurple.dark};
-  width: 100vw;
-  height: 50vh;
+  width: 50%;
 
   display: flex;
   flex-grow: 1;
-  flex-direction: column;
-  justify-content: center;
-  scroll-snap-align: start;
-  overflow-y: scroll;
+  flex-direction: row;
 `;
+// justify-content: center;
+// scroll-snap-align: start;
+// overflow-y: scroll;
 
 const ViewFormControl = styled.div`
   flex-grow: 1;
@@ -46,7 +41,6 @@ const ToggleViewGroup = styled(ToggleButtonGroup)`
 `;
 
 const ViewButton = styled(ToggleButton)`
-  flex-grow: 1;
   margin: 0.5rem;
   justify-content: space-between;
   && {
@@ -89,7 +83,7 @@ export function MessageControlPanel(props: { message: GmailMessageDTO }) {
     []
   );
   return (
-    <MessageContainer maxWidth="lg">
+    <MessageListBox>
       <ViewButton
         value={message.gmailId}
         onClick={async () => {
@@ -117,6 +111,6 @@ export function MessageControlPanel(props: { message: GmailMessageDTO }) {
             </ViewButton>
           </ToggleViewGroup>
         </ViewFormControl> */}
-    </MessageContainer>
+    </MessageListBox>
   );
 }
