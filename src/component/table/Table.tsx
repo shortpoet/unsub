@@ -26,7 +26,7 @@ export function Table(props: {
   useEffect(() => {
     setData(props.data);
     setColumns(props.columns);
-    console.log('data set for table', data);
+    // console.log('data set for table', data);
   }, [props.data]);
 
   return (

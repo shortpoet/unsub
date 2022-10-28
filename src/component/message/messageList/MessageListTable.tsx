@@ -62,6 +62,14 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
   useEffect(() => {
     getTableData(selectedTableType)
       .then(data => {
+        if (data && data.length === 0) {
+          data = [
+            {
+              id: `${selectedTableType}-NO_DATA`,
+              NO_DATA: `${selectedTableType}-NO_DATA`
+            }
+          ];
+        }
         const allCols = data.reduce((acc: any, curr: any) => {
           return { ...acc, ...curr };
         }, {});
