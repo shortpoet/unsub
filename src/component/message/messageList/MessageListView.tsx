@@ -38,14 +38,14 @@ const MessageListInfo = (props: { message: GmailMessageDTO }) => {
 const MessageListPuppeteerElements = (props: { message: GmailMessageDTO }) => {
   const { message } = props;
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+    <MessageListBox
+      sx={{ display: 'flex', flexDirection: 'column' }}
       key={message.gmailId}>
       <SubTitle>{message.subject}</SubTitle>
       <Label>{message.from}</Label>
       <Label>{message.subject}</Label>
       <Label>{message.status}</Label>
-    </Box>
+    </MessageListBox>
   );
 };
 

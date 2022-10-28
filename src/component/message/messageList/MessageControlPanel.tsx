@@ -16,7 +16,7 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@mui/material';
-import { PuppeteerApi } from '../../../api/PuppeteerApi';
+import { PuppeteerApi, PuppeteerParams } from '../../../api/PuppeteerApi';
 
 const MessageListBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
@@ -90,12 +90,27 @@ export function MessageControlPanel(props: {
     },
     []
   );
+  const getPuppeteerElements = useCallback(async (params: PuppeteerParams) => {
+    const config: IApiConfig = {
+      baseURL: 'http://localhost:3000',
+      timeout: 10000
+    };
+    const api = new PuppeteerApi(config);
+    const response = await api.getElements(params);
+    console.log('getPuppeteerElements - response', response);
+  }, []);
   return (
     <MessageListBox>
       <ViewButton
         value={message.gmailId}
         onClick={async () => {
-          await runPuppeteer({ gmailIds: [message.gmailId] });
+          if (message.status === 'HAS_MAILTO') {
+            console.log('message has mailto', message.mailto);
+          }
+          await getPuppeteerElements({
+            gmailIds: [message.gmailId],
+            elementType: 'input'
+          });
         }}>
         unsub {message.domain}
       </ViewButton>
@@ -108,7 +123,6 @@ export function MessageControlPanel(props: {
           exclusive
           onChange={(event, newViewType) => {
             if (newViewType !== null) {
-              console.log('newViewType', newViewType);
               setMessageListViewType(newViewType);
             }
           }}>
