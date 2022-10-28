@@ -27,6 +27,12 @@ const TABLES = {
     // { field: 'links', headerName: 'Links', flex: 9 },
     // { field: 'googleSheetsLink', headerName: 'Google Sheets Link', flex: 3 },
     { field: 'domain', headerName: 'Domain', flex: 3 }
+  ],
+  ELEMENT_TYPE: [
+    { field: 'name', headerName: 'ID', flex: 2 },
+    { field: 'elementType', headerName: 'Element Type', flex: 1 },
+    { field: 'value', headerName: 'Value', flex: 2 },
+    { field: 'text', headerName: 'Text', flex: 2 }
   ]
 };
 

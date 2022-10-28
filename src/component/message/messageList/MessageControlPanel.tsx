@@ -90,28 +90,19 @@ export function MessageControlPanel(props: {
     },
     []
   );
-  const getPuppeteerElements = useCallback(async (params: PuppeteerParams) => {
-    const config: IApiConfig = {
-      baseURL: 'http://localhost:3000',
-      timeout: 10000
-    };
-    const api = new PuppeteerApi(config);
-    const response = await api.getElements(params);
-    console.log('getPuppeteerElements - response', response);
-  }, []);
+  const handlePuppeteerClick = async () => {
+    if (message.status === 'HAS_MAILTO') {
+      console.log('message has mailto', message.mailto);
+    }
+    await runPuppeteer({
+      gmailIds: [message.gmailId]
+    });
+  };
   return (
     <MessageListBox>
       <ViewButton
         value={message.gmailId}
-        onClick={async () => {
-          if (message.status === 'HAS_MAILTO') {
-            console.log('message has mailto', message.mailto);
-          }
-          await getPuppeteerElements({
-            gmailIds: [message.gmailId],
-            elementType: 'input'
-          });
-        }}>
+        onClick={async () => await handlePuppeteerClick()}>
         unsub {message.domain}
       </ViewButton>
       <ViewFormControl>
