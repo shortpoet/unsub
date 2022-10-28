@@ -13,6 +13,7 @@ import {
 } from './MessageListTableSelector';
 import TABLES from '../../table/Tables';
 import { colorLog } from '../../../util/colorLog';
+import { Loading } from '../../Utils';
 
 export type MessageTableData = {
   name: string;
@@ -25,10 +26,10 @@ export type MessageTableData = {
 export function MessageListTable(props: { message: GmailMessageDTO }) {
   const [selectedTableType, setSelectedTableType] =
     useState<ElementTypes>('input');
-  // const [tableData, setTableData] = useState<MessageTableData[]>();
-  const [selectedData, setSelectedData] = useState<MessageTableData[]>();
+  const [selectedData, setSelectedData] = useState<MessageTableData[]>([]);
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
+  const [columns, setColumns] = useState<any[]>([]);
 
   useCheckAuthentication();
 
@@ -59,34 +60,57 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
   );
 
   useEffect(() => {
-    console.log('[useEffect to getTableData]', selectedTableType);
     getTableData(selectedTableType)
       .then(data => {
-        // setTableData(data);
+        const allCols = data.reduce((acc: any, curr: any) => {
+          return { ...acc, ...curr };
+        }, {});
+        setColumns(makeColumns(Object.keys(allCols)));
         setSelectedData(data);
       })
       .catch(error => {
         setError(true);
         setErrorJson(JSON.stringify(error));
       });
-  }, [selectedTableType]);
-
-  // const setData = (selection: string, data = tableData) =>
-  //   setSelectedData(data);
+  }, []);
 
   const _handleTableSelection = async (event: any) => {
-    console.log('[handleTableSelection]', event);
     const selection = event.target.value;
-    console.log('[handleTableSelection] selection', selection);
-    await setSelectedTableType(selection);
     try {
-      const data = await getTableData(selection);
-      console.log('[handleTableSelection] data', data);
+      setSelectedData([]);
+      await setSelectedTableType(selection);
+      let data = await getTableData(selection);
+      if (data && data.length === 0) {
+        data = [
+          {
+            id: `${selection}-NO_DATA`,
+            NO_DATA: `${selection}-NO_DATA`
+          }
+        ];
+      }
+      const allCols = data.reduce((acc: any, curr: any) => {
+        return { ...acc, ...curr };
+      }, {});
+      delete allCols.id;
+
+      setColumns(makeColumns(Object.keys(allCols)));
+
+      setSelectedData([]);
       setSelectedData(data);
     } catch (error) {
       setError(true);
       setErrorJson(JSON.stringify(error));
     }
+  };
+
+  const makeColumns = (columns: string[]) => {
+    return columns.map((col: string) => {
+      return {
+        field: col,
+        headerName: col,
+        flex: 1
+      };
+    });
   };
 
   const handleTableSelection = useCallback(_handleTableSelection, [
@@ -103,13 +127,14 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
           onChange={handleTableSelection}
         />
         {/* <MessageDomains /> */}
-        {selectedData && (
+        {(selectedData?.length > 0 && (
           <Table
             data={selectedData}
-            columns={TABLES['ELEMENT_TYPE']}
+            columns={columns}
+            // columns={TABLES['ELEMENT_TYPE']}
             rowsPerPage={5}
           />
-        )}
+        )) || <Loading />}
       </Section>
     </TableContainer>
   );
