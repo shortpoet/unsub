@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Container } from '@mui/material';
+import { Container, Divider } from '@mui/material';
 
 // import Page, { PageToolbar } from '../component/Page';
 // import { TopBar } from '../component/UI';
-import { SubTitle } from '../UI';
+import { SubTitle, Label } from '../UI';
 // import { Message } from '../model/Message';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
@@ -11,6 +11,12 @@ import { GmailMessageDTO } from '../../types/messageDTO';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';
+import {
+  SelectChangeEvent,
+  ToggleButton,
+  ToggleButtonGroup
+} from '@mui/material';
+import { PuppeteerApi } from '../../api/PuppeteerApi';
 
 const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
@@ -30,76 +36,81 @@ const MessageContainer = styled(Container)`
   overflow-y: scroll;
 `;
 
+const ViewFormControl = styled.div`
+  flex-grow: 1;
+`;
+
+const ToggleViewGroup = styled(ToggleButtonGroup)`
+  display: flex;
+  width: 100%;
+`;
+
+const ViewButton = styled(ToggleButton)`
+  flex-grow: 1;
+  margin: 0.5rem;
+  justify-content: space-between;
+  && {
+    margin: 0rem 0.5rem 0rem 0rem;
+    border-radius: 0.25rem;
+    background-color: ${myPalette.green.faded};
+    color: ${myPalette.green.dark};
+    text-transform: none;
+    &:hover {
+      background-color: ${myPalette.green.dark};
+      color: ${myPalette.page.lightGrey};
+    }
+    &.Mui-selected {
+      background-color: ${myPalette.green.dark};
+      color: ${myPalette.page.lightGrey};
+    }
+  }
+`;
+
 export function MessageList(props: { messages: GmailMessageDTO[] }) {
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
-  // const [messageId, setMessageId] = useState('message_id');
 
   useCheckAuthentication();
 
-  // const fetchData = useCallback(async () => {
-  //   const config: IApiConfig = {
-  //     baseURL: 'http://localhost:3000',
-  //     timeout: 10000
-  //   };
-  //   const api = new MessageApi(config);
-
-  //   const response = await api.getMessages();
-  //   const data = response.messages;
-  //   console.log('response', response);
-  //   setMessages(data);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchData().catch(error => {
-  //     console.log('error', error);
-  //   });
-  // }, [fetchData]);
-  // useEffect((): any => {
-  //   let isSubscribed = true;
-  //   (async () => {
-  //     const config: IApiConfig = {
-  //       baseURL: 'http://localhost:3000',
-  //       timeout: 10000
-  //     };
-  //     const api = new MessageApi(config);
-  //     const params = {
-  //       userId: 'me',
-  //       q: 'google',
-  //       fetchCount: 50
-  //     };
-  //     // const response = await api.getMessages();
-  //     // const data = response.messages;
-  //     const response = await api.getMessages(params);
-  //     const data = response.dto;
-  //     if (isSubscribed && data) {
-  //       setMessages(data);
-  //     }
-  //   })();
-  //   return () => (isSubscribed = false);
-  // }, []);
   useEffect(() => {
     setMessages(props.messages);
   }, [props]);
 
+  // regular (non-memoized) version of this function also works)
+  const runPuppeteer = useCallback(
+    async (gmailIds: { gmailIds: GmailMessageDTO['gmailId'][] }) => {
+      const config: IApiConfig = {
+        baseURL: 'http://localhost:3000',
+        timeout: 10000
+      };
+      const api = new PuppeteerApi(config);
+      const response = await api.run(gmailIds);
+      console.log('response', response);
+    },
+    []
+  );
   let messageList: any = [];
   if (messages.length > 0) {
-    messageList = messages.map((message: any) => (
-      <div key={message.id}>
-        <h3>{message.from}</h3>
-        <p>{message.id}</p>
+    messageList = messages.map((message: GmailMessageDTO) => (
+      <Container key={message.gmailId}>
+        <SubTitle>{message.from}</SubTitle>
+        <h5>{message.subject}</h5>
+        <ViewButton
+          value={message.gmailId}
+          onClick={async () => {
+            await runPuppeteer({ gmailIds: [message.gmailId] });
+          }}>
+          unsub {message.domain}
+        </ViewButton>
+        <p>{message.gmailId}</p>
         {message.status === 'HAS_MAILTO' && <p>Has mailto</p>}
         <p>{message.status}</p>
-        <p>{message.listUnsubscribe.trim()}</p>
+        <a href={message.listUnsubscribe}>unsub link</a>
+        <Divider />
         {/* <a href={message.listUnsubscribe.trim()}>{message.domain}</a> */}
-      </div>
+      </Container>
     ));
   }
-  return (
-    <Container maxWidth="lg">
-      <SubTitle>Messages</SubTitle>
-      {messageList}
-    </Container>
-  );
+  return <Container maxWidth="lg">{messageList}</Container>;
 }
 // You'll need to either insert BR tag appropriately in the resulting string, or use for example a PRE tag so that the formatting of the stringify is retained:
 
