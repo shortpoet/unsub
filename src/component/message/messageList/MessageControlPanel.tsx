@@ -123,6 +123,9 @@ export function MessageControlPanel(props: {
           <ViewButton size="small" value="puppeteer">
             Pptr
           </ViewButton>
+          {/* <ViewButton size="small" value="iFrame">
+            iFrame
+          </ViewButton> */}
         </ToggleViewGroup>
       </ViewFormControl>
     </MessageListBox>

@@ -10,6 +10,7 @@ import { Table } from '../../table/Table';
 import TABLES from '../../table/Tables';
 import { MessageListTable } from './MessageListTable';
 import { MessageListInfo } from './MessageListInfo';
+import { MessageListIFrame } from './MessageListIFrame';
 
 export function MessageListView(props: {
   message: GmailMessageDTO;
@@ -33,6 +34,13 @@ export function MessageListView(props: {
         case 'puppeteer':
           return (
             <MessageListTable
+              message={message}
+              key={`${message.gmailId}-puppeteer-view`}
+            />
+          );
+        case 'iFrame':
+          return (
+            <MessageListIFrame
               message={message}
               key={`${message.gmailId}-puppeteer-view`}
             />
