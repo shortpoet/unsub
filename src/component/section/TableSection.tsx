@@ -9,8 +9,8 @@ import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { colorLog } from '../../util/colorLog';
 import { Table } from '../table/Table';
-import { TableType, TableTypeSection } from '../table/TableTypeSection';
-import MESSAGE_TYPES from '../../types/MessageTypes';
+import { StatusTableType, TableTypeSection } from '../table/TableTypeSection';
+import TABLE_TYPES from '../../types/TableSelections';
 import { Container } from '@mui/material';
 import styled from 'styled-components';
 
@@ -29,7 +29,7 @@ const TableContainer = styled(Container)`
 export function TableSection() {
   const [messages, setMessages] = useState<GmailMessageDTO[]>([]);
   const [selectedTableType, setSelectedTableType] =
-    useState<TableType>('HAS_DATA');
+    useState<StatusTableType>('HAS_DATA');
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
   const [tableData, setTableData] = useState();
@@ -78,8 +78,8 @@ export function TableSection() {
     <TableContainer maxWidth={false}>
       <Section padding="0rem 0.5rem">
         <TableTypeSection
-          title={MESSAGE_TYPES[selectedTableType].label}
-          types={MESSAGE_TYPES}
+          title={TABLE_TYPES['MESSAGE_TYPES'][selectedTableType].label}
+          types={TABLE_TYPES['MESSAGE_TYPES']}
           selectedType={selectedTableType}
           onChange={handleTableTypeChange}
         />

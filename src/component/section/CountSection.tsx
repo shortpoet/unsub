@@ -10,7 +10,8 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
     hasData: 0,
     hasUnsub: 0,
     hasMailto: 0,
-    hasManyLinks: 0
+    hasManyLinks: 0,
+    hasBoth: 0
   });
   useEffect(() => {
     setMessages(props.messages);
@@ -21,7 +22,8 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
       hasData: 0,
       hasUnsub: 0,
       hasMailto: 0,
-      hasManyLinks: 0
+      hasManyLinks: 0,
+      hasBoth: 0
     };
     messages.forEach((message: GmailMessageDTO) => {
       if (message.status === 'HAS_DATA') {
@@ -43,22 +45,25 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
   useEffect(() => {
     // getCount(messages);
     if (messages) {
-      const { hasData, hasUnsub, hasMailto, hasManyLinks } = messages.reduce(
-        (acc, message) => {
-          if (message.status === 'HAS_DATA') {
-            acc.hasData++;
-          } else if (message.status === 'HAS_UNSUB_LINK') {
-            acc.hasUnsub++;
-          } else if (message.status === 'HAS_MAILTO') {
-            acc.hasMailto++;
-          } else if (message.status === '--> HAS_MANY_LINKS <--') {
-            acc.hasManyLinks++;
-          }
-          return acc;
-        },
-        { hasData: 0, hasUnsub: 0, hasMailto: 0, hasManyLinks: 0 }
-      );
-      setCount({ hasData, hasUnsub, hasMailto, hasManyLinks });
+      const { hasData, hasUnsub, hasMailto, hasManyLinks, hasBoth } =
+        messages.reduce(
+          (acc, message) => {
+            if (message.status === 'HAS_DATA') {
+              acc.hasData++;
+            } else if (message.status === 'HAS_UNSUB_LINK') {
+              acc.hasUnsub++;
+            } else if (message.status === 'HAS_BOTH') {
+              acc.hasBoth++;
+            } else if (message.status === 'HAS_MAILTO') {
+              acc.hasMailto++;
+            } else if (message.status === '--> HAS_MANY_LINKS <--') {
+              acc.hasManyLinks++;
+            }
+            return acc;
+          },
+          { hasData: 0, hasUnsub: 0, hasMailto: 0, hasManyLinks: 0, hasBoth: 0 }
+        );
+      setCount({ hasData, hasUnsub, hasMailto, hasManyLinks, hasBoth });
     }
   }, [messages]);
 
@@ -90,6 +95,16 @@ export function CountSection(props: { messages: GmailMessageDTO[] }) {
             <InfoBoxTitle>Count Has Mailto</InfoBoxTitle>
             <InfoBoxText>
               {count.hasMailto.toLocaleString('en-US', {
+                maximumFractionDigits: 0
+              })}
+            </InfoBoxText>
+          </InfoBox>
+        ) : null}
+        {count.hasBoth > 0 ? (
+          <InfoBox>
+            <InfoBoxTitle>Count Has Both</InfoBoxTitle>
+            <InfoBoxText>
+              {count.hasBoth.toLocaleString('en-US', {
                 maximumFractionDigits: 0
               })}
             </InfoBoxText>

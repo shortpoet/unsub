@@ -10,6 +10,8 @@ import { Table } from '../../table/Table';
 import TABLES from '../../table/Tables';
 import { PuppeteerApi, PuppeteerParams } from '../../../api/PuppeteerApi';
 import { IApiConfig } from '../../../api/IApi';
+import { TableTypeSection } from '../../table/TableTypeSection';
+import TABLE_TYPES from '../../../types/TableSelections';
 
 export type MessageTableData = {
   name: string;
@@ -18,6 +20,15 @@ export type MessageTableData = {
   text: string;
 };
 
+export type ElementTypes =
+  | 'input'
+  | 'button'
+  | 'select'
+  | 'textarea'
+  | 'checkbox'
+  | 'radio'
+  | 'label';
+
 const MessagePuppeteerElementsTable = (props: {
   tableData: MessageTableData;
 }) => {
@@ -25,8 +36,8 @@ const MessagePuppeteerElementsTable = (props: {
     <TableContainer>
       <Section padding="0rem 0.5rem">
         {/* <TableTypeSection
-          title={MESSAGE_TYPES[selectedTableType].label}
-          types={MESSAGE_TYPES}
+          title={TABLE_TYPES['MESSAGE_TYPES'][selectedTableType].label}
+          types={TABLE_TYPES['MESSAGE_TYPES']}
           selectedType={selectedTableType}
           onChange={handleTableTypeChange}
         /> */}

@@ -2,20 +2,21 @@ import React from 'react';
 import { Section, SectionContent, Title } from '../UI';
 import { MenuItem, Select } from '@mui/material';
 import { GmailMessageDTO } from '../../types/messageDTO';
-import MESSAGE_TYPES from '../../types/MessageTypes';
+import TABLE_TYPES from '../../types/TableSelections';
 import { theme } from '../../Theme';
 
-export type TableType =
+export type StatusTableType =
   | 'HAS_UNSUB_LINK'
+  | 'HAS_BOTH'
   | 'HAS_MAILTO'
   | '--> HAS_MANY_LINKS <--'
   | 'HAS_DATA';
 
 export function TableTypeSection(props: {
   title: string;
-  types: typeof MESSAGE_TYPES;
-  selectedType: TableType;
-  onChange: (value: TableType) => void;
+  types: typeof TABLE_TYPES['MESSAGE_TYPES'];
+  selectedType: StatusTableType;
+  onChange: (value: StatusTableType) => void;
 }) {
   const { title, selectedType, onChange, types } = props;
   return (
@@ -27,7 +28,7 @@ export function TableTypeSection(props: {
           style={{ width: '10rem' }}
           value={selectedType}
           onChange={(event, newTableType) => {
-            onChange(newTableType as TableType);
+            onChange(newTableType as StatusTableType);
           }}
           label="Table Type">
           {Object.keys(types).map(type => (
