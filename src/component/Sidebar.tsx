@@ -16,7 +16,8 @@ import {
   faChevronLeft,
   faMap,
   faSearch,
-  faSignOut
+  faSignOut,
+  faTable
 } from '@fortawesome/free-solid-svg-icons';
 import { useHandler } from '@aux4/use-handler';
 import { CLOSE_SIDEBAR, OPEN_SIDEBAR } from '../event/Event';
@@ -110,6 +111,12 @@ export function Sidebar() {
               <FontAwesomeIcon icon={faMailBulk} />
             </SidebarListItemIcon>
             <SidebarListItemText primary="List Messages" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/tables" onClick={closeSidebar}>
+            <SidebarListItemIcon>
+              <FontAwesomeIcon icon={faTable} />
+            </SidebarListItemIcon>
+            <SidebarListItemText primary="Tables" />
           </ListItemButton>
           <Divider />
           <ListItemButton onClick={() => handleSignOut()}>

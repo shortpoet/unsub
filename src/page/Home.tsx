@@ -12,7 +12,7 @@ import { myPalette } from '../Theme';
 import { Link } from 'react-router-dom';
 
 const HomeContainer = styled(Container)`
-  background-color: ${myPalette.page.mediumGrey};
+  background-color: ${myPalette.page.lightGrey};
   padding: 1rem;
 `;
 

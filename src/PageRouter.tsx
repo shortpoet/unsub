@@ -4,6 +4,7 @@ import { Home } from './page/Home';
 import { MessageList } from './component/message/MessageList';
 import { LoginPage } from './page/LoginPage';
 import { MessagesPage } from './page/MessagesPage';
+import { TablesPage } from './page/TablesPage';
 
 export function PageRouter() {
   return (
@@ -11,6 +12,7 @@ export function PageRouter() {
       <Route path="/" element={<Home />} />
       <Route path="/messages" element={<MessagesPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/tables" element={<TablesPage />} />
     </Routes>
   );
 }
