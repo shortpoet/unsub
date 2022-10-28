@@ -123,7 +123,7 @@ export function Sidebar() {
             </SidebarListItemIcon>
             <SidebarListItemText primary="Map" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/list" onClick={closeSidebar}>
+          <ListItemButton component={Link} to="/" onClick={closeSidebar}>
             <SidebarListItemIcon>
               <FontAwesomeIcon icon={faMailBulk} />
             </SidebarListItemIcon>

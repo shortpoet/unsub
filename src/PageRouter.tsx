@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Home } from './page/Home';
-import { MessageList } from './component/message/MessageList';
 import { LoginPage } from './page/LoginPage';
 import { MessagesPage } from './page/MessagesPage';
 import { TablesPage } from './page/TablesPage';

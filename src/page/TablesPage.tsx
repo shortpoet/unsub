@@ -1,13 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import Page, { PageToolbar } from '../component/Page';
 import { TopBar } from '../component/UI';
-import { MessageList } from '../component/message/MessageList';
 
 import { Container } from '@mui/material';
 
-import { Input, SubTitle } from '../component/UI';
 import { useCheckAuthentication } from '../hook/AuthenticationHook';
-import { CountSection } from '../component/section/CountSection';
 import { IApiConfig } from '../api/IApi';
 import { MessageApi } from '../api/MessageApi';
 import { GmailMessageDTO } from '../types/messageDTO';
@@ -17,10 +14,7 @@ import { Account } from '../types/Session';
 import styled from 'styled-components';
 import { myPalette } from '../Theme';
 import { MessageViewSwitch } from '../component/message/MessageViewSwitch';
-import {
-  MessageSection,
-  MessageSectionTypes
-} from '../component/section/MessageSection';
+import { MessageSectionTypes } from '../component/section/MessageSection';
 import { TableSection } from '../component/section/TableSection';
 
 const TableContainer = styled(Container)`
