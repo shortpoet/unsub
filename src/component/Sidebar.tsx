@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -72,9 +72,26 @@ const CloseSidebarItem = styled(ListItemButton)`
   height: 55px;
 `;
 
+const clickOutside = (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  if (target.closest('.MuiDrawer-root')) {
+    return;
+  }
+  closeSidebar();
+};
+
 export function Sidebar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [hover, setHover] = useState(false);
+  // same as component did mount
+  // https://stackoverflow.com/questions/54391682/detect-click-outside-component-react-hooks
+  useEffect(() => {
+    document.addEventListener('click', clickOutside, true);
+    return () => {
+      document.removeEventListener('click', clickOutside, false);
+    };
+  }, []);
   const handleSignOut = () => {
     logout();
     closeSidebar();
