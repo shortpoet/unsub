@@ -26,67 +26,65 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
   const [selectedTableType, setSelectedTableType] =
     useState<ElementTypes>('input');
   const [tableData, setTableData] = useState<MessageTableData[]>();
-  const [selectedData, setSelectedData] = useState<MessageTableData[]>();
+  const [selectedData, setSelectedData] = useState();
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
 
   useCheckAuthentication();
+  // const handlePuppeteerClick = async () => {
+  //   if (message.status === 'HAS_MAILTO') {
+  //     console.log('message has mailto', message.mailto);
+  //   }
+  //   await getPuppeteerElements({
+  //     gmailIds: [message.gmailId],
+  //     elementType: 'input'
+  //   });
+  // };
 
-  const getTableData = useCallback(
-    async (selectedTableType: any) => {
-      const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
-        timeout: 10000
-      };
-      const api = new PuppeteerApi(config);
+  const getTableData = useCallback(async () => {
+    const config: IApiConfig = {
+      baseURL: 'http://localhost:3000',
+      timeout: 10000
+    };
+    const api = new PuppeteerApi(config);
+    try {
       const params = {
         gmailIds: [props.message.gmailId],
         elementType: selectedTableType
       };
-      return api.getElements(params).then(response => {
-        if (response.data) {
-          const out = response.data[0].map(
-            (element: MessageTableData, i: number) => {
-              element['id'] = i;
-              return element;
-            }
-          );
-          return out;
-        }
-      });
-    },
-    [props.message.gmailId]
-  );
+      const response = await api.getElements(params);
+      if (response.data) {
+        const out = response.data[0].map(
+          (element: MessageTableData, i: number) => {
+            element['id'] = i;
+            return element;
+          }
+        );
+        colorLog('setting table data');
+        setTableData(out);
+      }
+      if (response.error) {
+        console.error(response.error);
+        setError(true);
+        setErrorJson(response.error);
+      }
+    } catch (e) {
+      console.error('[error]', e);
+    }
+  }, [props.message.gmailId, selectedTableType]);
 
   useEffect(() => {
-    getTableData(selectedTableType)
-      .then(data => {
-        setTableData(data);
-        setSelectedData(data);
-      })
-      .catch(error => {
-        setError(true);
-        setErrorJson(JSON.stringify(error));
-      });
-  }, [selectedTableType]);
+    getTableData();
+  }, [selectedTableType, props.message.gmailId]);
 
-  const setData = (selection: string, data = tableData) =>
-    setSelectedData(data);
-
-  const handleTableSelection = async (event: any) => {
-    console.log('[handleTableSelection]', event);
-    const selection = event.target.value;
-    console.log('[handleTableSelection] selection', selection);
-    await setSelectedTableType(selection);
-    try {
-      const data = await getTableData(selection);
-      setSelectedData(data);
-    } catch (error) {
-      setError(true);
-      setErrorJson(JSON.stringify(error));
-    }
-  };
-
+  const handleTableTypeChange = useCallback(
+    async (event: any) => {
+      const value = event.props.value;
+      setSelectedTableType(value);
+      // getTableData();
+    },
+    [selectedTableType, props.message.gmailId, tableData]
+  );
   return (
     <TableContainer>
       <Section padding="0rem 0.5rem">
@@ -94,15 +92,11 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
           title={TABLE_SELECTIONS['ELEMENT_TYPE'][selectedTableType].label}
           types={TABLE_SELECTIONS['ELEMENT_TYPE']}
           selectedType={selectedTableType}
-          onChange={handleTableSelection}
+          onChange={handleTableTypeChange}
         />
         {/* <MessageDomains /> */}
         {tableData && (
-          <Table
-            data={selectedData}
-            columns={TABLES['ELEMENT_TYPE']}
-            rowsPerPage={5}
-          />
+          <Table data={tableData} columns={TABLES['ELEMENT_TYPE']} />
         )}
       </Section>
     </TableContainer>

@@ -21,6 +21,7 @@ export class PuppeteerApi extends Api {
   }
   public async getElements(params?: PuppeteerParams): Promise<any> {
     try {
+      console.log('PuppeteerApi.getElements params', params);
       return await this.post('/internal/puppeteer/elements', params);
     } catch (error) {
       console.log('PuppeteerApi.getElements error', error);

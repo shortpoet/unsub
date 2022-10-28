@@ -31,7 +31,8 @@ export function MessageListTableSelector(props: {
   title: string;
   types: typeof TABLE_SELECTIONS['ELEMENT_TYPE'];
   selectedType: ElementTypes;
-  onChange: (value: ElementTypes) => void;
+  onChange: (event: any) => void;
+  // onChange: (value: ElementTypes) => void;
 }) {
   const { title, selectedType, onChange, types } = props;
   return (
@@ -42,9 +43,7 @@ export function MessageListTableSelector(props: {
           size="small"
           style={{ width: '10rem' }}
           value={selectedType}
-          onChange={(event, newTableType) => {
-            onChange(newTableType as ElementTypes);
-          }}
+          onChange={props.onChange}
           label="Table Type">
           {Object.keys(types).map(type => (
             <MenuItem key={type} value={type}>

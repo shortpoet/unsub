@@ -12,9 +12,16 @@ const TableBox = styled.div`
   min-width: 100%;
 `;
 
-export function Table(props: { data: any; columns: any }) {
+export function Table(props: {
+  data: any;
+  columns: any;
+  rowsPerPage?: number;
+}) {
   const [data, setData] = useState<any>(props.data);
   const [columns, setColumns] = useState<any>(props.columns);
+  const [rowsPerPage, setRowsPerPage] = useState<(number | undefined)[]>(
+    [props.rowsPerPage] || [5]
+  );
 
   useEffect(() => {
     setData(props.data);
@@ -29,8 +36,8 @@ export function Table(props: { data: any; columns: any }) {
           rows={data}
           columns={columns}
           autoHeight={true}
-          pageSize={15}
-          rowsPerPageOptions={[15]}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10, 15]}
         />
       </TableBox>
     </Box>
