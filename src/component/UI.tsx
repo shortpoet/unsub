@@ -4,8 +4,11 @@ import { theme } from '../Theme';
 
 const SectionBox = styled.div`
   position: relative;
-  padding: 0rem;
+  margin: ${(props: { padding?: string; margin?: string }) =>
+    props.margin ? props.margin : '0rem'};
   background-color: #fff;
+  padding: ${(props: { padding?: string; margin?: string }) =>
+    props.padding ? props.padding : '0rem'};
   margin: 0rem;
   overflow: auto;
 `;
@@ -97,7 +100,12 @@ export function SubTitle(props: { children: React.ReactNode }) {
   return <SubHeading>{props.children}</SubHeading>;
 }
 
-export function Section(props: { children: React.ReactNode; title?: string }) {
+export function Section(props: {
+  children: React.ReactNode;
+  title?: string;
+  padding?: string;
+  margin?: string;
+}) {
   return <SectionBox {...props} />;
 }
 

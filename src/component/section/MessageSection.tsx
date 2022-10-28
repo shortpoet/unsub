@@ -27,7 +27,7 @@ const MessageContainer = styled(Container)`
   border: 0.5rem solid ${myPalette.deepPurple.dark};
   border-radius: 0.25rem;
   width: 100vw;
-  height: 15rem;
+  height: 30rem;
 
   display: flex;
   flex-grow: 1;
@@ -63,7 +63,6 @@ export function MessageSection(props: {
 
   return (
     <MessageContainer maxWidth="xl">
-      <SubTitle>Messages</SubTitle>
       <RenderSwitch messageViewType={messageViewType} />
     </MessageContainer>
   );

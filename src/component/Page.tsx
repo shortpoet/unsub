@@ -6,8 +6,8 @@ const PageBody = styled.div`
   background-color: ${myPalette.page.purpleStop};
   padding: 0rem;
   margin: 0rem;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 `;
 
 // const PageBody = styled.div`

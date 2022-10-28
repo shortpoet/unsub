@@ -26,11 +26,9 @@ import { TableSection } from '../component/section/TableSection';
 const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: 0.5rem solid ${myPalette.deepPurple.dark};
-
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
   word-wrap: break-word;
 
   display: flex;
@@ -47,7 +45,7 @@ function MessagesFC(props: {
 }) {
   const { messages, messageViewType } = props;
   return (
-    <MessageContainer maxWidth="xl">
+    <MessageContainer maxWidth={false}>
       <SubTitle>Loaded Messages</SubTitle>
       {messages.length > 0 && <CountSection messages={messages} />}
       {messages.length > 0 && (
@@ -125,7 +123,6 @@ export function MessagesPage() {
         <MessagesFC messages={messages} messageViewType={messageViewType} />
       )) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
-      <TableSection />
     </Page>
   );
 }
