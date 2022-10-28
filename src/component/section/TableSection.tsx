@@ -11,18 +11,14 @@ import { colorLog } from '../../util/colorLog';
 import { Table } from '../table/Table';
 import { TableType, TableTypeSection } from '../table/TableTypeSection';
 import MESSAGE_TYPES from '../../types/MessageTypes';
-import { Container, styled } from '@mui/material';
+import { Container } from '@mui/material';
+import styled from 'styled-components';
 
 const TableContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
-  box-sizing: border-box;
-  padding: 1rem;
-  margin: 1rem 0 0 0;
-  border: 0.5rem solid ${myPalette.deepPurple.dark};
-  border-radius: 0.25rem;
-  width: 100vw;
-
+  padding: 2rem 0rem 5rem 0rem;
+  margin: 0rem 0rem;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -79,9 +75,8 @@ export function TableSection() {
   };
 
   return (
-    <TableContainer maxWidth="xl">
-      <Section>
-        <SectionTitle>Table</SectionTitle>
+    <TableContainer maxWidth={false}>
+      <Section padding="0rem 0.5rem">
         <TableTypeSection
           title={MESSAGE_TYPES[selectedTableType].label}
           types={MESSAGE_TYPES}

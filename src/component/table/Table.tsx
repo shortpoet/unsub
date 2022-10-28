@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 const Box = styled.div`
   width: 100%;
   overflow-x: auto;
+  padding: 1rem 1rem;
 `;
 
 const TableBox = styled.div`

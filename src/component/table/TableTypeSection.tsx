@@ -19,7 +19,7 @@ export function TableTypeSection(props: {
 }) {
   const { title, selectedType, onChange, types } = props;
   return (
-    <Section>
+    <Section padding="1rem">
       <SectionContent justify="space-between" theme={theme}>
         <Title>{title}</Title>
         <Select
