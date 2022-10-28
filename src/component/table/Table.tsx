@@ -13,13 +13,14 @@ const TableBox = styled.div`
 `;
 
 export function Table(props: { data: any; columns: any }) {
-  const [data, setData] = useState<any>([]);
-  const [columns, setColumns] = useState<any>([]);
+  const [data, setData] = useState<any>(props.data);
+  const [columns, setColumns] = useState<any>(props.columns);
 
   useEffect(() => {
     setData(props.data);
     setColumns(props.columns);
-  }, [props.data, props.columns]);
+    console.log('data set for table', data);
+  }, []);
 
   return (
     <Box>
@@ -29,6 +30,7 @@ export function Table(props: { data: any; columns: any }) {
           columns={columns}
           autoHeight={true}
           pageSize={15}
+          rowsPerPageOptions={[15]}
         />
       </TableBox>
     </Box>
