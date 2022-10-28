@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import {
-  SelectChangeEvent,
-  ToggleButton,
-  ToggleButtonGroup
-} from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Label } from '../UI';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';
@@ -47,19 +42,9 @@ export function MessageViewSwitch(props: {
     'raw' as MessageSectionTypes
   );
 
-  const location = useLocation();
-
   useEffect(() => {
     props.onChange(messageViewType as unknown as MessageSectionTypes);
   }, [messageViewType]);
-
-  // const handleChange = (event: SelectChangeEvent<unknown>) => {
-  //   const value = event.target.value as MessageSectionTypes;
-  //   setMessageSectionType(value);
-  //   // if (props.onChange) {
-  //   //   props.onChange(value === 'primary' ? 'primary' : value);
-  //   // }
-  // };
 
   return (
     <ViewFormControl>

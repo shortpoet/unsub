@@ -1,12 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Box, Container, Divider } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Divider } from '@mui/material';
 
 import { GmailMessageDTO } from '../../types/messageDTO';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';
-import { MessageListView } from './messageList/MessageListView';
-import { MessageControlPanel } from './messageList/MessageControlPanel';
+import { MessageListSection } from './messageList/MessageListSection';
 
 const MessageBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
@@ -34,10 +33,14 @@ export function MessageList(props: { messages: GmailMessageDTO[] }) {
   return (
     <Box>
       {messages.map(message => (
-        <MessageBox sx={{ flexDirection: 'row' }}>
-          <MessageControlPanel message={message} />
-          <MessageListView message={message} />
-          <Divider />
+        <MessageBox
+          sx={{ flexDirection: 'row' }}
+          key={`${message.gmailId}-message-list-box`}>
+          <MessageListSection
+            message={message}
+            key={`${message.gmailId}-message-list-section`}
+          />
+          <Divider key={`${message.gmailId}-message-list-divider`} />
         </MessageBox>
       ))}
     </Box>

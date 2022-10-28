@@ -41,14 +41,17 @@ const MessageContainer = styled(Container)`
 
 function MessagesFC(props: {
   messages: GmailMessageDTO[];
-  messageViewType: MessageSectionTypes;
+  messageSectionType: MessageSectionTypes;
 }) {
-  const { messages, messageViewType } = props;
+  const { messages, messageSectionType } = props;
   return (
     <MessageContainer maxWidth={false}>
       {messages.length > 0 && <CountSection messages={messages} />}
       {messages.length > 0 && (
-        <MessageSection messages={messages} messageViewType={messageViewType} />
+        <MessageSection
+          messages={messages}
+          messageSectionType={messageSectionType}
+        />
       )}
     </MessageContainer>
   );
@@ -65,7 +68,7 @@ export function MessagesPage() {
 
   const [messages, setMessages] = useState([] as GmailMessageDTO[]);
   const [messageId, setMessageId] = useState('message_id');
-  const [messageViewType, setMessageSectionType] = useState(
+  const [messageSectionType, setMessageSectionType] = useState(
     'raw' as MessageSectionTypes
   );
 
@@ -107,19 +110,24 @@ export function MessagesPage() {
   }) => {
     setShowToolbar(event.target.value);
   };
-
+  const handleSetSectionType = (type: MessageSectionTypes) => {
+    setMessageSectionType(type);
+  };
   return (
     <Page title="Messages" showToolbar={showToolbar}>
       <PageToolbar>
         <Container maxWidth="xl">
           <TopBar>
             <AccountSwitch onChange={setAccount} />
-            <MessageViewSwitch onChange={setMessageSectionType} />
+            <MessageViewSwitch onChange={handleSetSectionType} />
           </TopBar>
         </Container>
       </PageToolbar>
       {(messages.length > 0 && (
-        <MessagesFC messages={messages} messageViewType={messageViewType} />
+        <MessagesFC
+          messages={messages}
+          messageSectionType={messageSectionType}
+        />
       )) ||
         (error && <PrettyPrintJson data={errorJson} />) || <Loading />}
     </Page>

@@ -1,13 +1,6 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { Container } from '@mui/material';
 
-// import Page, { PageToolbar } from '../component/Page';
-// import { TopBar } from '../component/UI';
-import { Section, SubTitle } from '../UI';
-// import { Message } from '../model/Message';
-import { IApiConfig } from '../../api/IApi';
-import { MessageApi } from '../../api/MessageApi';
-import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { GmailMessageDTO } from '../../types/messageDTO';
 import { PrettyPrintJson } from '../Utils';
 import { myPalette } from '../../Theme';
@@ -40,12 +33,14 @@ export type MessageSectionTypes = 'raw' | 'list' | undefined;
 
 export function MessageSection(props: {
   messages: GmailMessageDTO[];
-  messageViewType: MessageSectionTypes;
+  messageSectionType: MessageSectionTypes;
 }) {
-  const { messages, messageViewType } = props;
+  // using useState here will fuck you up
+  // state never gets reset
+  const { messages, messageSectionType } = props;
   const RenderSwitch = useCallback(
-    (props: { messageViewType: MessageSectionTypes }) => {
-      switch (props.messageViewType) {
+    (props: { messageSectionType: MessageSectionTypes }) => {
+      switch (props.messageSectionType) {
         case 'raw':
           return <PrettyPrintJson data={messages} />;
         case 'list':
@@ -54,17 +49,13 @@ export function MessageSection(props: {
           return <PrettyPrintJson data={messages} />;
       }
     },
-    [messages, messageViewType]
+    [messages, messageSectionType]
   );
-
-  // useEffect(() => {
-  //   setMessages(props.messages);
-  // }, [props]);
 
   return (
     <MessageContainer maxWidth={false}>
       {/* <Section> */}
-      <RenderSwitch messageViewType={messageViewType} />
+      <RenderSwitch messageSectionType={messageSectionType} />
       {/* </Section> */}
     </MessageContainer>
   );

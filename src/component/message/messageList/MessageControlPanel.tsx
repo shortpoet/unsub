@@ -60,10 +60,18 @@ const ViewButton = styled(ToggleButton)`
   }
 `;
 
-export function MessageControlPanel(props: { message: GmailMessageDTO }) {
+export function MessageControlPanel(props: {
+  message: GmailMessageDTO;
+  onChange: (value: string) => void;
+}) {
   const [message, setMessage] = useState(props.message);
+  const [messageListViewType, setMessageListViewType] = useState('info');
 
   useCheckAuthentication();
+
+  useEffect(() => {
+    props.onChange(messageListViewType);
+  }, [messageListViewType]);
 
   useEffect(() => {
     setMessage(props.message);
@@ -91,26 +99,27 @@ export function MessageControlPanel(props: { message: GmailMessageDTO }) {
         }}>
         unsub {message.domain}
       </ViewButton>
-      {/* <ViewFormControl>
-          <Label>View Type: </Label>
-          <ToggleViewGroup
-            id="view-type"
-            color="primary"
-            value={messageViewType}
-            exclusive
-            onChange={(event, newViewType) => {
-              if (newViewType !== null) {
-                setMessageSectionType(newViewType);
-              }
-            }}>
-            <ViewButton size="small" value="raw">
-              Raw
-            </ViewButton>
-            <ViewButton size="small" value="list">
-              List
-            </ViewButton>
-          </ToggleViewGroup>
-        </ViewFormControl> */}
+      <ViewFormControl>
+        <Label>View Type: </Label>
+        <ToggleViewGroup
+          id="view-type"
+          color="primary"
+          value={messageListViewType}
+          exclusive
+          onChange={(event, newViewType) => {
+            if (newViewType !== null) {
+              console.log('newViewType', newViewType);
+              setMessageListViewType(newViewType);
+            }
+          }}>
+          <ViewButton size="small" value="info">
+            Info
+          </ViewButton>
+          <ViewButton size="small" value="puppeteer">
+            Pptr
+          </ViewButton>
+        </ToggleViewGroup>
+      </ViewFormControl>
     </MessageListBox>
   );
 }

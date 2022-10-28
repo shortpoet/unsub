@@ -58,7 +58,7 @@ export function MessageDomains(props: {
         console.error('[error]', e);
       }
     })();
-  }, []);
+  }, []); // ← now we use an empty array, so React will never update this callback
 
   // useEffect(() => {
   //   setDomains(props.domains);

@@ -1,22 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Box, Container, Divider } from '@mui/material';
+import { useCallback } from 'react';
+import { Box } from '@mui/material';
 
-// import Page, { PageToolbar } from '../component/Page';
-// import { TopBar } from '../component/UI';
 import { SubTitle, Label } from '../../UI';
-// import { Message } from '../model/Message';
-import { IApiConfig } from '../../../api/IApi';
-import { MessageApi } from '../../../api/MessageApi';
 import { GmailMessageDTO } from '../../../types/messageDTO';
 import { useCheckAuthentication } from '../../../hook/AuthenticationHook';
 import { myPalette } from '../../../Theme';
 import styled from 'styled-components';
-import {
-  SelectChangeEvent,
-  ToggleButton,
-  ToggleButtonGroup
-} from '@mui/material';
-import { PuppeteerApi } from '../../../api/PuppeteerApi';
 
 const MessageListBox = styled(Box)`
   background-color: ${myPalette.page.lightGrey};
@@ -30,15 +19,10 @@ const MessageListBox = styled(Box)`
 // scroll-snap-align: start;
 // overflow-y: scroll;
 
-export function MessageListView(props: { message: GmailMessageDTO }) {
-  const [message, setMessages] = useState(props.message);
-
-  useCheckAuthentication();
-  useEffect(() => {
-    setMessages(props.message);
-  }, [props]);
+const MessageListInfo = (props: { message: GmailMessageDTO }) => {
+  const { message } = props;
   return (
-    <MessageListBox>
+    <MessageListBox key={message.gmailId}>
       <div key={message.gmailId}>
         <h3>{message.from}</h3>
         <h5>{message.subject}</h5>
@@ -48,5 +32,67 @@ export function MessageListView(props: { message: GmailMessageDTO }) {
         <a href={message.listUnsubscribe}>unsub from {message.domain}</a>
       </div>
     </MessageListBox>
+  );
+};
+
+const MessageListPuppeteerElements = (props: { message: GmailMessageDTO }) => {
+  const { message } = props;
+  return (
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      key={message.gmailId}>
+      <SubTitle>{message.subject}</SubTitle>
+      <Label>{message.from}</Label>
+      <Label>{message.subject}</Label>
+      <Label>{message.status}</Label>
+    </Box>
+  );
+};
+
+export function MessageListView(props: {
+  message: GmailMessageDTO;
+  messageListViewType: string | undefined;
+}) {
+  const { message, messageListViewType } = props;
+  const RenderSwitch = useCallback(
+    (props: {
+      message: GmailMessageDTO;
+      messageListViewType: string | undefined;
+    }) => {
+      const value = props.messageListViewType;
+      switch (value) {
+        case 'info':
+          return (
+            <MessageListInfo
+              message={message}
+              key={`${message.gmailId}-info-view`}
+            />
+          );
+        case 'puppeteer':
+          return (
+            <MessageListPuppeteerElements
+              message={message}
+              key={`${message.gmailId}-puppeteer-view`}
+            />
+          );
+        default:
+          return (
+            <MessageListInfo
+              message={message}
+              key={`${message.gmailId}-info-view`}
+            />
+          );
+      }
+    },
+    [message, messageListViewType]
+  );
+
+  useCheckAuthentication();
+  return (
+    <RenderSwitch
+      message={message}
+      messageListViewType={messageListViewType}
+      key={message.gmailId}
+    />
   );
 }
