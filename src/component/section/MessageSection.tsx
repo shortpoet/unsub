@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 
 // import Page, { PageToolbar } from '../component/Page';
 // import { TopBar } from '../component/UI';
-import { SubTitle } from '../UI';
+import { Section, SubTitle } from '../UI';
 // import { Message } from '../model/Message';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
@@ -22,12 +22,12 @@ const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
   box-sizing: border-box;
-  padding: 1rem;
+  padding: 0rem 0rem 0rem 0rem;
   margin: 1rem 0 0 0;
   border: 0.5rem solid ${myPalette.deepPurple.dark};
   border-radius: 0.25rem;
-  width: 100vw;
-  height: 30rem;
+  width: 100%;
+  height: 50rem;
 
   display: flex;
   flex-grow: 1;
@@ -62,8 +62,10 @@ export function MessageSection(props: {
   // }, [props]);
 
   return (
-    <MessageContainer maxWidth="xl">
+    <MessageContainer maxWidth={false}>
+      {/* <Section> */}
       <RenderSwitch messageViewType={messageViewType} />
+      {/* </Section> */}
     </MessageContainer>
   );
 }

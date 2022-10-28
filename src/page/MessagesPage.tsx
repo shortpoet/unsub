@@ -26,7 +26,7 @@ import { TableSection } from '../component/section/TableSection';
 const MessageContainer = styled(Container)`
   background-color: ${myPalette.page.lightGrey};
   scroll-behavior: smooth;
-  padding: 1rem;
+  padding: 1rem 0rem 5rem 0rem;
   height: 100%;
   width: 100%;
   word-wrap: break-word;
@@ -46,7 +46,6 @@ function MessagesFC(props: {
   const { messages, messageViewType } = props;
   return (
     <MessageContainer maxWidth={false}>
-      <SubTitle>Loaded Messages</SubTitle>
       {messages.length > 0 && <CountSection messages={messages} />}
       {messages.length > 0 && (
         <MessageSection messages={messages} messageViewType={messageViewType} />
