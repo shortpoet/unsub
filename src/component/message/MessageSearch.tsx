@@ -16,10 +16,9 @@ const SearchContainer = styled.div``;
 
 export function MessageSearch({ messages }: { messages: GmailMessageDTO[] }) {
   const filtered = (filterOn: string) => {
-    if (filterOn === 'all') {
+    if (filterOn === '') {
       return messages;
     }
-    console.log('[MessageSearch - filtered] filterOn: ', filterOn);
     return messages.filter(message => message.domain === filterOn);
   };
   const [value, setValue] = useState('all');
@@ -29,11 +28,7 @@ export function MessageSearch({ messages }: { messages: GmailMessageDTO[] }) {
   const onChange = (value: string) => {
     setValue(value);
     setFilteredMessages(filtered(value));
-    // console.log('[MessageSearch - onChange] value: ', value);
   };
-  // useEffect(() => {
-  //   console.log('[MessageSearch - useEffect] value: ', value);
-  // }, [value, filtered]);
   const options = messages.map(message => message.domain);
   const unique = [...new Set(options)];
   return (

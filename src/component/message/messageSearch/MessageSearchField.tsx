@@ -164,6 +164,10 @@ export function MessageSearchField({
         onChange(label);
       }
     }
+    if (value === null) {
+      setValue('');
+      onChange('');
+    }
   };
   const handleTextChange = async (event: SyntheticEvent<Element, Event>) => {
     const term = event.target;
