@@ -1,3 +1,5 @@
+import { GeoData } from './geoData';
+
 interface MessageDTO {
   gmailId: string;
   labelIds: string[];
@@ -15,6 +17,7 @@ interface MessageDTO {
   links?: Record<string, string>[] | null;
   googleSheetsLink?: string | null;
   domain?: string | null;
+  geoData?: GeoData[] | null;
 }
 
 const domain_regex = /@([a-zA-Z0-9-.]+)/;
@@ -39,7 +42,8 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     listUnsubscribe,
     mailto,
     links,
-    status
+    status,
+    geoData
   }: {
     gmailId: string;
     labelIds: string[];
@@ -57,6 +61,7 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     links?: Record<string, string>[] | null;
     googleSheetsLink?: string | null;
     domain?: string | null;
+    geoData?: GeoData[] | null;
   }) {
     this.gmailId = gmailId;
     this.labelIds = labelIds;
@@ -74,6 +79,7 @@ export class GmailMessageDTO implements Required<MessageDTO> {
     this.links = links || [];
     this.googleSheetsLink = `=HYPERLINK("https://mail.google.com/mail/u/0/#inbox/${this.gmailId}#", "View")`;
     this.domain = this.from.match(domain_regex)?.[1] || '';
+    this.geoData = geoData || null;
   }
   gmailId: string;
   labelIds: string[];
@@ -91,4 +97,5 @@ export class GmailMessageDTO implements Required<MessageDTO> {
   links: Record<string, string>[];
   googleSheetsLink: string;
   domain: string;
+  geoData: GeoData[] | null;
 }

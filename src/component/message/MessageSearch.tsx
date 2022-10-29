@@ -21,7 +21,7 @@ export function MessageSearch({ messages }: { messages: GmailMessageDTO[] }) {
     }
     return messages.filter(message => message.domain === filterOn);
   };
-  const [value, setValue] = useState('all');
+  const [value, setValue] = useState('');
   const [filteredMessages, setFilteredMessages] = useState<GmailMessageDTO[]>(
     filtered(value)
   );
