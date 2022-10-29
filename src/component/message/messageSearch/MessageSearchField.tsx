@@ -6,6 +6,7 @@ import {
   AutocompleteChangeReason,
   AutocompleteRenderOptionState,
   createFilterOptions,
+  FilterOptionsState,
   FormControl,
   TextField
 } from '@mui/material';
@@ -37,113 +38,31 @@ export interface MessageSearchOptions {
   id: number;
   count: number;
 }
-export function MessageSearchField({
+export function MessageSearchField<T>({
   options,
-  onChange
+  onChange,
+  filterOptions,
+  renderOption
 }: {
   // messages: GmailMessageDTO[];
-  options: any;
+  options: T[];
   // loading: boolean;
   onChange: (value: string) => void;
+  filterOptions: (
+    options: unknown[],
+    state: FilterOptionsState<unknown>
+  ) => unknown[];
+  renderOption: (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: unknown,
+    state: AutocompleteRenderOptionState
+  ) => JSX.Element | undefined;
 }) {
   const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
   // const { label, color } = options;
   const [open, setOpen] = useState(false);
   const loading = open && options.length === 0;
-
-  const onInputChange = (
-    event: SyntheticEvent<Element, Event>,
-    newInputValue: string
-  ) => {
-    setInputValue(newInputValue);
-  };
-  options = options
-    .map((option: any, i: number) => {
-      return {
-        label: option,
-        color: 'blue',
-        id: i
-      };
-    })
-    .reduce((acc: any, current: any) => {
-      const unique = acc.find((item: any) => item.label === current.label);
-      if (!unique) {
-        return acc.concat([{ ...current, count: 1 }]);
-      } else {
-        unique.count += 1;
-        unique.color = 'red';
-        return acc;
-      }
-    }, []);
-
-  const filterOptions = createFilterOptions({
-    // limit: 10,
-    // matchFrom: 'start',
-    // stringify: (option: any) => option.name,
-    ignoreCase: true
-  });
-
-  // const filteredOptions = messages.filter((message) => {
-  //   return message.snippet.toLowerCase().includes(inputValue.toLowerCase());
-  // });
-
-  // const filteredOptions = (options: any, inputValue: string) => {
-  //     const filtered = filterOptions(options, inputValue);
-
-  //     // Suggest the creation of a new value
-  //     if (inputValue !== '') {
-  //       filtered.push({
-  //         inputValue: inputValue,
-  //         name: `Add "${inputValue}"`
-  //       });
-  //     }
-
-  //     return filtered;
-  //   }
-  // };
-
-  const getOptionLabel = (option: any) => {
-    // Value selected with enter, right from the input
-    if (typeof option === 'string') {
-      // console.log('[MessageSearch - getOptionLabel - string] option: ', option);
-      return option;
-    }
-    // Add "xxx" option created dynamically
-    if (option.inputValue) {
-      // console.log(
-      //   `[MessageSearch - getOptionLabel - inputValue] option: `,
-      //   option
-      // );
-      return option.inputValue;
-    }
-    // Regular option
-    // console.log('[MessageSearch - getOptionLabel - regular] option: ', option);
-    return option.name;
-  };
-
-  function renderOption(
-    props: any,
-    option: any,
-    state: AutocompleteRenderOptionState
-  ) {
-    // console.log('[MessageSearch - renderOption] option: ', option);
-    if (typeof option === 'string') {
-      return (
-        <li {...props}>
-          <Label color="red">{option}</Label>
-        </li>
-      );
-    }
-    if ((option as MessageSearchOptions).label) {
-      const { label, color, id, count } = option as MessageSearchOptions;
-      return (
-        <li {...props} key={id}>
-          <Label style={{ color: color }}>{`${label} (${count})`}</Label>
-        </li>
-      );
-    }
-  }
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,

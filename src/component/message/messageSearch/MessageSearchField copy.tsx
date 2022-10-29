@@ -4,6 +4,7 @@ import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
+  AutocompleteRenderOptionState,
   createFilterOptions,
   FormControl,
   TextField
@@ -30,13 +31,12 @@ const SearchTextField = styled(TextField)`
   }
 `;
 
-const filterOptions = createFilterOptions({
-  // limit: 10,
-  // matchFrom: 'start',
-  // stringify: (option: any) => option.name,
-  ignoreCase: true
-});
-
+export interface MessageSearchOptions {
+  label: string;
+  color: string;
+  id: number;
+  count: number;
+}
 export function MessageSearchField({
   options,
   onChange
@@ -58,6 +58,31 @@ export function MessageSearchField({
   ) => {
     setInputValue(newInputValue);
   };
+  options = options
+    .map((option: any, i: number) => {
+      return {
+        label: option,
+        color: 'blue',
+        id: i
+      };
+    })
+    .reduce((acc: any, current: any) => {
+      const unique = acc.find((item: any) => item.label === current.label);
+      if (!unique) {
+        return acc.concat([{ ...current, count: 1 }]);
+      } else {
+        unique.count += 1;
+        unique.color = 'red';
+        return acc;
+      }
+    }, []);
+
+  const filterOptions = createFilterOptions({
+    // limit: 10,
+    // matchFrom: 'start',
+    // stringify: (option: any) => option.name,
+    ignoreCase: true
+  });
 
   // const filteredOptions = messages.filter((message) => {
   //   return message.snippet.toLowerCase().includes(inputValue.toLowerCase());
@@ -79,21 +104,46 @@ export function MessageSearchField({
   // };
 
   const getOptionLabel = (option: any) => {
-    console.log('option', option);
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
+      // console.log('[MessageSearch - getOptionLabel - string] option: ', option);
       return option;
     }
     // Add "xxx" option created dynamically
     if (option.inputValue) {
+      // console.log(
+      //   `[MessageSearch - getOptionLabel - inputValue] option: `,
+      //   option
+      // );
       return option.inputValue;
     }
     // Regular option
+    // console.log('[MessageSearch - getOptionLabel - regular] option: ', option);
     return option.name;
   };
-  const renderOption = (option: any) => {
-    return option.name;
-  };
+
+  function renderOption(
+    props: any,
+    option: any,
+    state: AutocompleteRenderOptionState
+  ) {
+    // console.log('[MessageSearch - renderOption] option: ', option);
+    if (typeof option === 'string') {
+      return (
+        <li {...props}>
+          <Label color="red">{option}</Label>
+        </li>
+      );
+    }
+    if ((option as MessageSearchOptions).label) {
+      const { label, color, id, count } = option as MessageSearchOptions;
+      return (
+        <li {...props} key={id}>
+          <Label style={{ color: color }}>{`${label} (${count})`}</Label>
+        </li>
+      );
+    }
+  }
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -104,20 +154,25 @@ export function MessageSearchField({
     console.log('selected', value);
     if (typeof value === 'string') {
       setValue(value);
+      onChange(value);
       // window.open(`https://mail.google.com/mail/u/0/#search/${value}`, '_blank');
     }
-    // if (typeof newValue === 'string') {
-    //   setValue(newValue);
-    // } else if (newValue && newValue.inputValue) {
-    //   // Create a new value from the user input
-    //   setValue(newValue.inputValue);
-    // } else {
-    //   setValue(newValue);
-    // }
+    if (value) {
+      if ((value as MessageSearchOptions).label) {
+        const { label, color, id, count } = value as MessageSearchOptions;
+        setValue(label);
+        onChange(label);
+      }
+    }
+    if (value === null) {
+      setValue('');
+      onChange('');
+    }
   };
   const handleTextChange = async (event: SyntheticEvent<Element, Event>) => {
     const term = event.target;
     if (term instanceof HTMLInputElement) {
+      // console.log('[MessageSearchField.handleTextChange] term: ', term.value);
       const value = term.value;
       // const messages = await MessageApi // or onChange
       setValue(value);
@@ -142,7 +197,7 @@ export function MessageSearchField({
           handleHomeEndKeys
           id="search"
           options={options}
-          getOptionLabel={getOptionLabel}
+          // getOptionLabel={getOptionLabel}
           renderOption={renderOption}
           style={{ width: 300 }}
           freeSolo

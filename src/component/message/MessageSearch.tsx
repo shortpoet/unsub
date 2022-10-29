@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GmailMessageDTO } from '../../types/messageDTO';
+import { MessageSearchDomain } from './messageSearch/MessageSearchDomain';
 import { MessageSearchField } from './messageSearch/MessageSearchField';
 import { MessageSearchResults } from './messageSearch/MessageSearchResults';
 
@@ -33,7 +34,7 @@ export function MessageSearch({ messages }: { messages: GmailMessageDTO[] }) {
   const unique = [...new Set(options)];
   return (
     <SearchContainer>
-      <MessageSearchField onChange={onChange} options={options} />
+      <MessageSearchDomain onChange={onChange} options={options} />
       <MessageSearchResults messages={filteredMessages} />
     </SearchContainer>
   );
