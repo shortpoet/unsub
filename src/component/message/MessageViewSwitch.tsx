@@ -65,6 +65,9 @@ export function MessageViewSwitch(props: {
         <ViewButton size="small" value="list">
           List
         </ViewButton>
+        <ViewButton size="small" value="search">
+          Search
+        </ViewButton>
       </ToggleViewGroup>
     </ViewFormControl>
   );
