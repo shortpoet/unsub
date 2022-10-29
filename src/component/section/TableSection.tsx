@@ -29,10 +29,10 @@ const TableContainer = styled(Container)`
 export function TableSection() {
   const [messages, setMessages] = useState<GmailMessageDTO[]>([]);
   const [selectedTableType, setSelectedTableType] =
-    useState<StatusTableType>('HAS_DATA');
+    useState<StatusTableType>('ALL');
   const [error, setError] = useState(false);
   const [errorJson, setErrorJson] = useState('');
-  const [tableData, setTableData] = useState();
+  const [tableData, setTableData] = useState<GmailMessageDTO[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -56,12 +56,13 @@ export function TableSection() {
         // console.log(inspect(response, { depth: 5, colors: false }));
         if (response.data) {
           // setMessages(response.data);
-          setTableData(response.data);
+          await setMessages(response.data);
+          setTableData(messages);
         }
         if (response.error) {
           console.error(response.error);
+          await setErrorJson(response.error);
           setError(true);
-          setErrorJson(response.error);
         }
       } catch (e) {
         console.error('[error]', e);
@@ -71,7 +72,13 @@ export function TableSection() {
 
   const handleTableTypeChange = (event: any) => {
     const value = event.props.value;
+    console.log('[TableSection.handleTableTypeChange]', value);
     setSelectedTableType(value);
+    setTableData(
+      messages.filter(message => {
+        return message.status === value;
+      })
+    );
   };
 
   return (

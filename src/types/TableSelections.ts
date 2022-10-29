@@ -3,6 +3,7 @@ const TABLE_SELECTIONS: Record<
   Record<string, Record<string, string>>
 > = {
   MESSAGE_TYPES: {
+    ALL: { value: 'all', label: 'All' },
     HAS_DATA: { value: 'HAS_DATA', label: 'Has Data' },
     HAS_MAILTO: { value: 'HAS_MAILTO', label: 'Has Mailto' },
     '--> HAS_MANY_LINKS <--': {

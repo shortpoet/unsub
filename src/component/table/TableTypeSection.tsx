@@ -10,7 +10,8 @@ export type StatusTableType =
   | 'HAS_BOTH'
   | 'HAS_MAILTO'
   | '--> HAS_MANY_LINKS <--'
-  | 'HAS_DATA';
+  | 'HAS_DATA'
+  | 'ALL';
 
 export function TableTypeSection(props: {
   title: string;
