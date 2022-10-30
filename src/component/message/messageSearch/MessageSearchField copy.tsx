@@ -46,19 +46,17 @@ export interface MessageSearchOptions {
   color: string;
   id: number;
   count: number;
-  inputValue: string;
 }
 
 export interface MessageSearchFieldConfig {
   label: string;
-  options: MessageSearchOptions[];
+  options: MessageSearchOptions;
   onChange: (value: string) => void;
   filterOptions: (
     options: MessageSearchOptions[],
     state: FilterOptionsState<MessageSearchOptions>
   ) => MessageSearchOptions[];
   renderOption: (
-    props: React.HTMLAttributes<HTMLLIElement>,
     option: MessageSearchOptions,
     state: AutocompleteRenderOptionState
   ) => React.ReactNode;
@@ -69,33 +67,40 @@ export interface MessageSearchFieldConfig {
   ) => boolean;
 }
 
-export function MessageSearchField(props: {
-  config: MessageSearchFieldConfig[];
+export function MessageSearchField<T>({
+  label,
+  options,
+  onChange,
+  filterOptions,
+  renderOption
+}: {
+  label: string;
+  // messages: GmailMessageDTO[];
+  options: T[];
+  // loading: boolean;
+  onChange: (value: string) => void;
+  filterOptions: (
+    options: unknown[],
+    state: FilterOptionsState<unknown>
+  ) => unknown[];
+  renderOption: (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: unknown,
+    state: AutocompleteRenderOptionState
+  ) => JSX.Element | undefined;
 }) {
-  const { config } = props;
-  const [searchType, setSearchType] = useState(config[0].label);
-  const [searchTypeOptions, setSearchTypeOptions] = useState(
-    config.map(c => c.label)
-  );
-  const thisConfig = config.find(
-    c => c.label === searchType
-  ) as MessageSearchFieldConfig;
-
-  const {
-    label,
-    options,
-    onChange,
-    filterOptions,
-    renderOption,
-    getOptionLabel,
-    getOptionSelected
-  } = thisConfig;
-
   const [value, setValue] = useState('');
   const [inputValue, setInputValue] = useState('');
   // const { label, color } = options;
   const [open, setOpen] = useState(false);
-  const loading = open && options?.length === 0;
+  const loading = open && options.length === 0;
+  const [searchType, setSearchType] = useState('from');
+  const [searchTypeOptions, setSearchTypeOptions] = useState({
+    from: 'From',
+    to: 'To',
+    subject: 'Subject',
+    body: 'Body'
+  } as Record<string, string>);
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -153,9 +158,9 @@ export function MessageSearchField(props: {
               handleSearchTypeChange(event.target.value as string);
             }}
             label="Table Type">
-            {searchTypeOptions.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
+            {Object.keys(searchTypeOptions).map(type => (
+              <MenuItem key={type} value={type}>
+                {searchTypeOptions[type]}
               </MenuItem>
             ))}
           </Select>

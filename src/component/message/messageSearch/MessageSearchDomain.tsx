@@ -6,6 +6,7 @@ import {
   AutocompleteChangeReason,
   AutocompleteRenderOptionState,
   createFilterOptions,
+  FilterOptionsState,
   FormControl,
   TextField
 } from '@mui/material';
@@ -14,7 +15,7 @@ import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Label } from '../../UI';
 import { GmailMessageDTO } from '../../../types/messageDTO';
 import { MessageApi } from '../../../api/MessageApi';
-import { MessageSearchField } from './MessageSearchField';
+import { MessageSearchField, MessageSearchOptions } from './MessageSearchField';
 
 const SearchContainer = styled.div`
   display: flex;
@@ -32,12 +33,6 @@ const SearchTextField = styled(TextField)`
   }
 `;
 
-export interface MessageSearchOptions {
-  label: string;
-  color: string;
-  id: number;
-  count: number;
-}
 export function MessageSearchDomain({
   options,
   onChange
@@ -66,15 +61,38 @@ export function MessageSearchDomain({
       }
     }, []);
 
-  const filterOptions = createFilterOptions({
-    ignoreCase: true
-  });
-
-  function renderOption(
-    props: any,
-    option: any,
-    state: AutocompleteRenderOptionState
+  function filterOptions(
+    options: MessageSearchOptions[],
+    state: FilterOptionsState<MessageSearchOptions>
   ) {
+    const filtered = createFilterOptions({
+      matchFrom: 'start',
+      stringify: (option: MessageSearchOptions) => option.label
+    })(options, state);
+    // if (state.inputValue !== '') {
+    //   filtered.push({
+    //     inputValue: state.inputValue,
+    //     label: `Add "${state.inputValue}"`,
+    //     color: 'blue',
+    //     id: options.length,
+    //     count: 0
+    //   });
+    // }
+    return filtered;
+  }
+  // function filterOptions(
+  //   options: MessageSearchOptions[],
+  //   state: FilterOptionsState<MessageSearchOptions>
+  // ): MessageSearchOptions[] {
+  //   return createFilterOptions({
+  //     ignoreCase: true
+  //   });
+  // }
+  function renderOption(
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: MessageSearchOptions,
+    state: AutocompleteRenderOptionState
+  ): React.ReactNode {
     // console.log('[MessageSearch - renderOption] option: ', option);
     if (typeof option === 'string') {
       return (
@@ -92,13 +110,22 @@ export function MessageSearchDomain({
       );
     }
   }
+  const config = [
+    {
+      label: 'Domain',
+      options: options,
+      onChange: onChange,
+      filterOptions: filterOptions,
+      renderOption: renderOption
+    },
+    {
+      label: 'Id',
+      options: options,
+      onChange: onChange,
+      filterOptions: filterOptions,
+      renderOption: renderOption
+    }
+  ];
 
-  return (
-    <MessageSearchField<MessageSearchOptions>
-      options={options}
-      onChange={onChange}
-      filterOptions={filterOptions}
-      renderOption={renderOption}
-    />
-  );
+  return <MessageSearchField config={config} />;
 }
