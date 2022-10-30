@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GmailMessageDTO } from '../../types/messageDTO';
-import { MessageSearchDomain } from './messageSearch/MessageSearchDomain';
+import { MessageSearchSelect } from './messageSearch/MessageSearchSelect';
 import { MessageSearchField } from './messageSearch/MessageSearchField';
 import { MessageSearchResults } from './messageSearch/MessageSearchResults';
 
@@ -16,25 +16,42 @@ const SearchContainer = styled.div``;
 // `;
 
 export function MessageSearch({ messages }: { messages: GmailMessageDTO[] }) {
-  const filtered = (filterOn: string) => {
-    if (filterOn === '') {
+  function filtered({
+    filterOn,
+    key
+  }: {
+    // messages: GmailMessageDTO[];
+    filterOn: string;
+    // loading: boolean;
+    key: keyof GmailMessageDTO | '';
+  }) {
+    if (filterOn === '' || key === '') {
       return messages;
     }
-    return messages.filter(message => message.domain === filterOn);
-  };
-  const [value, setValue] = useState('');
+    console.log('filterOn', filterOn);
+    console.log('key', key);
+    return messages.filter(message => message[key] === filterOn);
+  }
+  const [filter, setFilter] = useState({
+    filterOn: '',
+    key: 'from' as keyof GmailMessageDTO | ''
+  });
   const [filteredMessages, setFilteredMessages] = useState<GmailMessageDTO[]>(
-    filtered(value)
+    filtered(filter)
   );
-  const onChange = (value: string) => {
-    setValue(value);
-    setFilteredMessages(filtered(value));
+  const onChange = ({
+    filterOn,
+    key
+  }: {
+    filterOn: string;
+    key: keyof GmailMessageDTO | '';
+  }) => {
+    setFilter({ filterOn, key });
+    setFilteredMessages(filtered({ filterOn, key }));
   };
-  const options = messages.map(message => message.domain);
-  const unique = [...new Set(options)];
   return (
     <SearchContainer>
-      <MessageSearchDomain onChange={onChange} options={options} />
+      <MessageSearchSelect onChange={onChange} options={messages} />
       <MessageSearchResults messages={filteredMessages} />
     </SearchContainer>
   );

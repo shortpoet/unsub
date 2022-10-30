@@ -33,33 +33,43 @@ const SearchTextField = styled(TextField)`
   }
 `;
 
-export function MessageSearchDomain({
+export function MessageSearchSelect({
   options,
   onChange
 }: {
   // messages: GmailMessageDTO[];
-  options: any;
+  options: GmailMessageDTO[];
   // loading: boolean;
-  onChange: (value: string) => void;
+  onChange: ({
+    filterOn,
+    key
+  }: {
+    filterOn: string;
+    key: keyof GmailMessageDTO | '';
+  }) => void;
 }) {
-  options = options
-    .map((option: any, i: number) => {
-      return {
-        label: option,
-        color: 'blue',
-        id: i
-      };
-    })
-    .reduce((acc: any, current: any) => {
-      const unique = acc.find((item: any) => item.label === current.label);
-      if (!unique) {
-        return acc.concat([{ ...current, count: 1 }]);
-      } else {
-        unique.count += 1;
-        unique.color = 'red';
-        return acc;
-      }
-    }, []);
+  const optionsByCount = (opts: string[]) =>
+    opts
+      .map((option: string, i: number) => {
+        return {
+          label: option,
+          color: 'blue',
+          id: i
+        };
+      })
+      .reduce((acc: any, current: any) => {
+        const unique = acc.find((item: any) => item.label === current.label);
+        if (!unique) {
+          return acc.concat([{ ...current, count: 1 }]);
+        } else {
+          unique.count += 1;
+          unique.color = 'red';
+          return acc;
+        }
+      }, []);
+  const unique = [...new Set(options)];
+  const domainOptions = optionsByCount(options.map(option => option.domain));
+  const idOptions = options.map(option => option.gmailId);
 
   function filterOptions(
     options: MessageSearchOptions[],
@@ -110,17 +120,18 @@ export function MessageSearchDomain({
       );
     }
   }
+
   const config = [
     {
-      label: 'Domain',
-      options: options,
+      label: 'domain' as keyof GmailMessageDTO,
+      options: domainOptions,
       onChange: onChange,
       filterOptions: filterOptions,
       renderOption: renderOption
     },
     {
-      label: 'Id',
-      options: options,
+      label: 'gmailId' as keyof GmailMessageDTO,
+      options: idOptions,
       onChange: onChange,
       filterOptions: filterOptions,
       renderOption: renderOption

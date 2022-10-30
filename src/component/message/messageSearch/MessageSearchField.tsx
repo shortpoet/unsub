@@ -15,6 +15,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Label } from '../../UI';
+import { GmailMessageDTO } from '../../../types/messageDTO';
 
 const SearchContainer = styled.div`
   display: flex;
@@ -50,9 +51,15 @@ export interface MessageSearchOptions {
 }
 
 export interface MessageSearchFieldConfig {
-  label: string;
+  label: keyof GmailMessageDTO;
   options: MessageSearchOptions[];
-  onChange: (value: string) => void;
+  onChange: ({
+    filterOn,
+    key
+  }: {
+    filterOn: string;
+    key: keyof GmailMessageDTO | '';
+  }) => void;
   filterOptions: (
     options: MessageSearchOptions[],
     state: FilterOptionsState<MessageSearchOptions>
@@ -106,19 +113,28 @@ export function MessageSearchField(props: {
     console.log('selected', value);
     if (typeof value === 'string') {
       setValue(value);
-      onChange(value);
+      onChange({
+        filterOn: value,
+        key: searchType
+      });
       // window.open(`https://mail.google.com/mail/u/0/#search/${value}`, '_blank');
     }
     if (value) {
       if ((value as MessageSearchOptions).label) {
         const { label, color, id, count } = value as MessageSearchOptions;
         setValue(label);
-        onChange(label);
+        onChange({
+          filterOn: label,
+          key: searchType
+        });
       }
     }
     if (value === null) {
       setValue('');
-      onChange('');
+      onChange({
+        filterOn: '',
+        key: ''
+      });
     }
   };
   const handleTextChange = async (event: SyntheticEvent<Element, Event>) => {
@@ -128,7 +144,10 @@ export function MessageSearchField(props: {
       const value = term.value;
       // const messages = await MessageApi // or onChange
       setValue(value);
-      onChange(value);
+      onChange({
+        filterOn: value,
+        key: searchType
+      });
     }
   };
 
@@ -150,7 +169,9 @@ export function MessageSearchField(props: {
             style={{ width: '10rem' }}
             value={searchType}
             onChange={(event, newSearchType) => {
-              handleSearchTypeChange(event.target.value as string);
+              handleSearchTypeChange(
+                event.target.value as keyof GmailMessageDTO
+              );
             }}
             label="Table Type">
             {searchTypeOptions.map((option, index) => (
