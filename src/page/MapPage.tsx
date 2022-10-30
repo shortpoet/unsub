@@ -1,19 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Page, { PageToolbar } from '../component/Page';
-import { Container, Grid, IconButton, Typography } from '@mui/material';
+import {
+  Breakpoint,
+  Container,
+  Grid,
+  IconButton,
+  Typography
+} from '@mui/material';
 import { Section, SectionTitle, TopBar } from '../component/UI';
 import { useCheckAuthentication } from '../hook/AuthenticationHook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCog,
+  faDownLeftAndUpRightToCenter,
+  faUpRightAndDownLeftFromCenter
+} from '@fortawesome/free-solid-svg-icons';
 
-import PlaceAutocomplete 
+// import PlaceAutocomplete
+// import MapToolbar
+// import MapLegend
 import { Map } from '../component/map/Map';
-import MapToolbar
-import MapLegend
-import { MAP_FILTERS } from '../component/map/MapFilterOptions';
+import {
+  MapFilterOptions,
+  MAP_FILTERS
+} from '../component/map/MapFilterOptions';
 import { MessageApi } from '../api/MessageApi';
-import MapColor from '../component/map/MapColor';
+import MapColor, { MapColorFilterReturn } from '../component/map/MapColor';
 
 import mapboxgl from 'mapbox-gl';
 // import { MapboxLayer } from '@deck.gl/mapbox';
@@ -24,9 +37,16 @@ import { AccountSwitch } from '../component/AccountSwitch';
 
 import MapboxGLWorker from 'mapbox-gl';
 import { IApiConfig } from '../api/IApi';
+import { LngLatLike } from 'react-map-gl';
+import { MapToolbar } from '../component/map/MapToolbar';
+import { AllowedStatusTypes } from '../types/messageDTO';
+import { MapLegend } from '../component/map/MapLegend';
+import { LocationAutoComplete } from '../component/map/LocationAutoComplete';
 
 mapboxgl.workerClass = MapboxGLWorker;
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+mapboxgl.workerClass =
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || '';
 
 const FullScreenButton = styled(IconButton)`
@@ -57,14 +77,24 @@ const MapBox = styled.div`
 
 export function MapPage() {
   const [account, setAccount] = useState('');
-  // const [center, setCenter] = useState([0, 0]);
-  const [center, setCenter] = useState(undefined);
+  const [center, setCenter] = useState<LngLatLike | undefined>([0, 0]);
   // const [zoom, setZoom] = useState(1);
-  const [filter, setFilter] = useState(MAP_FILTERS[0]);
-  const [mapColor, setMapColor] = useState(new MapColor());
-  const [mapColorOption, setMapColorOption] = useState(null);
-  const [filterOption, setFilterOption] = useState(MAP_FILTERS[0].options[0].field);
-  const [maxWidth, setMaxWidth] = useState("xl");
+  const [filterKey, setFilterKey] =
+    useState<keyof MapFilterOptions>('HAS_DATA');
+  const [filterType, setFilterType] = useState<
+    MapFilterOptions[keyof MapFilterOptions]
+  >(MAP_FILTERS[filterKey]);
+
+  // const [filterType, setFilterType] =
+  //   useState<MapFilterOptions['HAS_DATA']['value']>('HAS_DATA');
+  const [selectedFilterOption, setSelectedFilterOption] =
+    useState<MapFilterOptions['HAS_DATA']['options'][0]['field']>('hasData');
+
+  const [mapColor, setMapColor] = useState<MapColor>(new MapColor([]));
+  const [mapColorOption, setMapColorOption] = useState<MapColorFilterReturn>();
+  const [maxWidth, setMaxWidth] = useState<false | Breakpoint | undefined>(
+    'xl'
+  );
   const [mapData, setMapData] = useState(null);
   // const [map, setMap] = useState(null);
   // const [mapLoaded, setMapLoaded] = useState(false);
@@ -79,50 +109,46 @@ export function MapPage() {
   //   { name: 'Satellite Streets', value: 'satellite-streets-v11' },
   // ]);
 
-
-
-  const getMessageData = useCallback(
-    async (selectedTableType: any) => {
-      const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
-        timeout: 10000
-      };
-      const api = new MessageApi(config);
-      const params = {
-        account: account,
-        userId: 'me',
-        // q: 'mous',
-        fetchCount: 100
-        };
-      return api.getMessages(params).then(response => {
-        if (response.data) {
-          return response.data;
-        }
-      });
-    },
-    []
-  );
-
+  const getMessageData = useCallback(async (selectedTableType: any) => {
+    const config: IApiConfig = {
+      baseURL: 'http://localhost:3000',
+      timeout: 10000
+    };
+    const api = new MessageApi(config);
+    const params = {
+      account: account,
+      userId: 'me',
+      // q: 'mous',
+      fetchCount: 100
+    };
+    return api.getMessages(params).then(response => {
+      if (response.data) {
+        return response.data;
+      }
+    });
+  }, []);
 
   useCheckAuthentication();
 
   const handleFilterChange = async (filter: any) => {
-    const currentFilter = MAP_FILTERS.find((f:any) => f.value === filter);
-    setFilter(currentFilter);
+    const currentFilter = MAP_FILTERS[filterKey];
+    setFilterType(currentFilter);
 
     const data = await getMessageData(currentFilter);
     setMapData(data);
 
-    const mapColor = new MapColor(data, currentFilter);
+    const mapColor = new MapColor(data);
     setMapColor(mapColor);
     setMapColorOption(mapColor.filter(filter, currentFilter.options[0].field));
   };
 
-  const handleFilterOptionChange = async (filterValue: any, option: any) => {
-    setFilterOption(option);
+  const handleFilterOptionChange = async (
+    filterValue: AllowedStatusTypes,
+    option: any
+  ) => {
+    setSelectedFilterOption(option);
     setMapColorOption(mapColor.filter(filterValue, option));
   };
-    
 
   useEffect(() => {
     // if (account) {
@@ -132,81 +158,92 @@ export function MapPage() {
     //     setMapColorOption(mapColor.getOptions()[0]);
     //   });
     // }
-    await handleFilterChange(filter.value);
-    setFilterOption(filterOption);
-    setMapColorOption(mapColor.filter(filter.value, filterOption));
+    (async () => {
+      await handleFilterChange(filterType.value);
+    })();
+    setSelectedFilterOption(selectedFilterOption);
+    setMapColorOption(mapColor.filter(filterType.value, selectedFilterOption));
   }, [account]);
   // }, [account, filter, filterOption]);
-    
+
   const handleAccountChange = (account: string) => {
     setAccount(account);
-  }
+  };
 
   const toggleFullScreen = () => {
-    if (maxWidth === "xl") {
+    if (maxWidth === 'xl') {
       setMaxWidth(false);
       // setMaxWidth("lg");
     } else {
-      setMaxWidth("xl");
+      setMaxWidth('xl');
     }
-  }
+  };
 
   const moveMapToLocation = (location: any) => {
     if (location) {
       setCenter(location.geo);
     }
-  }
+  };
 
   return (
-    <Page>
+    <Page title="Map">
       <PageToolbar>
         <Container maxWidth="xl">
           <TopBar>
             <AccountSwitch onChange={handleAccountChange} />
-            </TopBar>  
+          </TopBar>
         </Container>
       </PageToolbar>
       <Container maxWidth={maxWidth}>
         <Section>
           <FullScreenButton onClick={toggleFullScreen}>
-            <FontAwesomeIcon icon={maxWidth === "xl" ? faUpRightAndDownLeftFromCenter : faDownLeftAndUpRightToCenter} />
+            <FontAwesomeIcon
+              icon={
+                maxWidth === 'xl'
+                  ? faUpRightAndDownLeftFromCenter
+                  : faDownLeftAndUpRightToCenter
+              }
+            />
             {/* {maxWidth === "xl" ? <FullscreenIcon /> : <FullscreenExitIcon />} */}
           </FullScreenButton>
-        <SectionTitle>Map</SectionTitle>
-        <MapBar
+          <SectionTitle>Map</SectionTitle>
+          <MapBar
           // style={{
           //   position: 'absolute',
           //   top: '1.5rem',
           //   left: '1rem',
           //   zIndex: 1000,
           // }}
-        >
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={4} display="flex" alignItems="flex-end">
-              <LocationAutoComplete onChoose={moveMapToLocation} />
+          >
+            <Grid container spacing={1}>
+              <Grid item xs={12} md={4} display="flex" alignItems="flex-end">
+                <LocationAutoComplete onChange={moveMapToLocation} />
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <MapToolbar
+                  filterType={filterType}
+                  filterField={selectedFilterOption}
+                  onFilterChange={handleFilterChange}
+                  onFilterOptionChange={handleFilterOptionChange}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={8}>
-              <MapToolbar
-                filter={filter}
-                filterOption={filterOption}
-                onFilterChange={handleFilterChange}
-                onFilterOptionChange={handleFilterOptionChange}
+          </MapBar>
+          {mapData && mapColorOption && (
+            <MapBox>
+              <MapLegend mapColor={mapColorOption} />
+              <Map
+                center={center}
+                // zoom={zoom}
+                maxWidth={maxWidth}
+                mapColor={mapColorOption}
+                data={mapData}
+                filterField={selectedFilterOption}
+                filterOptions={filterType.options}
+                account={''}
               />
-            </Grid>
-          </Grid>
-        </MapBar>
-        <MapBox>
-          <MapLegend mapColor={mapColor} mapColorOption={mapColorOption} />
-          <Map
-            center={center}
-            // zoom={zoom}
-            maxWidth={maxWidth}
-            mapColor={mapColorOption}
-            data={mapData}
-            field={filterOption}
-            fields={filter.options}
-          />
-        </MapBox>
+            </MapBox>
+          )}
         </Section>
       </Container>
     </Page>

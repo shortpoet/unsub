@@ -55,6 +55,8 @@
     "worker-loader": "^3.0.8"
   },
   "devDependencies": {
+    "@types/chroma-js": "^2.1.4",
+    "@types/d3": "^7.4.0",
     "@types/mapbox-gl": "^2.7.6",
     "@types/styled-components": "^5.1.26",
     "env-cmd": "10.1.0"

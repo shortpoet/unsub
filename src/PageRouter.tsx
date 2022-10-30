@@ -12,6 +12,7 @@ export function PageRouter() {
       <Route path="/messages" element={<MessagesPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/tables" element={<TablesPage />} />
+      <Route path="/map" element={<TablesPage />} />
     </Routes>
   );
 }
