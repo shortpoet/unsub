@@ -42,7 +42,7 @@ function HomeButton(props: {
   );
 }
 
-export function Home() {
+export function HomePage() {
   const [showToolbar, setShowToolbar] = useState(true);
   const [account, setAccount] = useState('' as Account['type']);
   // const [showSidebar, setShowSidebar] = useState(0);
