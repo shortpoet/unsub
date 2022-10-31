@@ -117,7 +117,7 @@ export function Sidebar() {
             </SidebarListItemIcon>
             <SidebarListItemText primary="Search" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/" onClick={closeSidebar}>
+          <ListItemButton component={Link} to="/map" onClick={closeSidebar}>
             <SidebarListItemIcon>
               <FontAwesomeIcon icon={faMap} />
             </SidebarListItemIcon>

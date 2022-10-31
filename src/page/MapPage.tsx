@@ -39,7 +39,7 @@ import MapboxGLWorker from 'mapbox-gl';
 import { IApiConfig } from '../api/IApi';
 import { LngLatLike } from 'react-map-gl';
 import { MapToolbar } from '../component/map/MapToolbar';
-import { AllowedStatusTypes } from '../types/messageDTO';
+import { AllowedStatusTypes, GmailMessageDTO } from '../types/messageDTO';
 import { MapLegend } from '../component/map/MapLegend';
 import { LocationAutoComplete } from '../component/map/LocationAutoComplete';
 
@@ -95,7 +95,7 @@ export function MapPage() {
   const [maxWidth, setMaxWidth] = useState<false | Breakpoint | undefined>(
     'xl'
   );
-  const [mapData, setMapData] = useState(null);
+  const [mapData, setMapData] = useState<any>({});
   // const [map, setMap] = useState(null);
   // const [mapLoaded, setMapLoaded] = useState(false);
   // const [mapStyle, setMapStyle] = useState('mapbox://styles/mapbox/streets-v11');
@@ -128,26 +128,141 @@ export function MapPage() {
     });
   }, []);
 
+  const parseGeoData = (data: GmailMessageDTO[]) => {
+    return data.map((message: GmailMessageDTO) => {
+      const { geoData } = message;
+      if (geoData) {
+        if (geoData?.length > 0) {
+          const { ip, ipApi, geoIp } = geoData[0];
+          if (ipApi) {
+            const { lat, lon } = ipApi;
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [lat, lon]
+              },
+              properties: {
+                ip: ip,
+                ipApi: ipApi,
+                geoIp: geoIp,
+                message: message,
+                status: message.status
+              }
+            };
+          } else if (geoIp) {
+            const { lat, lon } = geoIp;
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [lat, lon]
+              },
+              properties: {
+                ip: ip,
+                ipApi: ipApi,
+                geoIp: geoIp,
+                message: message,
+                status: message.status
+              }
+            };
+          } else {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [0, 0]
+              },
+              properties: {
+                ip: ip,
+                ipApi: ipApi,
+                geoIp: geoIp,
+                message: message,
+                status: message.status
+              }
+            };
+          }
+        } else {
+          return {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [0, 0]
+            },
+            properties: {
+              ip: '',
+              ipApi: undefined,
+              geoIp: undefined,
+              message: message,
+              status: message.status
+            }
+          };
+        }
+      } else {
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [0, 0]
+          },
+          properties: {
+            ip: '',
+            ipApi: undefined,
+            geoIp: undefined,
+            message: message,
+            status: message.status
+          }
+        };
+      }
+    });
+    // .reduce(
+    //   (acc, curr) => {
+    //     if (curr.properties.status === 'HAS_DATA') {
+    //       acc.hasData++;
+    //     } else if (curr.properties.status === 'HAS_UNSUB_LINK') {
+    //       acc.hasUnsub++;
+    //     } else if (curr.properties.status === 'HAS_BOTH') {
+    //       acc.hasBoth++;
+    //     } else if (curr.properties.status === 'HAS_MAILTO') {
+    //       acc.hasMailto++;
+    //     } else if (curr.properties.status === '--> HAS_MANY_LINKS <--') {
+    //       acc.hasManyLinks++;
+    //     }
+    //     return acc;
+    //   },
+    //   { hasData: 0, hasUnsub: 0, hasMailto: 0, hasManyLinks: 0, hasBoth: 0 }
+    // );
+  };
+
   useCheckAuthentication();
 
-  const handleFilterChange = async (filter: any) => {
+  const handleFilterInitChange = async (filter: any) => {
     const currentFilter = MAP_FILTERS[filterKey];
     setFilterType(currentFilter);
-
-    const data = await getMessageData(currentFilter);
-    setMapData(data);
-
-    const mapColor = new MapColor(data);
-    setMapColor(mapColor);
-    setMapColorOption(mapColor.filter(filter, currentFilter.options[0].field));
+    try {
+      const data = parseGeoData([(await getMessageData(currentFilter))[0]]);
+      console.log('[MapPage.handleFilterChange.data]', data);
+      setMapData(data);
+      const mapColor = new MapColor(data);
+      setMapColor(mapColor);
+      setMapColorOption(
+        mapColor.filter(filter, currentFilter.options[0].field)
+      );
+    } catch (error) {
+      console.error('[MapPage.handleFilterChange.error]', error);
+    }
   };
 
   const handleFilterOptionChange = async (
     filterValue: AllowedStatusTypes,
     option: any
   ) => {
-    setSelectedFilterOption(option);
-    setMapColorOption(mapColor.filter(filterValue, option));
+    try {
+      setSelectedFilterOption(option);
+      setMapColorOption(mapColor.filter(filterValue, option));
+    } catch (error) {
+      console.error('[MapPage.handleFilterOptionChange.error]', error);
+    }
   };
 
   useEffect(() => {
@@ -159,10 +274,13 @@ export function MapPage() {
     //   });
     // }
     (async () => {
-      await handleFilterChange(filterType.value);
+      // this sets data
+      await handleFilterInitChange(filterType.value);
+      setSelectedFilterOption(selectedFilterOption);
+      setMapColorOption(
+        mapColor.filter(filterType.value, selectedFilterOption)
+      );
     })();
-    setSelectedFilterOption(selectedFilterOption);
-    setMapColorOption(mapColor.filter(filterType.value, selectedFilterOption));
   }, [account]);
   // }, [account, filter, filterOption]);
 
@@ -223,7 +341,7 @@ export function MapPage() {
                 <MapToolbar
                   filterType={filterType}
                   filterField={selectedFilterOption}
-                  onFilterChange={handleFilterChange}
+                  onFilterChange={handleFilterInitChange}
                   onFilterOptionChange={handleFilterOptionChange}
                 />
               </Grid>

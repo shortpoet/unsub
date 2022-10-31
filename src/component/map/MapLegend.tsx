@@ -95,11 +95,11 @@ export function MapLegend({
           <ColorLegend>
             {millify(parseInt(scale[0].val || '0'), { lowercase: true })}
           </ColorLegend>
-          <ColorLegend style={{ textAlign: 'center' }}>
+          {/* <ColorLegend style={{ textAlign: 'center' }}>
             {millify(parseInt(scale[scale.length / 2].val || '0'), {
               lowercase: true
             })}
-          </ColorLegend>
+          </ColorLegend> */}
           <ColorLegend style={{ textAlign: 'right' }}>
             {millify(parseInt(scale[scale.length - 1].val || '0'), {
               lowercase: true
@@ -107,14 +107,15 @@ export function MapLegend({
           </ColorLegend>
         </ColorLegendScale>
       )}
-      {(fields || [{ name: '', field: '', transform: x => x }]).map(
-        (field, index) => (
-          <div key={index}>
-            <label>{field.name}</label>
-            <span>{field.transform(data[field.field])}</span>
-          </div>
-        )
-      )}
+      {data &&
+        (fields || [{ name: '', field: '', transform: x => x }]).map(
+          (field, index) => (
+            <div key={index}>
+              <label>{field.name}</label>
+              <span>{field.transform(data[field.field])}</span>
+            </div>
+          )
+        )}
     </Legend>
   );
 }
