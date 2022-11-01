@@ -123,9 +123,22 @@ export function Map({
 
   // }, [map, lng, lat, zoom, onMapClick]);
 
+  const retries = useRef(5);
   const loadData = () => {
     // const source = map.current.getSource('earthquakes');
     // const data = await fetch('https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson');
+
+    // while (!map || !map.getSource(SOURCE)) {
+    //   if (retries.current > 0) {
+    //     retries.current -= 1;
+    //     setTimeout(() => {
+    //       loadData();
+    //     }, 1000);
+    //   } else {
+    //     retries.current = 5;
+    //   }
+    //   return;
+    // }
     try {
       if (!mapContainer.current) {
         attachMap(setMap, mapContainer);

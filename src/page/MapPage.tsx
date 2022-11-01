@@ -42,6 +42,7 @@ import { MapToolbar } from '../component/map/MapToolbar';
 import { AllowedStatusTypes, GmailMessageDTO } from '../types/messageDTO';
 import { MapLegend } from '../component/map/MapLegend';
 import { LocationAutoComplete } from '../component/map/LocationAutoComplete';
+import { MapApi } from '../api/MapApi';
 
 mapboxgl.workerClass = MapboxGLWorker;
 mapboxgl.workerClass =
@@ -109,130 +110,25 @@ export function MapPage() {
   //   { name: 'Satellite Streets', value: 'satellite-streets-v11' },
   // ]);
 
-  const getMessageData = useCallback(async (selectedTableType: any) => {
+  const getGeoData = useCallback(async () => {
     const config: IApiConfig = {
       baseURL: 'http://localhost:3000',
       timeout: 10000
     };
-    const api = new MessageApi(config);
+    const api = new MapApi(config);
     const params = {
       account: account,
       userId: 'me',
       // q: 'mous',
       fetchCount: 100
     };
-    return api.getMessages(params).then(response => {
+    return api.getGeodata(params).then(response => {
+      console.log(response);
       if (response.data) {
         return response.data;
       }
     });
   }, []);
-
-  const parseGeoData = (data: GmailMessageDTO[]) => {
-    return data.map((message: GmailMessageDTO) => {
-      const { geoData } = message;
-      if (geoData) {
-        if (geoData?.length > 0) {
-          const { ip, ipApi, geoIp } = geoData[0];
-          if (ipApi) {
-            const { lat, lon } = ipApi;
-            return {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [lat, lon]
-              },
-              properties: {
-                ip: ip,
-                ipApi: ipApi,
-                geoIp: geoIp,
-                message: message,
-                status: message.status
-              }
-            };
-          } else if (geoIp) {
-            const { lat, lon } = geoIp;
-            return {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [lat, lon]
-              },
-              properties: {
-                ip: ip,
-                ipApi: ipApi,
-                geoIp: geoIp,
-                message: message,
-                status: message.status
-              }
-            };
-          } else {
-            return {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [0, 0]
-              },
-              properties: {
-                ip: ip,
-                ipApi: ipApi,
-                geoIp: geoIp,
-                message: message,
-                status: message.status
-              }
-            };
-          }
-        } else {
-          return {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [0, 0]
-            },
-            properties: {
-              ip: '',
-              ipApi: undefined,
-              geoIp: undefined,
-              message: message,
-              status: message.status
-            }
-          };
-        }
-      } else {
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [0, 0]
-          },
-          properties: {
-            ip: '',
-            ipApi: undefined,
-            geoIp: undefined,
-            message: message,
-            status: message.status
-          }
-        };
-      }
-    });
-    // .reduce(
-    //   (acc, curr) => {
-    //     if (curr.properties.status === 'HAS_DATA') {
-    //       acc.hasData++;
-    //     } else if (curr.properties.status === 'HAS_UNSUB_LINK') {
-    //       acc.hasUnsub++;
-    //     } else if (curr.properties.status === 'HAS_BOTH') {
-    //       acc.hasBoth++;
-    //     } else if (curr.properties.status === 'HAS_MAILTO') {
-    //       acc.hasMailto++;
-    //     } else if (curr.properties.status === '--> HAS_MANY_LINKS <--') {
-    //       acc.hasManyLinks++;
-    //     }
-    //     return acc;
-    //   },
-    //   { hasData: 0, hasUnsub: 0, hasMailto: 0, hasManyLinks: 0, hasBoth: 0 }
-    // );
-  };
 
   useCheckAuthentication();
 
@@ -240,7 +136,7 @@ export function MapPage() {
     const currentFilter = MAP_FILTERS[filterKey];
     setFilterType(currentFilter);
     try {
-      const data = parseGeoData([(await getMessageData(currentFilter))[0]]);
+      const data = await getGeoData();
       console.log('[MapPage.handleFilterChange.data]', data);
       setMapData(data);
       const mapColor = new MapColor(data);
