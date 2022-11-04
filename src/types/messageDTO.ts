@@ -21,13 +21,25 @@ interface MessageDTO {
 }
 
 const domain_regex = /@([a-zA-Z0-9-.]+)/;
-export type AllowedStatusTypes =
-  | 'HAS_UNSUB_LINK'
-  | 'HAS_MAILTO'
-  | 'HAS_BOTH'
-  | '--> HAS_MANY_LINKS <--'
-  | 'HAS_DATA'
-  | '';
+
+export const ALLOWED_STATUS_TYPES = [
+  'HAS_UNSUB_LINK',
+  'HAS_MAILTO',
+  'HAS_BOTH',
+  '--> HAS_MANY_LINKS <--',
+  'HAS_DATA',
+  ''
+] as const;
+
+export type AllowedStatusTypes = typeof ALLOWED_STATUS_TYPES[number];
+
+// export type AllowedStatusTypes =
+//   | 'HAS_UNSUB_LINK'
+//   | 'HAS_MAILTO'
+//   | 'HAS_BOTH'
+//   | '--> HAS_MANY_LINKS <--'
+//   | 'HAS_DATA'
+//   | '';
 export class GmailMessageDTO implements Required<MessageDTO> {
   constructor({
     gmailId,
