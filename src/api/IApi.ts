@@ -29,7 +29,7 @@ export interface IApi {
 }
 
 export interface IApiConfig {
-  baseURL: string;
+  baseURL?: string | undefined;
   timeout: number;
 }
 

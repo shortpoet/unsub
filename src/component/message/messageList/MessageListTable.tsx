@@ -36,7 +36,6 @@ export function MessageListTable(props: { message: GmailMessageDTO }) {
   const getTableData = useCallback(
     async (selectedTableType: any) => {
       const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
         timeout: 10000
       };
       const api = new PuppeteerApi(config);

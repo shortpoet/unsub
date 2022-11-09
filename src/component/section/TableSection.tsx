@@ -37,7 +37,6 @@ export function TableSection() {
   useEffect(() => {
     (async () => {
       const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
         timeout: 10000
       };
       const api = new MessageApi(config);

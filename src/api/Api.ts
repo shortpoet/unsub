@@ -15,6 +15,9 @@ const API_URL =
   `http://localhost:${REACT_APP_UNSUB_API_PORT}`;
 // const API_URL = process.env.REACT_APP_API || 'http://localhost:8888';
 
+console.log('API_URL');
+console.log(API_URL);
+
 export class Api implements IApi {
   private config: IApiConfig;
 
@@ -64,6 +67,9 @@ export class Api implements IApi {
     const headers = accessToken
       ? { Authorization: `Bearer ${accessToken}` }
       : undefined;
+    console.log('Api.callApi');
+    console.log('url', url);
+    console.log(`${API_URL}${url}`);
     try {
       if (forceRefresh) {
         session = await refreshSession(session);

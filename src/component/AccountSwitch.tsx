@@ -43,7 +43,6 @@ export function AccountSwitch(props: {
   useEffect(() => {
     (async () => {
       const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
         timeout: 10000
       };
       const api = new AccountApi(config);

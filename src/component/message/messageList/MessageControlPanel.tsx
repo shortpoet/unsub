@@ -81,7 +81,6 @@ export function MessageControlPanel(props: {
   const runPuppeteer = useCallback(
     async (gmailIds: { gmailIds: GmailMessageDTO['gmailId'][] }) => {
       const config: IApiConfig = {
-        baseURL: 'http://localhost:3000',
         timeout: 10000
       };
       const api = new PuppeteerApi(config);

@@ -22,7 +22,6 @@ export interface AuthResponse {
 
 export async function validateUser(username: string, password: string) {
   const config: IApiConfig = {
-    baseURL: 'http://localhost:3000',
     timeout: 10000
   };
   const accessToken = 'accessToken';
@@ -37,7 +36,6 @@ export async function refreshTokens(
   refreshToken: Session['refreshToken']
 ): Promise<{ accessToken: Session['accessToken'] }> {
   const config: IApiConfig = {
-    baseURL: 'http://localhost:3000',
     timeout: 10000
   };
   const accessToken = 'accessToken';
