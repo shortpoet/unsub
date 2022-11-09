@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { useSlotProps } from '@mui/base';
 import { MapFilterOptions, MAP_FILTERS } from './MapFilterOptions';
 import { ColorFilter } from './_MapColor';
 import { AllowedStatusTypes } from '../../@types/messageDTO';

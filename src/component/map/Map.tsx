@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import { initMap, moveMap } from './MapService';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useSlotProps } from '@mui/base';
 import { ColorFilter, MapColor } from './_MapColor';
 import { Breakpoint } from '@mui/material';
 import { MapColorFilterReturn } from './MapColor';
