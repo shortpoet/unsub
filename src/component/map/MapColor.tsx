@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import chroma from 'chroma-js';
 import * as d3 from 'd3';
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import {
   CHROMA_SCALE_COLOR_BREAK_COUNT,
   MapFilterOptions,

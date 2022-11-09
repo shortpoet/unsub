@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Container } from '@mui/material';
 
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { PrettyPrintJson } from '../Utils';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';

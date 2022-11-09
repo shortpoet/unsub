@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Section, SectionContent } from '../UI';
 import { InfoBox, InfoBoxTitle, InfoBoxText } from '../InfoBox';
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { theme } from '../../Theme';
 
 export function CountSection(props: { messages: GmailMessageDTO[] }) {

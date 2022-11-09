@@ -6,7 +6,7 @@ import { Container, Button } from '@mui/material';
 
 import { useCheckAuthentication } from '../hook/AuthenticationHook';
 import { AccountSwitch } from '../component/AccountSwitch';
-import { Account } from '../types/Session';
+import { Account } from '../@types/Session';
 import styled from 'styled-components';
 import { myPalette } from '../Theme';
 import { Link } from 'react-router-dom';

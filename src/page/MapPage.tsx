@@ -39,7 +39,7 @@ import MapboxGLWorker from 'mapbox-gl';
 import { IApiConfig } from '../api/IApi';
 import { LngLatLike } from 'react-map-gl';
 import { MapToolbar } from '../component/map/MapToolbar';
-import { AllowedStatusTypes, GmailMessageDTO } from '../types/messageDTO';
+import { AllowedStatusTypes, GmailMessageDTO } from '../@types/messageDTO';
 import { MapLegend } from '../component/map/MapLegend';
 import { LocationAutoComplete } from '../component/map/LocationAutoComplete';
 import { MapApi } from '../api/MapApi';

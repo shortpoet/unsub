@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { Box, TableContainer } from '@mui/material';
 
 import { SubTitle, Label, Section } from '../../UI';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { useCheckAuthentication } from '../../../hook/AuthenticationHook';
 import { myPalette } from '../../../Theme';
 import styled from 'styled-components';

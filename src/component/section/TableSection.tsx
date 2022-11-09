@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Section, SectionTitle } from '../UI';
 import { myPalette } from '../../Theme';
 import { MessageSectionTypes } from '../section/MessageSection';
-import { TABLES } from '../../types';
+import { TABLES } from '../../@types';
 import { MessageDomains } from '../message/MessageDomains';
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { IApiConfig } from '../../api/IApi';
 import { MessageApi } from '../../api/MessageApi';
 import { colorLog } from '../../util/colorLog';
 import { Table } from '../table/Table';
 import { StatusTableType, TableTypeSection } from '../table/TableTypeSection';
-import TABLE_TYPES from '../../types/TableSelections';
+import TABLE_TYPES from '../../@types/TableSelections';
 import { Container } from '@mui/material';
 import styled from 'styled-components';
 

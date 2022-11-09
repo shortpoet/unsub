@@ -1,4 +1,4 @@
-import { GmailMessageDTO } from '../types/messageDTO';
+import { GmailMessageDTO } from '../@types/messageDTO';
 import { Api } from './Api';
 import { IApiConfig } from './IApi';
 

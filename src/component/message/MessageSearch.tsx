@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { MessageSearchSelect } from './messageSearch/MessageSearchSelect';
 import { MessageSearchField } from './messageSearch/MessageSearchField';
 import { MessageSearchResults } from './messageSearch/MessageSearchResults';

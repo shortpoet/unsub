@@ -1,7 +1,7 @@
 import { useHandler } from '@aux4/use-handler';
 import { MESSAGE } from '../event/Event';
 import { SharedProps, SnackbarMessage, useSnackbar } from 'notistack';
-import { SnackbarMsg } from '../types/SnackbarMsg';
+import { SnackbarMsg } from '../@types/SnackbarMsg';
 
 export function SnackbarMessages() {
   const { enqueueSnackbar } = useSnackbar();

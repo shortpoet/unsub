@@ -1,5 +1,5 @@
 import chroma from 'chroma-js';
-import { AllowedStatusTypes } from '../../types/messageDTO';
+import { AllowedStatusTypes } from '../../@types/messageDTO';
 import {
   formatNumberViceVersa,
   formatCurrencyViceVersa

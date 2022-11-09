@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 
 export function MessageListIFrame(props: { message: GmailMessageDTO }) {
   const { message } = props;

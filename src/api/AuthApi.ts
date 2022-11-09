@@ -1,7 +1,7 @@
 import { Api } from './Api';
 import { IApiConfig } from './IApi';
 import { storeCredentials } from './SecurityApi';
-import { Session, User, Account, SESSION } from '../types/Session';
+import { Session, User, Account, SESSION } from '../@types/Session';
 
 // export class AuthApi extends Api {
 //   constructor(config: IApiConfig) {

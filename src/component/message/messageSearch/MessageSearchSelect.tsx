@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Label } from '../../UI';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { MessageApi } from '../../../api/MessageApi';
 import { MessageSearchField, MessageSearchOptions } from './MessageSearchField';
 

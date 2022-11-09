@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Divider } from '@mui/material';
 
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { useCheckAuthentication } from '../../hook/AuthenticationHook';
 import { myPalette } from '../../Theme';
 import styled from 'styled-components';

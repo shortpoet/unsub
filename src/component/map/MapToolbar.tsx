@@ -4,7 +4,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useSlotProps } from '@mui/base';
 import { MapFilterOptions, MAP_FILTERS } from './MapFilterOptions';
 import { ColorFilter } from './_MapColor';
-import { AllowedStatusTypes } from '../../types/messageDTO';
+import { AllowedStatusTypes } from '../../@types/messageDTO';
 
 const MapToolbarContainer = styled.div`
   margin-left: 0.5rem;

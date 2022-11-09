@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { GmailMessageDTO } from '../../types/messageDTO';
+import { GmailMessageDTO } from '../../@types/messageDTO';
 import { colorLog } from '../../util/colorLog';
 import { MessageApi } from '../../api/MessageApi';
 import { IApiConfig } from '../../api/IApi';

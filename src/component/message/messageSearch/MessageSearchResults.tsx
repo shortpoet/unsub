@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { PrettyPrintJson } from '../../Utils';
 
 const SearchContainer = styled.div``;

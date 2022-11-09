@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TableContainer } from '@mui/material';
 import { Section } from '../../UI';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { useCheckAuthentication } from '../../../hook/AuthenticationHook';
 import { Table } from '../../table/Table';
 import { PuppeteerApi, PuppeteerParams } from '../../../api/PuppeteerApi';

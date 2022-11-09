@@ -1,4 +1,4 @@
-import { Session } from '../types/Session';
+import { Session } from '../@types/Session';
 import { refreshTokens } from './AuthApi';
 
 export function getSession(): Session | undefined {

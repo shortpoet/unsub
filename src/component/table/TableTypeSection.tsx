@@ -1,8 +1,8 @@
 import React from 'react';
 import { Section, SectionContent, Title } from '../UI';
 import { MenuItem, Select } from '@mui/material';
-import { GmailMessageDTO } from '../../types/messageDTO';
-import TABLE_TYPES from '../../types/TableSelections';
+import { GmailMessageDTO } from '../../@types/messageDTO';
+import TABLE_TYPES from '../../@types/TableSelections';
 import { theme } from '../../Theme';
 
 export type StatusTableType =

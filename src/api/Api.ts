@@ -4,10 +4,15 @@ import { colorLog } from '../util/colorLog';
 import { IApi, IApiConfig, IApiError } from './IApi';
 import { getSession, refreshSession } from './SecurityApi';
 
-const UNSUB_API_PORT = process.env.PORT || 3000;
+const REACT_APP_UNSUB_API_PORT = process.env.PORT || 3000;
+
+console.log('env');
+console.log(process.env);
+console.log(process.env.REACT_APP_UNSUB_API_PORT);
+console.log(process.env.REACT_APP_UNSUB_API_URL);
 const API_URL =
-  `http://${process.env.UNSUB_API_URL}:${UNSUB_API_PORT}` ||
-  `http://localhost:${UNSUB_API_PORT}`;
+  `http://${process.env.REACT_APP_UNSUB_API_URL}:${REACT_APP_UNSUB_API_PORT}` ||
+  `http://localhost:${REACT_APP_UNSUB_API_PORT}`;
 // const API_URL = process.env.REACT_APP_API || 'http://localhost:8888';
 
 export class Api implements IApi {

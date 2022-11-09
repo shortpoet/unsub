@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Box, Container, Divider } from '@mui/material';
 
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { useCheckAuthentication } from '../../../hook/AuthenticationHook';
 import { myPalette } from '../../../Theme';
 import styled from 'styled-components';

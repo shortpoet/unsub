@@ -1,4 +1,8 @@
 {
+  "files": [
+    "src/@types/environment.d.ts",
+    "src/@types/dotenv.d.ts"
+  ],
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -19,9 +23,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "declaration": true,
     "downlevelIteration": true
   },
   "include": [
     "src"
+  ],
+  "typeRoots": [
+    "src/@types",
+    "node_modules/@types"
   ]
 }

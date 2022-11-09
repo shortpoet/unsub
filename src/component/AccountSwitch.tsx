@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { AccountApi } from '../api/AccountApi';
 import { Label } from './UI';
-import { Account } from '../types/Session';
+import { Account } from '../@types/Session';
 import { IApiConfig } from '../api/IApi';
 import { SelectInputProps } from '@mui/material/Select/SelectInput';
 

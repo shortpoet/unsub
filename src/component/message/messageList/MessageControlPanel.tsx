@@ -7,7 +7,7 @@ import { SubTitle, Label } from '../../UI';
 // import { Message } from '../model/Message';
 import { IApiConfig } from '../../../api/IApi';
 import { MessageApi } from '../../../api/MessageApi';
-import { GmailMessageDTO } from '../../../types/messageDTO';
+import { GmailMessageDTO } from '../../../@types/messageDTO';
 import { useCheckAuthentication } from '../../../hook/AuthenticationHook';
 import { myPalette } from '../../../Theme';
 import styled from 'styled-components';
