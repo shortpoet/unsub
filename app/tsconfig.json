@@ -4,6 +4,12 @@
     "src/@types/dotenv.d.ts"
   ],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "target": "es5",
     "lib": [
       "dom",

@@ -1,2 +1,3 @@
 app/.env.development.local
 app/.env.production.local
+app/node_modules
